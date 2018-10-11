@@ -1,4 +1,4 @@
-=== WP Force Logout ===
+=== WP Force Logout - Login activity, Online/Offline Status, Last login and more. ===
 Contributors: sanzeeb3
 Tags: logout, force, online, last seen 
 Requires at least: 4.0

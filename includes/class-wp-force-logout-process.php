@@ -13,19 +13,19 @@ Class WP_Force_Logout_Process {
 	 * Constructor.
 	 */
 	public function __construct() {
-		add_filter( 'manage_users_columns', array( $this, 'add_column_head' ) );
-		add_filter( 'manage_users_custom_column', array( $this, 'add_column_cell' ), 10, 3 );
+		wp_enqueue_style( 'wp-force-logout', plugins_url( '/entries-for-wpforms/assets/css/wp-force-logout.css' ), array(), WPFL_VERSION, $media = 'all' );
+		add_filter( 'manage_users_columns', array( $this, 'add_column_title' ) );
+		add_filter( 'manage_users_custom_column', array( $this, 'add_column_value' ), 10, 3 );
 	}
 
-
 	/**
-	 * Add the column header for the login activity column
+	 * Add the column title for the login activity column
 	 *
 	 * @param array $columns
 	 *
 	 * @return array
 	 */
-	public function add_column_head( $columns ) {
+	public function add_column_title( $columns ) {
 
 		if ( ! current_user_can( 'edit_user' ) ) {
 			return $columns;
@@ -57,24 +57,25 @@ Class WP_Force_Logout_Process {
 	}
 
 	/**
-	 * Set the status value for each user in the users list
+	 * Set the value for login activity column for each user in the users list
 	 *
-	 * @param string $val
-	 * @param string $column_name
-	 * @param int $user_id
+	 * @param string $value 	  Value to display
+	 * @param string $column_name Column Name.
+	 * @param int $user_id		  User ID.
 	 *
 	 * @return string
 	 */
-	public function add_column_cell( $val, $column_name, $user_id ) {
+	public function add_column_cell( $value, $column_name, $user_id ) {
+
 		if ( ! current_user_can( 'edit_user' ) ) {
 			return false;
 		}
 
 		if ( $column_name == 'wpfl') {
-			$val = 'logged in!';
+			$value = 'logged in!';
 		}
 
-		return $val;
+		return $value;
 	}
 }
 
