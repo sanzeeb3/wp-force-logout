@@ -150,7 +150,6 @@ Class WP_Force_Logout_Process {
 	 * Trigger the action query logout
 	 */
 	public function trigger_query_actions() {
-
 		// Return if current user cannot edit users.
 		if ( ! current_user_can( 'edit_user' ) ) {
 			throw new Exception( 'You donot have enough permission to perform this action' );
@@ -194,13 +193,14 @@ Class WP_Force_Logout_Process {
 			throw new Exception( 'You donot have enough permission to perform this action' );
 		}
 
-		if ( empty( $_REQUEST['users'] ) || empty( $_REQUEST['wpfl-bulk-logout'] ) ) {
+		if ( empty( $_REQUEST['users'] ) || empty( $_REQUEST['action'] ) && 'wpfl-bulk-logout' === $_REQUEST['action'] ) {
 			return;
 		}
 
-		$user_idss = array_map( 'absint', $_REQUEST['users'] );
+		$user_ids = array_map( 'absint', $_REQUEST['users'] );
 
 		foreach( $user_ids as $user_id ) {
+
 			// Get all sessions for user with ID $user_id
 			$sessions = WP_Session_Tokens::get_instance( $user_id );
 
