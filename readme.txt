@@ -25,6 +25,12 @@ Contribute on github: [GitHub repository](https://github.com/sanzeeb3/wp-force-l
 * Well Documented
 * Translation ready
 
+### What's Next
+
+Checkout out our other projects for WordPress
+
+[Entries For WPForms Lite Plugin](https://wordpress.org/plugins/entries-for-wpforms/) - Entries display on frontend/backend, geolocation data, CSV export and more.
+
 == Frequently Asked Questions ==
 
 = What is the plugin license? =

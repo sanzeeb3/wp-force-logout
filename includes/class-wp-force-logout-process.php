@@ -21,6 +21,7 @@ Class WP_Force_Logout_Process {
 		add_action( 'load-users.php', array( $this, 'trigger_query_actions' ) );
 		add_action( 'load-users.php', array( $this, 'trigger_bulk_actions' ) );
 		add_filter( 'bulk_actions-users', array( $this, 'add_bulk_action' ) );
+		add_action( 'wp_ajax_wpforce_logout_deactivation_notice', array( $this, 'deactivation_notice') );
 	}
 
 	/**
@@ -29,6 +30,11 @@ Class WP_Force_Logout_Process {
 	public function enqueue_scripts() {
 
 		wp_enqueue_style( 'wp-force-logout', plugins_url( '/wp-force-logout/assets/css/wp-force-logout.css' ), array(), WPFL_VERSION, $media = 'all' );
+		wp_enqueue_script( 'wp-force-logout-js', plugins_url( '/wp-force-logout/assets/js/admin/deactivation-notice.js' ), array(), WPFL_VERSION, false );
+		wp_localize_script( 'wp-force-logout-js', 'wpfl_plugins_params', array(
+			'ajax_url'           => admin_url( 'admin-ajax.php' ),
+			'deactivation_nonce' => wp_create_nonce( 'deactivation-notice' ),
+		) );
 	}
 
 	/**
@@ -221,6 +227,34 @@ Class WP_Force_Logout_Process {
 
 		return $actions;
  	}
+
+	/**
+	 * AJAX plugin deactivation notice.
+	 * @since  1.0.0
+	 */
+	public static function deactivation_notice() {
+
+		check_ajax_referer( 'deactivation-notice', 'security' );
+
+		ob_start();
+
+		$reason_deactivation_url = 'http://sanjeebaryal.com.np/contact';
+		global $status, $page, $s;
+
+		$deactivate_url = wp_nonce_url( 'plugins.php?action=deactivate&amp;plugin=' . WP_FORCE_LOGOUT_PLUGIN_FILE . '&amp;plugin_status=' . $status . '&amp;paged=' . $page . '&amp;s=' . $s, 'deactivate-plugin_' . WP_FORCE_LOGOUT_PLUGIN_FILE );
+		?>
+		<tr class="plugin-update-tr active updated" data-slug="wp-force-logout" data-plugin="wp-force-logout/wp-force-logout.php">
+			<td colspan ="3" class="plugin-update colspanchange">
+				<div class="notice inline notice-alt notice-warning">
+					<p><?php printf( __( 'Before we deactivate WPForce Logout, would you care to <a href="%1$s" target="_blank">let us know why</a> so we can improve it for you? <a href="%2$s">No, deactivate now</a>.', 'wp-force-logout' ), $reason_deactivation_url, $deactivate_url ); ?></p>
+				</div>
+			</td>
+		</tr>
+		<?php
+
+		$content = ob_get_clean();
+		wp_send_json( $content ); // WPCS: XSS OK.
+	}
 }
 
 new WP_Force_Logout_Process();
