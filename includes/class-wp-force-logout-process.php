@@ -19,6 +19,7 @@ Class WP_Force_Logout_Process {
 		add_filter( 'manage_users_custom_column', array( $this, 'add_column_value' ), 10, 3 );
 		add_action( 'init', array( $this, 'update_online_users_status' ) );
 		add_action( 'load-users.php', array( $this, 'trigger_query_actions' ) );
+		add_action( 'load-users.php', array( $this, 'trigger_bulk_actions' ) );
 		add_filter( 'bulk_actions-users', array( $this, 'add_bulk_action' ) );
 	}
 
@@ -150,6 +151,11 @@ Class WP_Force_Logout_Process {
 	 */
 	public function trigger_query_actions() {
 
+		// Return if current user cannot edit users.
+		if ( ! current_user_can( 'edit_user' ) ) {
+			throw new Exception( 'You donot have enough permission to perform this action' );
+		}
+
 		$action  = isset( $_REQUEST['action'] ) ? sanitize_key( $_REQUEST['action'] ) : false;
 		$mode    = isset( $_POST['mode'] ) ? $_POST['mode'] : false;
 
@@ -179,12 +185,39 @@ Class WP_Force_Logout_Process {
 	}
 
 	/**
+	 * Trigger the action query logout for bulk users.
+	 */
+	public function trigger_bulk_actions() {
+
+		// Return if current user cannot edit users.
+		if ( ! current_user_can( 'edit_user' ) ) {
+			throw new Exception( 'You donot have enough permission to perform this action' );
+		}
+
+		if ( empty( $_REQUEST['users'] ) || empty( $_REQUEST['wpfl-bulk-logout'] ) ) {
+			return;
+		}
+
+		$user_idss = array_map( 'absint', $_REQUEST['users'] );
+
+		foreach( $user_ids as $user_id ) {
+			// Get all sessions for user with ID $user_id
+			$sessions = WP_Session_Tokens::get_instance( $user_id );
+
+			// We have got the sessions, destroy them all!
+			$sessions->destroy_all();
+		}
+
+		return admin_url( 'users.php' );
+	}
+
+	/**
 	 * Add Bulk Logout Action.
 	 * @param  array    $actions    Current Actions.
 	 * @return array    All Actions along with logout action.
 	 */
 	public function add_bulk_action( $actions ) {
-		$actions['logout'] = __( 'Logout', 'wp-force-logout' );
+		$actions['wpfl-bulk-logout'] = __( 'Logout', 'wp-force-logout' );
 
 		return $actions;
  	}
