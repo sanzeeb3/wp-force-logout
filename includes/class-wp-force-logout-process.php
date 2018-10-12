@@ -18,6 +18,7 @@ Class WP_Force_Logout_Process {
 		add_filter( 'manage_users_columns', array( $this, 'add_column_title' ) );
 		add_filter( 'manage_users_custom_column', array( $this, 'add_column_value' ), 10, 3 );
 		add_action( 'init', array( $this, 'update_online_users_status' ) );
+		add_action( 'load-users.php', array( $this, 'trigger_query_actions' ) );
 	}
 
 	/**
@@ -87,7 +88,13 @@ Class WP_Force_Logout_Process {
 			$is_user_online = $this->is_user_online( $user_id );
 
 			if( $is_user_online ) {
-        		$value = '<span class="online-circle">Online</span>';
+				$logout_link = add_query_arg( array( 'action' => 'wpfl-logout', 'user' => $user_id ) );
+				$logout_link = remove_query_arg( array( 'new_role' ), $logout_link );
+				$logout_link = wp_nonce_url( $logout_link, 'wpfl-logout' );
+
+        		$value   = '<span class="online-circle">Online</span>';
+        		$value 	.= ' ';
+				$value  .= '<a style="color:red" href="' . esc_url( $logout_link ) . '">' . _x( 'Logout', 'The action on users list page', 'user-registration' ) . '</a>';
 		    } else {
 		    	$value = '<span class="offline-circle">Offline</span>';
 		    }
@@ -106,8 +113,8 @@ Class WP_Force_Logout_Process {
   		// Get the online users list
 		$logged_in_users = get_transient('online_status');
 
- 		 // Online, if (s)he is in the list and last activity was less than 15 minutes ago
-  		return isset( $logged_in_users[ $user_id ] ) && ( $logged_in_users[ $user_id ] > ( current_time( 'timestamp' ) - ( 15 * 60 ) ) );
+ 		 // Online, if (s)he is in the list and last activity was less than 6 seconds ago
+  		return isset( $logged_in_users[ $user_id ] ) && ( $logged_in_users[ $user_id ] > ( current_time( 'timestamp' ) - ( 0.1 * 60 ) ) );
 	}
 
 	/**
@@ -127,13 +134,46 @@ Class WP_Force_Logout_Process {
 		// Needs if user is not in the list.
 		$no_need_to_update = isset( $logged_in_users[ $user->ID ] )
 
-		    // And if his "last activity" was less than let's say ...15 minutes ago
-		    && $logged_in_users[ $user->ID ] >  ( time() - ( 15 * 60 ) );
+		    // And if his "last activity" was less than let's say ...6 seconds ago
+		    && $logged_in_users[ $user->ID ] >  ( time() - ( 0.1 * 60 ) );
 
 		// Update the list if needed
 		if( ! $no_need_to_update ) {
 		  $logged_in_users[ $user->ID ] = time();
-		  set_transient( 'online_status', $logged_in_users, $expire_in = ( 30 * 60 ) ); // 30 mins
+		  set_transient( 'online_status', $logged_in_users, $expire_in = ( 60 * 60 ) ); // 60 mins
+		}
+	}
+
+	/**
+	 * Trigger the action query logout
+	 */
+	public function trigger_query_actions() {
+
+		$action  = isset( $_REQUEST['action'] ) ? sanitize_key( $_REQUEST['action'] ) : false;
+		$mode    = isset( $_POST['mode'] ) ? $_POST['mode'] : false;
+
+		// If this is a multisite, bulk request, stop now!
+		if ( 'list' == $mode ) {
+			return;
+		}
+
+		if ( ! empty( $action ) && 'wpfl-logout' === $action && ! isset( $_GET['new_role'] ) ) {
+
+			check_admin_referer( 'wpfl-logout' );
+
+			$redirect = admin_url( 'users.php' );
+			$user_id  = isset( $_GET['user'] ) ? absint( $_GET['user'] ) : 0;
+
+			if ( $action == 'wpfl-logout' ) {
+				// Get all sessions for user with ID $user_id
+				$sessions = WP_Session_Tokens::get_instance( $user_id );
+
+				// We have got the sessions, destroy them all!
+				$sessions->destroy_all();
+			}
+
+			wp_redirect( $redirect );
+			exit;
 		}
 	}
 }
