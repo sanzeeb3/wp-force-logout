@@ -102,7 +102,7 @@ Class WP_Force_Logout_Process {
 
         		$value   = '<span class="online-circle">Online</span>';
         		$value 	.= ' ';
-				$value  .= '<a style="color:red" href="' . esc_url( $logout_link ) . '">' . _x( 'Logout', 'The action on users list page', 'user-registration' ) . '</a>';
+				$value  .= '<a style="color:red" href="' . esc_url( $logout_link ) . '">' . _x( 'Logout', 'The action on users list page', 'wp-force-logout' ) . '</a>';
 		    } else {
 		    	$value = '<span class="offline-circle">Offline</span>';
 		    }
