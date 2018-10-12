@@ -19,6 +19,7 @@ Class WP_Force_Logout_Process {
 		add_filter( 'manage_users_custom_column', array( $this, 'add_column_value' ), 10, 3 );
 		add_action( 'init', array( $this, 'update_online_users_status' ) );
 		add_action( 'load-users.php', array( $this, 'trigger_query_actions' ) );
+		add_filter( 'bulk_actions-users', array( $this, 'add_bulk_action' ) );
 	}
 
 	/**
@@ -176,6 +177,17 @@ Class WP_Force_Logout_Process {
 			exit;
 		}
 	}
+
+	/**
+	 * Add Bulk Logout Action.
+	 * @param  array    $actions    Current Actions.
+	 * @return array    All Actions along with logout action.
+	 */
+	public function add_bulk_action( $actions ) {
+		$actions['logout'] = __( 'Logout', 'wp-force-logout' );
+
+		return $actions;
+ 	}
 }
 
 new WP_Force_Logout_Process();
