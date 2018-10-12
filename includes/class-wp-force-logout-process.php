@@ -6,7 +6,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 /**
  * @class WP_Force_Logout_Process
- * @since  1.0.0 
+ * @since  1.0.0
  */
 Class WP_Force_Logout_Process {
 
@@ -24,8 +24,8 @@ Class WP_Force_Logout_Process {
 	 * Enqueue Scripts
 	 */
 	public function enqueue_scripts() {
-		
-		wp_enqueue_style( 'wp-force-logout', plugins_url( '/entries-for-wpforms/assets/css/wp-force-logout.css' ), array(), WPFL_VERSION, $media = 'all' );
+
+		wp_enqueue_style( 'wp-force-logout', plugins_url( '/wp-force-logout/assets/css/wp-force-logout.css' ), array(), WPFL_VERSION, $media = 'all' );
 	}
 
 	/**
@@ -42,7 +42,7 @@ Class WP_Force_Logout_Process {
 		}
 
 		$new_columns['wpfl'] = __( 'Login Activity', 'wp-force-logout' );
-		
+
 		return $this->custom_insert_after_helper( $columns, $new_columns, 'cb' );
 	}
 
@@ -83,13 +83,13 @@ Class WP_Force_Logout_Process {
 
 		if ( $column_name == 'wpfl') {
 			$user = wp_get_current_user();
-			
+
 			$is_user_online = $this->is_user_online( $user_id );
 
 			if( $is_user_online ) {
-        		$value = 'Logged in !';
+        		$value = '<span class="online-circle">Online</span>';
 		    } else {
-		    	$value = 'No!';
+		    	$value = '<span class="offline-circle">Offline</span>';
 		    }
 		}
 
@@ -127,13 +127,13 @@ Class WP_Force_Logout_Process {
 		// Needs if user is not in the list.
 		$no_need_to_update = isset( $logged_in_users[ $user->ID ] )
 
-		    // And if his "last activity" was less than let's say ...15 minutes ago          
+		    // And if his "last activity" was less than let's say ...15 minutes ago
 		    && $logged_in_users[ $user->ID ] >  ( time() - ( 15 * 60 ) );
 
 		// Update the list if needed
 		if( ! $no_need_to_update ) {
 		  $logged_in_users[ $user->ID ] = time();
-		  set_transient( 'online_status', $logged_in_users, $expire_in = ( 30 * 60 ) ); // 30 mins 
+		  set_transient( 'online_status', $logged_in_users, $expire_in = ( 30 * 60 ) ); // 30 mins
 		}
 	}
 }

@@ -1,0 +1,17 @@
+.online-circle{
+  color:green;
+}
+
+.online-circle:before {
+  content: ' \25CF';
+  font-size: 20px;
+}
+
+.offline-circle{
+  color:silver;
+}
+
+.offline-circle:before {
+  content: ' \25CF';
+  font-size: 20px;
+}
