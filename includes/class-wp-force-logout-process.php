@@ -29,8 +29,8 @@ Class WP_Force_Logout_Process {
 	 */
 	public function enqueue_scripts() {
 
-		wp_enqueue_style( 'wp-force-logout', plugins_url( '/wp-force-logout/assets/css/wp-force-logout.css' ), array(), WPFL_VERSION, $media = 'all' );
-		wp_enqueue_script( 'wp-force-logout-js', plugins_url( '/wp-force-logout/assets/js/admin/deactivation-notice.js' ), array(), WPFL_VERSION, false );
+		wp_enqueue_style( 'wp-force-logout', plugins_url( 'assets/css/wp-force-logout.css', WP_FORCE_LOGOUT_PLUGIN_FILE ), array(), WPFL_VERSION, $media = 'all' );
+		wp_enqueue_script( 'wp-force-logout-js', plugins_url( 'assets/js/admin/deactivation-notice.js', WP_FORCE_LOGOUT_PLUGIN_FILE ), array(), WPFL_VERSION, false );
 		wp_localize_script( 'wp-force-logout-js', 'wpfl_plugins_params', array(
 			'ajax_url'           => admin_url( 'admin-ajax.php' ),
 			'deactivation_nonce' => wp_create_nonce( 'deactivation-notice' ),
