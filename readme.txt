@@ -1,4 +1,4 @@
-=== WP Force Logout - Login activity, Online/Offline Status, Last login and more. ===
+=== WPForce Logout - Login activity, Online/Offline Status, Last login and more. ===
 Contributors: sanzeeb3
 Tags: logout, force, online, last seen 
 Requires at least: 4.0
@@ -8,7 +8,7 @@ Stable tag: 1.1.1
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
-WP Force Logout
+WPForce Logout
 
 == Description ==
 
