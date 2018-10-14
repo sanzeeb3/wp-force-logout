@@ -53,5 +53,5 @@ Yes you can! Join in on [GitHub repository](https://github.com/sanzeeb3/wp-force
 
 == Changelog ==
 
-= 1.0.0 - xx/xx/2018 =
+= 1.0.0 - 13/10/2018 =
 * Initial Release
