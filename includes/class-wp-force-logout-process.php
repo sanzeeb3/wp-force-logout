@@ -161,6 +161,10 @@ Class WP_Force_Logout_Process {
 		if( isset( $_REQUEST['action'] ) && $_REQUEST['action'] === 'force_logout_all' ) {
 			check_admin_referer( 'wp-force-logout-nonce' );
 			$this->force_all_users_logout();
+
+			// Redirect to users/same page after logout.
+			wp_safe_redirect( admin_url( 'users.php ' ) );
+			exit();
 		}
 
 		// Return if current user cannot edit users.
