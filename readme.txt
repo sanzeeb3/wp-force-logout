@@ -12,11 +12,12 @@ Force logout users from your site.
 
 == Description ==
 
-WPForce Logout allows you (administators) to forcefully logout all or selected users with a simple click.
+WPForce Logout allows you (administators) to forcefully logout all or selected users with a simple click. Keep Your User Accounts Safe and Up to Date. Brute force attacks, in particular, make it very easy to get access to a user account. Attacks can happen at any time and it can be quite difficult to know which accounts have become compromised. Thus, you can force log out suspect accounts to be safe.
 
-If you suspect that your WordPress site is hacked, then forcing logout will allow you to properly clean up your hacked WordPress site. Next, if you are using a membership or pay per view site and fear that users may be sharing their passwords to access content, then this plugin will come in handy. If you need to work on your WordPress website without any users being logged in, you can force all user accounts to be logged out. Credit: description content taken from wpbeginner's article.
+If you need to work on your WordPress website without any users being logged in, you can force all user accounts to be logged out. If you suspect that your WordPress site is hacked, then forcing logout will allow you to properly clean up your hacked WordPress site. Next, if you are using a membership or pay per view site and fear that users may be sharing their passwords to access content, then this plugin will come in handy. Furthermore, you can view the online/offline users from users tab at a glance.
 
-[Check Documentation](https://wpmissing.com/plugins/force-logout-wpforce/)
+
+[Installation And Documentation](https://wpmissing.com/plugins/force-logout-wpforce/)
 
 [Contact The Author](http://www.sanjeebaryal.com.np)
 
@@ -38,7 +39,7 @@ If you suspect that your WordPress site is hacked, then forcing logout will allo
 
 = If I forcefully logout users? Can they login again?
 
-Yes, they will be able to login with correct credentials. Hopefully, you force logout only the suspect users.
+Yes, they will be able to login with correct credentials..
 
 = Can I contribute? =
 

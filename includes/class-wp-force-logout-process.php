@@ -22,7 +22,8 @@ Class WP_Force_Logout_Process {
 		add_action( 'load-users.php', array( $this, 'trigger_bulk_actions' ) );
 		add_filter( 'bulk_actions-users', array( $this, 'add_bulk_action' ) );
 		add_action( 'restrict_manage_users', array( $this, 'add_all_users_logout' ), 1000 );
-		add_action( 'wp_ajax_wpforce_logout_deactivation_notice', array( $this, 'deactivation_notice') );
+		add_action( 'wp_ajax_wp_force_logout_deactivation_notice', array( $this, 'deactivation_notice' ) );
+		add_action( 'wp_ajax_wp_force_logout_send_deactivation_email', array( $this, 'deactivation_email' ) );
 	}
 
 	/**
@@ -32,9 +33,16 @@ Class WP_Force_Logout_Process {
 
 		wp_enqueue_style( 'wp-force-logout', plugins_url( 'assets/css/wp-force-logout.css', WP_FORCE_LOGOUT_PLUGIN_FILE ), array(), WPFL_VERSION, $media = 'all' );
 		wp_enqueue_script( 'wp-force-logout-js', plugins_url( 'assets/js/admin/deactivation-notice.js', WP_FORCE_LOGOUT_PLUGIN_FILE ), array(), WPFL_VERSION, false );
+		wp_enqueue_script( 'sweetalert', plugins_url( 'assets/js/admin/sweetalert.min.js', WP_FORCE_LOGOUT_PLUGIN_FILE ), array(), WPFL_VERSION, false );
 		wp_localize_script( 'wp-force-logout-js', 'wpfl_plugins_params', array(
 			'ajax_url'           => admin_url( 'admin-ajax.php' ),
 			'deactivation_nonce' => wp_create_nonce( 'deactivation-notice' ),
+			'deactivating'		 => __( 'Deactivating...', 'wp-force-logout' ),
+			'error'				 => __( 'Error!', 'wp-force-logout' ),
+			'success'			 => __( 'Success!', 'wp-force-logout' ),
+			'deactivated'		 => __( 'Plugin Deactivated!', 'wp-force-logout' ),
+			'sad_to_see'		 => __( 'Sad to see you leave!', 'wp-force-logout' ),
+			'wrong'				 => __( 'Oops! Something went wrong', 'wp-force-logout' ),
 		) );
 	}
 
@@ -279,23 +287,65 @@ Class WP_Force_Logout_Process {
 		check_ajax_referer( 'deactivation-notice', 'security' );
 
 		ob_start();
-
-		$reason_deactivation_url = 'http://sanjeebaryal.com.np/contact';
 		global $status, $page, $s;
-
 		$deactivate_url = wp_nonce_url( 'plugins.php?action=deactivate&amp;plugin=' . WP_FORCE_LOGOUT_PLUGIN_FILE . '&amp;plugin_status=' . $status . '&amp;paged=' . $page . '&amp;s=' . $s, 'deactivate-plugin_' . WP_FORCE_LOGOUT_PLUGIN_FILE );
+
 		?>
-		<tr class="plugin-update-tr active updated" data-slug="wp-force-logout" data-plugin="wp-force-logout/wp-force-logout.php">
-			<td colspan ="3" class="plugin-update colspanchange">
-				<div class="notice inline notice-alt notice-warning">
-					<p><?php printf( __( 'Before we deactivate WPForce Logout, would you care to <a href="%1$s" target="_blank">let us know why</a> so we can improve it for you? <a href="%2$s">No, deactivate now</a>.', 'wp-force-logout' ), $reason_deactivation_url, $deactivate_url ); ?></p>
-				</div>
-			</td>
-		</tr>
+			<!-- The Modal -->
+			<div id="wp-force-logout-modal" class="wp-force-logout-modal">
+
+				 <!-- Modal content -->
+				 <div class="wp-force-logout-modal-content">
+				    <div class="wp-force-logout-modal-header">
+				    </div>
+
+				    <div class="wp-force-logout-modal-body">
+						<div class="container">
+						  	<form method="post" id="wp-force-logout-send-deactivation-email">
+
+								<div class="row">
+										<h3 for=""><?php echo __( 'Would you care to let me know the deactivation reason so that I can improve it for you?', 'wp-force-logout');?></h3>
+									<div class="col-75">
+										<textarea id="message" name="message" placeholder="Deactivation Reason?" style="height:150px"></textarea>
+									</div>
+								</div>
+								<div class="row">
+										<?php wp_nonce_field( 'wp_force_logout_send_deactivation_email', 'wp_force_logout_send_deactivation_email' ); ?>
+										<a href="<?php echo $deactivate_url;?>"><?php echo __( 'Skip and deactivate', 'wp-force-logout' );?>
+										<input type="submit" id="wpfl-send-deactivation-email" value="Deactivate">
+								</div>
+						  </form>
+						</div>
+
+				    <div class="wp-force-logout-modal-footer">
+				    </div>
+				 </div>
+			</div>
+
 		<?php
 
 		$content = ob_get_clean();
 		wp_send_json( $content ); // WPCS: XSS OK.
+	}
+
+	/**
+	 * Deactivation Email.
+	 *
+	 * @since  1.0.1
+	 *
+	 * @return void
+	 */
+	public function deactivation_email() {
+
+		// check_ajax_referer( 'wp_force_logout_send_deactivation_email', 'security' );
+
+		$message = sanitize_textarea_field( $_POST['message'] );
+
+		if( ! empty( $message ) ) {
+			wp_mail( 'sanzeeb.aryal@gmail.com', 'WPForce Logout Deactivation', $message );
+		}
+
+		deactivate_plugins( WP_FORCE_LOGOUT_PLUGIN_FILE );
 	}
 }
 
