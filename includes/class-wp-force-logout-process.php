@@ -21,6 +21,7 @@ Class WP_Force_Logout_Process {
 		add_action( 'load-users.php', array( $this, 'trigger_query_actions' ) );
 		add_action( 'load-users.php', array( $this, 'trigger_bulk_actions' ) );
 		add_filter( 'bulk_actions-users', array( $this, 'add_bulk_action' ) );
+		add_action( 'restrict_manage_users', array( $this, 'add_all_users_logout' ), 1000 );
 		add_action( 'wp_ajax_wpforce_logout_deactivation_notice', array( $this, 'deactivation_notice') );
 	}
 
@@ -227,6 +228,18 @@ Class WP_Force_Logout_Process {
 
 		return $actions;
  	}
+
+ 	/**
+ 	 * All users logout functionality.
+ 	 *
+ 	 * @since  1.0.1 
+ 	 */
+ 	public function add_all_users_logout( $which ) {
+ 			echo '<div class="alignright">';
+ 			$url = wp_nonce_url( 'users.php?action=force_logout_all' );
+ 			echo 	'<a style="margin-left:5px; margin-top:0px" class="button wp-force-logout" href="'. $url .'">'.__( 'Logout All Users', 'wp-force-logout' ). '</a>';
+ 			echo '</div>';
+ 		}
 
 	/**
 	 * AJAX plugin deactivation notice.
