@@ -157,6 +157,12 @@ Class WP_Force_Logout_Process {
 	 * Trigger the action query logout
 	 */
 	public function trigger_query_actions() {
+
+		if( isset( $_REQUEST['action'] ) && $_REQUEST['action'] === 'force_logout_all' ) {
+			check_admin_referer( 'wp-force-logout-nonce' );
+			$this->force_all_users_logout();
+		}
+
 		// Return if current user cannot edit users.
 		if ( ! current_user_can( 'edit_user' ) ) {
 			throw new Exception( 'You donot have enough permission to perform this action' );
@@ -235,11 +241,30 @@ Class WP_Force_Logout_Process {
  	 * @since  1.0.1 
  	 */
  	public function add_all_users_logout( $which ) {
- 			echo '<div class="alignright">';
- 			$url = wp_nonce_url( 'users.php?action=force_logout_all' );
- 			echo 	'<a style="margin-left:5px; margin-top:0px" class="button wp-force-logout" href="'. $url .'">'.__( 'Logout All Users', 'wp-force-logout' ). '</a>';
- 			echo '</div>';
+		echo '<div class="alignright">';
+		$url = wp_nonce_url( 'users.php?action=force_logout_all', 'wp-force-logout-nonce' );
+		echo 	'<a style="margin-left:5px; margin-top:0px" class="button wp-force-logout" href="'. $url .'">'.__( 'Logout All Users', 'wp-force-logout' ). '</a>';
+		echo '</div>';
+ 	}
+
+ 	/**
+ 	 * All users logout functionality.
+ 	 * 
+ 	 * @return void.
+ 	 */
+ 	public function force_all_users_logout() {
+
+ 		$users = get_users();
+
+ 		foreach( $users as $user ) {
+ 
+			// Get all sessions for user with ID $user_id
+			$sessions = WP_Session_Tokens::get_instance( $user->ID );
+
+			// We have got the sessions, destroy them all!
+			$sessions->destroy_all();
  		}
+ 	}
 
 	/**
 	 * AJAX plugin deactivation notice.

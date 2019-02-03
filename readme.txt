@@ -8,13 +8,13 @@ Stable tag: 1.1.1
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
-WPForce Logout
+Force logout users from your site.
 
 == Description ==
 
 WPForce Logout allows you (administators) to forcefully logout all or selected users with a simple click.
 
-USE CASE: If you suspect that your WordPress site is hacked, then forcing logout will allow you to properly clean up your hacked WordPress site. Next, if you are using a membership or pay per view site and fear that users may be sharing their passwords to access content, then this plugin will come in handy. If you need to work on your WordPress website without any users being logged in, you can force all user accounts to be logged out.
+If you suspect that your WordPress site is hacked, then forcing logout will allow you to properly clean up your hacked WordPress site. Next, if you are using a membership or pay per view site and fear that users may be sharing their passwords to access content, then this plugin will come in handy. If you need to work on your WordPress website without any users being logged in, you can force all user accounts to be logged out. Credit: description content taken from wpbeginner's article.
 
 [Check Documentation](https://wpmissing.com/plugins/force-logout-wpforce/)
 
@@ -25,11 +25,11 @@ USE CASE: If you suspect that your WordPress site is hacked, then forcing logout
 
 ### Features And Options:
 
-* Logout All users
-* Logout specific user(s)
-* Bulk logout users
-* Users online/offline status display
-* Last login activity
+* Force Logout All Users
+* Logout Specific User(s)
+* Bulk Logout Users
+* Users Online/Offline Status Display
+* Last Login Activity
 * Well Documented
 * Translation ready
 
