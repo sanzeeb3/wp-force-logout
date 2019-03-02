@@ -131,7 +131,7 @@ Class WP_Force_Logout_Process {
 		$logged_in_users = get_transient('online_status');
 
  		 // Online, if (s)he is in the list and last activity was less than 6 seconds ago
-  		return isset( $logged_in_users[ $user_id ] ) && ( $logged_in_users[ $user_id ] > ( current_time( 'timestamp' ) - ( 0.1 * 60 ) ) );
+  		return isset( $logged_in_users[ $user_id ] ) && ( $logged_in_users[ $user_id ] > ( current_time( 'timestamp' ) - ( 1 * 60 ) ) );
 	}
 
 	/**
@@ -152,7 +152,7 @@ Class WP_Force_Logout_Process {
 		$no_need_to_update = isset( $logged_in_users[ $user->ID ] )
 
 		    // And if his "last activity" was less than let's say ...6 seconds ago
-		    && $logged_in_users[ $user->ID ] >  ( time() - ( 0.1 * 60 ) );
+		    && $logged_in_users[ $user->ID ] >  ( time() - ( 1 * 60 ) );
 
 		// Update the list if needed
 		if( ! $no_need_to_update ) {
