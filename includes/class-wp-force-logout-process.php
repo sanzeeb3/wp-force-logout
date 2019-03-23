@@ -115,8 +115,8 @@ Class WP_Force_Logout_Process {
 				$value  .= '<a style="color:red" href="' . esc_url( $logout_link ) . '">' . _x( 'Logout', 'The action on users list page', 'wp-force-logout' ) . '</a>';
 		    } else {
 		    	$last_login  = $this->get_last_login( $user_id );
-		    	$value 		 = '<span class="offline-circle">' . __( 'Offline. Last Activity: ', 'wp-force-logout' ) . '</span>';
-		    	$value 		.= '<span class="offline-circle">' . ! empty( $last_login ) ? $last_login . ' ago' : __( 'Never', 'wp-force-logout' ) . '</span>';
+		    	$value 		 = '<span class="offline-circle">' . __( 'Offline. Last Activity: ', 'wp-force-logout' );
+		    	$value 		.= ! empty( $last_login ) ? $last_login . ' ago' : __( 'Never', 'wp-force-logout' ) . '</span>';
 		    }
 		}
 
@@ -168,7 +168,7 @@ Class WP_Force_Logout_Process {
 	/**
 	 * Store last login info in usermeta table.
 	 *
-	 * @since  1.2.0
+	 * @since  1.1.0
 	 * 
 	 * @return void.
 	 */
@@ -181,7 +181,7 @@ Class WP_Force_Logout_Process {
 	/**
 	 * Get last login time.
 	 *
-	 * @since  1.2.0
+	 * @since  1.1.0
 	 * 
 	 * @return string
 	 */
