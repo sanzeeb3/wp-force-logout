@@ -18,6 +18,7 @@ Class WP_Force_Logout_Process {
 		add_filter( 'manage_users_columns', array( $this, 'add_column_title' ) );
 		add_filter( 'manage_users_custom_column', array( $this, 'add_column_value' ), 10, 3 );
 		add_action( 'init', array( $this, 'update_online_users_status' ) );
+		add_action( 'init', array( $this, 'update_last_login' ) );
 		add_action( 'load-users.php', array( $this, 'trigger_query_actions' ) );
 		add_action( 'load-users.php', array( $this, 'trigger_bulk_actions' ) );
 		add_filter( 'bulk_actions-users', array( $this, 'add_bulk_action' ) );
@@ -109,11 +110,13 @@ Class WP_Force_Logout_Process {
 				$logout_link = remove_query_arg( array( 'new_role' ), $logout_link );
 				$logout_link = wp_nonce_url( $logout_link, 'wpfl-logout' );
 
-        		$value   = '<span class="online-circle">Online</span>';
+        		$value   = '<span class="online-circle">' . __( 'Online', 'wp-force-logout' ) .'</span>';
         		$value 	.= ' ';
 				$value  .= '<a style="color:red" href="' . esc_url( $logout_link ) . '">' . _x( 'Logout', 'The action on users list page', 'wp-force-logout' ) . '</a>';
 		    } else {
-		    	$value = '<span class="offline-circle">Offline</span>';
+		    	$last_login  = $this->get_last_login( $user_id );
+		    	$value 		 = '<span class="offline-circle">' . __( 'Offline. Last Activity: ', 'wp-force-logout' ) . '</span>';
+		    	$value 		.= '<span class="offline-circle">' . ! empty( $last_login ) ? $last_login . ' ago' : __( 'Never', 'wp-force-logout' ) . '</span>';
 		    }
 		}
 
@@ -130,12 +133,13 @@ Class WP_Force_Logout_Process {
   		// Get the online users list
 		$logged_in_users = get_transient('online_status');
 
- 		 // Online, if (s)he is in the list and last activity was less than 6 seconds ago
+ 		 // Online, if (s)he is in the list and last activity was less than 60 seconds ago
   		return isset( $logged_in_users[ $user_id ] ) && ( $logged_in_users[ $user_id ] > ( current_time( 'timestamp' ) - ( 1 * 60 ) ) );
 	}
 
 	/**
 	 * Update online users status. Store in transient.
+	 * 
 	 * @link  https://wordpress.stackexchange.com/a/34434/126847
 	 * @return void.
 	 */
@@ -160,6 +164,37 @@ Class WP_Force_Logout_Process {
 		  set_transient( 'online_status', $logged_in_users, $expire_in = ( 60 * 60 ) ); // 60 mins
 		}
 	}
+
+	/**
+	 * Store last login info in usermeta table.
+	 *
+	 * @since  1.2.0
+	 * 
+	 * @return void.
+	 */
+	public function update_last_login() {
+	
+		$user_id = get_current_user_id();		 
+		update_user_meta( $user_id, 'last_login', time() );
+	}
+
+	/**
+	 * Get last login time.
+	 *
+	 * @since  1.2.0
+	 * 
+	 * @return string
+	 */
+	public function get_last_login( $user_id ) { 
+    	$last_login 	= get_user_meta( $user_id, 'last_login', true );
+    	$the_login_date = '';
+
+    	if( ! empty( $last_login ) ) {
+	    	$the_login_date = human_time_diff( $last_login );
+    	}
+
+    	return $the_login_date; 
+	} 
 
 	/**
 	 * Trigger the action query logout
