@@ -115,7 +115,8 @@ Class WP_Force_Logout_Process {
 				$value  .= '<a style="color:red" href="' . esc_url( $logout_link ) . '">' . _x( 'Logout', 'The action on users list page', 'wp-force-logout' ) . '</a>';
 		    } else {
 		    	$last_login  = $this->get_last_login( $user_id );
-		    	$value 		 = '<span class="offline-circle">' . __( 'Offline. Last Activity: ', 'wp-force-logout' );
+		    	$value 		 = '<span class="offline-circle">' . __( 'Offline ', 'wp-force-logout' );
+		    	$value 		 .= '</br>' . __( 'Last Login: ', 'wp-force-logout' );
 		    	$value 		.= ! empty( $last_login ) ? $last_login . ' ago' : __( 'Never', 'wp-force-logout' ) . '</span>';
 		    }
 		}

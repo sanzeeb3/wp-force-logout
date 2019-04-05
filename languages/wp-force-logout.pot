@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: WPForce Logout 1.1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-03-23 17:47:17+00:00\n"
+"POT-Creation-Date: 2019-04-05 21:58:23+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -46,28 +46,32 @@ msgid "Online"
 msgstr ""
 
 #: includes/class-wp-force-logout-process.php:118
-msgid "Offline. Last Activity: "
+msgid "Offline "
 msgstr ""
 
 #: includes/class-wp-force-logout-process.php:119
+msgid "Last Login: "
+msgstr ""
+
+#: includes/class-wp-force-logout-process.php:120
 msgid "Never"
 msgstr ""
 
-#: includes/class-wp-force-logout-process.php:280
+#: includes/class-wp-force-logout-process.php:281
 msgid "Logout"
 msgstr ""
 
-#: includes/class-wp-force-logout-process.php:293
+#: includes/class-wp-force-logout-process.php:294
 msgid "Logout All Users"
 msgstr ""
 
-#: includes/class-wp-force-logout-process.php:342
+#: includes/class-wp-force-logout-process.php:343
 msgid ""
 "Would you care to let me know the deactivation reason so that I can improve "
 "it for you?"
 msgstr ""
 
-#: includes/class-wp-force-logout-process.php:349
+#: includes/class-wp-force-logout-process.php:350
 msgid "Skip and deactivate"
 msgstr ""
 
