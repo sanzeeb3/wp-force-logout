@@ -132,10 +132,10 @@ Class WP_Force_Logout_Process {
 	public function is_user_online($user_id) {
 
   		// Get the online users list
-		$logged_in_users = get_transient('online_status');
+		$logged_in_users = get_transient( 'online_status' );
 
  		 // Online, if (s)he is in the list and last activity was less than 60 seconds ago
-  		return isset( $logged_in_users[ $user_id ] ) && ( $logged_in_users[ $user_id ] > ( current_time( 'timestamp' ) - ( 1 * 60 ) ) );
+  		return isset( $logged_in_users[ $user_id ] ) && ( $logged_in_users[ $user_id ] > ( time() - ( 1 * 60 ) ) );
 	}
 
 	/**
@@ -147,7 +147,7 @@ Class WP_Force_Logout_Process {
 	public function update_online_users_status() {
 
 		// Get the user online status list.
-		$logged_in_users = get_transient('online_status');
+		$logged_in_users = get_transient( 'online_status' );
 
 		// Get current user ID
 		$user = wp_get_current_user();
