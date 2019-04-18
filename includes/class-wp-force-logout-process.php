@@ -25,6 +25,8 @@ Class WP_Force_Logout_Process {
 		add_action( 'restrict_manage_users', array( $this, 'add_all_users_logout' ), 1000 );
 		add_action( 'wp_ajax_wp_force_logout_deactivation_notice', array( $this, 'deactivation_notice' ) );
 		add_action( 'wp_ajax_wp_force_logout_send_deactivation_email', array( $this, 'deactivation_email' ) );
+		add_action( 'in_admin_header', array( $this, 'review_notice' ), 100 );
+		add_action( 'wp_ajax_wp_force_logout_dismiss_review_notice', array( $this, 'dismiss_review_notice') );
 	}
 
 	/**
@@ -33,11 +35,12 @@ Class WP_Force_Logout_Process {
 	public function enqueue_scripts() {
 
 		wp_enqueue_style( 'wp-force-logout', plugins_url( 'assets/css/wp-force-logout.css', WP_FORCE_LOGOUT_PLUGIN_FILE ), array(), WPFL_VERSION, $media = 'all' );
-		wp_enqueue_script( 'wp-force-logout-js', plugins_url( 'assets/js/admin/deactivation-notice.js', WP_FORCE_LOGOUT_PLUGIN_FILE ), array(), WPFL_VERSION, false );
+		wp_enqueue_script( 'wp-force-logout-js', plugins_url( 'assets/js/admin/wp-force-logout.js', WP_FORCE_LOGOUT_PLUGIN_FILE ), array(), WPFL_VERSION, false );
 		wp_enqueue_script( 'sweetalert', plugins_url( 'assets/js/admin/sweetalert.min.js', WP_FORCE_LOGOUT_PLUGIN_FILE ), array(), WPFL_VERSION, false );
 		wp_localize_script( 'wp-force-logout-js', 'wpfl_plugins_params', array(
 			'ajax_url'           => admin_url( 'admin-ajax.php' ),
 			'deactivation_nonce' => wp_create_nonce( 'deactivation-notice' ),
+			'review_nonce'		 => wp_create_nonce( 'review-notice' ),
 			'deactivating'		 => __( 'Deactivating...', 'wp-force-logout' ),
 			'error'				 => __( 'Error!', 'wp-force-logout' ),
 			'success'			 => __( 'Success!', 'wp-force-logout' ),
@@ -383,6 +386,67 @@ Class WP_Force_Logout_Process {
 
 		deactivate_plugins( WP_FORCE_LOGOUT_PLUGIN_FILE );
 	}
+
+	/**
+	 * Outputs the Review notice on admin header.
+	 *
+	 * @since 1.2.1
+	 */
+	public function review_notice() {
+
+		global $current_screen;
+
+		// Show only to Admins
+		if ( ! current_user_can( 'manage_options' ) ) {
+			return;
+		}
+
+		$notice_dismissed = get_option( 'wpfl_review_notice_dismissed', 'no' );
+
+		if ( 'yes' == $notice_dismissed ) {
+			return;
+		}
+
+		if ( ! empty( $current_screen->id ) && $current_screen->id !== 'users' ) {
+			return;
+		}
+
+		$logged_in_users = get_transient( 'online_status' );
+
+		?>
+			<div id="wp-force-logout-review-notice" class="notice notice-info wp-force-logout-review-notice">
+				<div class="wp-force-logout-review-thumbnail">
+					<img src="<?php echo plugins_url( 'assets/img/logo.jpg', WP_FORCE_LOGOUT_PLUGIN_FILE ); ?>" alt="">
+				</div>
+				<div class="wp-force-logout-review-text">
+
+						<h3><?php _e( 'Whoopee! 😀', 'wp-force-logout' ); ?></h3>
+						<p><?php _e( 'WPForce Logout already started displaying your '. ( count( $logged_in_users ) - 1 ) .' online users. Would you do us some favour and leave a <a href="https://wordpress.org/support/plugin/wp-force-logout/reviews/?filter=5#new-post" target="_blank">&#9733;&#9733;&#9733;&#9733;&#9733;</a> review on <a href="https://wordpress.org/support/plugin/wp-force-logout/reviews/?filter=5#new-post" target="_blank"><strong>WordPress.org</strong></a>? to help us spread the word and boost our motivation.', 'wp-force-logout' ); ?></p>
+
+					<ul class="wp-force-logout-review-ul">
+						<li><a class="button button-primary" href="https://wordpress.org/support/plugin/wp-force-logout/reviews/?filter=5#new-post" target="_blank"><span class="dashicons dashicons-external"></span><?php _e( 'Sure, I\'d love to!', 'wp-force-logout' ); ?></a></li>
+						<li><a href="#" class="button button-secondary notice-dismiss"><span  class="dashicons dashicons-smiley"></span><?php _e( 'I already did!', 'wp-force-logout' ); ?></a></li>
+						<li><a href="#" class="button button-link notice-dismiss"><span class="dashicons dashicons-dismiss"></span><?php _e( 'Never show again', 'wp-force-logout' ); ?></a></li>
+					 </ul>
+				</div>
+			</div>
+		<?php
+	}
+
+	/**
+	 * Dismiss the reveiw notice on dissmiss click
+	 *
+	 * @since 1.2.1
+	 */
+	public function dismiss_review_notice() {
+
+		check_admin_referer( 'review-notice', 'security' );
+
+        if ( ! empty( $_POST['dismissed'] ) ) {
+            update_option( 'wpfl_review_notice_dismissed', 'yes' );
+        }
+	}
+
 }
 
 new WP_Force_Logout_Process();
