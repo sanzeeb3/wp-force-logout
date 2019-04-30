@@ -2,9 +2,9 @@
 # This file is distributed under the same license as the WPForce Logout package.
 msgid ""
 msgstr ""
-"Project-Id-Version: WPForce Logout 1.1.0\n"
+"Project-Id-Version: WPForce Logout 1.2.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-04-05 21:58:23+00:00\n"
+"POT-Creation-Date: 2019-04-18 07:19:41+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -13,66 +13,82 @@ msgstr ""
 "Language-Team: LANGUAGE <EMAIL@ADDRESS>\n"
 "X-Generator: grunt-wp-i18n 1.0.3\n"
 
-#: includes/class-wp-force-logout-process.php:41
+#: includes/class-wp-force-logout-process.php:44
 msgid "Deactivating..."
 msgstr ""
 
-#: includes/class-wp-force-logout-process.php:42
+#: includes/class-wp-force-logout-process.php:45
 msgid "Error!"
 msgstr ""
 
-#: includes/class-wp-force-logout-process.php:43
+#: includes/class-wp-force-logout-process.php:46
 msgid "Success!"
 msgstr ""
 
-#: includes/class-wp-force-logout-process.php:44
+#: includes/class-wp-force-logout-process.php:47
 msgid "Plugin Deactivated!"
 msgstr ""
 
-#: includes/class-wp-force-logout-process.php:45
+#: includes/class-wp-force-logout-process.php:48
 msgid "Sad to see you leave!"
 msgstr ""
 
-#: includes/class-wp-force-logout-process.php:46
+#: includes/class-wp-force-logout-process.php:49
 msgid "Oops! Something went wrong"
 msgstr ""
 
-#: includes/class-wp-force-logout-process.php:63
+#: includes/class-wp-force-logout-process.php:66
 msgid "Login Activity"
 msgstr ""
 
-#: includes/class-wp-force-logout-process.php:113
+#: includes/class-wp-force-logout-process.php:116
 msgid "Online"
 msgstr ""
 
-#: includes/class-wp-force-logout-process.php:118
+#: includes/class-wp-force-logout-process.php:121
 msgid "Offline "
 msgstr ""
 
-#: includes/class-wp-force-logout-process.php:119
+#: includes/class-wp-force-logout-process.php:122
 msgid "Last Login: "
 msgstr ""
 
-#: includes/class-wp-force-logout-process.php:120
+#: includes/class-wp-force-logout-process.php:123
 msgid "Never"
 msgstr ""
 
-#: includes/class-wp-force-logout-process.php:281
+#: includes/class-wp-force-logout-process.php:284
 msgid "Logout"
 msgstr ""
 
-#: includes/class-wp-force-logout-process.php:294
+#: includes/class-wp-force-logout-process.php:297
 msgid "Logout All Users"
 msgstr ""
 
-#: includes/class-wp-force-logout-process.php:343
+#: includes/class-wp-force-logout-process.php:346
 msgid ""
 "Would you care to let me know the deactivation reason so that I can improve "
 "it for you?"
 msgstr ""
 
-#: includes/class-wp-force-logout-process.php:350
+#: includes/class-wp-force-logout-process.php:353
 msgid "Skip and deactivate"
+msgstr ""
+
+#: includes/class-wp-force-logout-process.php:423
+msgid "Whoopee! 😀"
+msgstr ""
+
+#: includes/class-wp-force-logout-process.php:427
+msgid "Sure, I'd love to!"
+msgstr ""
+
+#: includes/class-wp-force-logout-process.php:428
+msgid "I already did!"
+msgstr ""
+
+#: includes/class-wp-force-logout-process.php:429
+msgid "Never show again"
 msgstr ""
 
 #: includes/class-wp-force-logout.php:47 includes/class-wp-force-logout.php:56
@@ -95,7 +111,7 @@ msgstr ""
 msgid "http://www.sanjeebaryal.com.np"
 msgstr ""
 
-#: includes/class-wp-force-logout-process.php:115
+#: includes/class-wp-force-logout-process.php:118
 msgctxt "The action on users list page"
 msgid "Logout"
 msgstr ""
