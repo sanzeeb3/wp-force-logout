@@ -1,6 +1,6 @@
 === WPForce Logout ===
 Contributors: sanzeeb3
-Tags: logout, force, online, last seen 
+Tags: logout, force, online, last seen, last login 
 Requires at least: 4.0
 Tested up to: 5.0
 Requires PHP: 5.3
@@ -16,8 +16,8 @@ WPForce Logout allows you (administators) to forcefully logout all or selected u
 
 If you need to work on your WordPress website without any users being logged in, you can force all user accounts to be logged out. If you suspect that your WordPress site is hacked, then forcing logout will allow you to properly clean up your hacked WordPress site. Next, if you are using a membership or pay per view site and fear that users may be sharing their passwords to access content, then this plugin will come in handy. Furthermore, you can view the online/offline users from users tab at a glance.
 
+See who's online, last login activity right from the users tab. No need of any settings. Install and activate the plugin, go to users tab and view user's activity.
 
-[Installation And Documentation](https://wpmissing.com/plugins/force-logout-wpforce/)
 
 [Contact The Author](http://www.sanjeebaryal.com.np)
 
@@ -29,7 +29,7 @@ If you need to work on your WordPress website without any users being logged in,
 * Force Logout All Users
 * Logout Specific User(s)
 * Bulk Logout Users
-* Users Online/Offline Status Display
+* See who's online
 * Last Login Activity
 * Well Documented
 * Translation ready
