@@ -17,6 +17,8 @@ Class WP_Force_Logout_Process {
 		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
 		add_filter( 'manage_users_columns', array( $this, 'add_column_title' ) );
 		add_filter( 'manage_users_custom_column', array( $this, 'add_column_value' ), 10, 3 );
+		add_filter( 'manage_users_sortable_columns', array( $this, 'sortable_login_activity' ) );
+		add_filter( 'users_list_table_query_args', array( $this, 'sortby_login_activity' ) );
 		add_action( 'init', array( $this, 'update_online_users_status' ) );
 		add_action( 'init', array( $this, 'update_last_login' ) );
 		add_action( 'load-users.php', array( $this, 'trigger_query_actions' ) );
@@ -125,6 +127,41 @@ Class WP_Force_Logout_Process {
 		}
 
 		return $value;
+	}
+
+	/**
+	 * Make login activity column sortable
+	 * 
+	 * @param  array $columns Sortable columns.
+	 * @since  1.2.2
+	 * 
+	 * @return array
+	 */
+	public function sortable_login_activity( $columns ) {
+		$columns['wpfl'] = 'wpfl';
+
+		return $columns;
+	}
+
+	/**
+	 *
+	 * Sort users by login activity.
+	 *
+	 * @param array $args.
+	 * @since 1.2.2
+	 * 
+	 * @return array
+	 */
+	public function sortby_login_activity( $args ) {
+		
+		if ( isset( $args['orderby'] ) && 'wpfl' == $args['orderby'] ) {
+	        $args = array_merge( $args, array(
+	            'meta_key' => 'last_login',
+	            'orderby'  => 'meta_value'
+	        ) );
+    	}
+
+    	return $args;
 	}
 
 	/**
