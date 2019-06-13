@@ -153,11 +153,15 @@ Class WP_Force_Logout_Process {
 	 * @return array
 	 */
 	public function sortby_login_activity( $args ) {
-		
+
 		if ( isset( $args['orderby'] ) && 'wpfl' == $args['orderby'] ) {
+	
+			$order = isset( $args['order'] ) && $args['order'] === 'asc' ? 'desc' : 'asc'; 	// Wierd way of reversing the order. Still works.
+
 	        $args = array_merge( $args, array(
 	            'meta_key' => 'last_login',
-	            'orderby'  => 'meta_value'
+	            'orderby'  => 'meta_value',
+	            'order'    =>  $order, 
 	        ) );
     	}
 
