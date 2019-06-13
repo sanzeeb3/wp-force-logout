@@ -21,6 +21,7 @@ Class WP_Force_Logout_Process {
 		add_filter( 'users_list_table_query_args', array( $this, 'sortby_login_activity' ) );
 		add_action( 'init', array( $this, 'update_online_users_status' ) );
 		add_action( 'init', array( $this, 'update_last_login' ) );
+		add_action( 'load-users.php', array( $this, 'add_last_login' ) );
 		add_action( 'load-users.php', array( $this, 'trigger_query_actions' ) );
 		add_action( 'load-users.php', array( $this, 'trigger_bulk_actions' ) );
 		add_filter( 'bulk_actions-users', array( $this, 'add_bulk_action' ) );
@@ -161,9 +162,12 @@ Class WP_Force_Logout_Process {
 	        $args = array_merge( $args, array(
 	            'meta_key' => 'last_login',
 	            'orderby'  => 'meta_value',
-	            'order'    =>  $order, 
+	            'order'    =>  $order,
+	            'fields' => 'all',
 	        ) );
     	}
+
+    	$users = get_users( $args );
 
     	return $args;
 	}
@@ -224,6 +228,23 @@ Class WP_Force_Logout_Process {
 	}
 
 	/**
+	 * Add last_login meta key for all users with a random number to later compare.
+	 *
+	 * @todo :: this might gets slower for sites with large number of users.
+	 *
+	 * @return  void.
+	 */
+	public function add_last_login() {
+		$users = get_users();
+		foreach( $users as $user ) {
+			$last_login = get_user_meta( $user->ID, 'last_login', true );
+			if( empty( $last_login ) ) {
+				update_user_meta( $user->ID, 'last_login', 0.00058373 );	// Store random number to identify.
+			}
+		}
+	}
+
+	/**
 	 * Get last login time.
 	 *
 	 * @since  1.1.0
@@ -234,7 +255,7 @@ Class WP_Force_Logout_Process {
     	$last_login 	= get_user_meta( $user_id, 'last_login', true );
     	$the_login_date = '';
 
-    	if( ! empty( $last_login ) ) {
+    	if( ! empty( $last_login ) && 0.00058373 != $last_login ) {		// Also check against the random number.
 	    	$the_login_date = human_time_diff( $last_login );
     	}
 
