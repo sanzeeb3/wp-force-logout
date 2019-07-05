@@ -16,7 +16,7 @@ final class WP_Force_Logout {
 	 * Plugin version.
 	 * @var string
 	 */
-	public $version = '1.2.1';
+	public $version = '1.2.2';
 
 
 	/**

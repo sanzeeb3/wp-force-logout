@@ -231,7 +231,8 @@ Class WP_Force_Logout_Process {
 	 * Add last_login meta key for all users with a random number to later compare.
 	 *
 	 * @todo :: this might gets slower for sites with large number of users.
-	 *
+	 * @since  1.2.2
+	 * 
 	 * @return  void.
 	 */
 	public function add_last_login() {
