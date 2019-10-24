@@ -48,9 +48,6 @@ Yes you can! Join in on [GitHub repository](https://github.com/sanzeeb3/wp-force
 == Screenshots ==
 
 1. Users Status
-2. Logout 
-3. Bulk Logout
-4. All Users Logout
 
 == Changelog ==
 
