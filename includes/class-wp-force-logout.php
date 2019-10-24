@@ -1,4 +1,12 @@
 <?php
+/**
+ * Final Class File.
+ *
+ * @package    WP Force Logout
+ * @author     Sanjeev Aryal
+ * @since      1.0.0
+ * @license    GPL-3.0+
+ */
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
@@ -14,6 +22,7 @@ final class WP_Force_Logout {
 
 	/**
 	 * Plugin version.
+	 *
 	 * @var string
 	 */
 	public $version = '1.2.2';
@@ -21,21 +30,23 @@ final class WP_Force_Logout {
 
 	/**
 	 * Instance of this class.
+	 *
 	 * @var object
 	 */
-	protected static $_instance = null;
+	protected static $instance = null;
 
-	/*
+	/**
 	 * Return an instance of this class.
+	 *
 	 * @return object A single instance of this class.
 	 */
 	public static function get_instance() {
 		// If the single instance hasn't been set, set it now.
-		if ( is_null( self::$_instance ) ) {
-			self::$_instance = new self();
+		if ( is_null( self::$instance ) ) {
+			self::$instance = new self();
 		}
 
-		return self::$_instance;
+		return self::$instance;
 	}
 
 	/**
@@ -63,7 +74,7 @@ final class WP_Force_Logout {
 
 		// Load plugin text domain.
 		add_action( 'init', array( $this, 'load_plugin_textdomain' ) );
-		
+
 		$this->define_constants();
 		$this->includes();
 
@@ -82,8 +93,8 @@ final class WP_Force_Logout {
 	/**
 	 * Define constant if not already set.
 	 *
-	 * @param string      $name
-	 * @param string|bool $value
+	 * @param string      $name Name of a constant.
+	 * @param string|bool $value Value of a constant.
 	 */
 	private function define( $name, $value ) {
 		if ( ! defined( $name ) ) {
@@ -100,13 +111,13 @@ final class WP_Force_Logout {
 	 */
 	private function is_request( $type ) {
 		switch ( $type ) {
-			case 'admin' :
+			case 'admin':
 				return is_admin();
-			case 'ajax' :
+			case 'ajax':
 				return defined( 'DOING_AJAX' );
-			case 'cron' :
+			case 'cron':
 				return defined( 'DOING_CRON' );
-			case 'frontend' :
+			case 'frontend':
 				return ( ! is_admin() || defined( 'DOING_AJAX' ) ) && ! defined( 'DOING_CRON' );
 		}
 	}
