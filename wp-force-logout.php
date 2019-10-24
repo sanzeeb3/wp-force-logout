@@ -7,7 +7,13 @@
  * Author URI: http://www.sanjeebaryal.com.np
  * Text Domain: wp-force-logout
  * Domain Path: /languages/
+ *
+ * @package    WP Force Logout
+ * @author     Sanjeev Aryal
+ * @since      1.0.0
+ * @license    GPL-3.0+
  */
+
 if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
 }
