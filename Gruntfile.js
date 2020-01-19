@@ -13,26 +13,6 @@ module.exports = function( grunt ){
 			css: 'assets/css'
 		},
 
-		// JavaScript linting with JSHint.
-		jshint: {
-			options: {
-				jshintrc: '.jshintrc'
-			},
-			all: [
-				'Gruntfile.js'
-			]
-		},
-
-		// Sass linting with Stylelint.
-		stylelint: {
-			options: {
-				stylelintrc: '.stylelintrc'
-			},
-			all: [
-				'<%= dirs.css %>/*.scss'
-			]
-		},
-
 		// Compile all .scss files.
 		sass: {
 			options: {
@@ -50,20 +30,6 @@ module.exports = function( grunt ){
 			}
 		},
 
-		// Generate all RTL .css files
-		rtlcss: {
-			generate: {
-				expand: true,
-				cwd: '<%= dirs.css %>',
-				src: [
-					'*.css',
-					'!*-rtl.css'
-				],
-				dest: '<%= dirs.css %>/',
-				ext: '-rtl.css'
-			}
-		},
-
 		// Minify all .css files.
 		cssmin: {
 			minify: {
@@ -71,7 +37,27 @@ module.exports = function( grunt ){
 				cwd: '<%= dirs.css %>/',
 				src: ['*.css'],
 				dest: '<%= dirs.css %>/',
-				ext: '.css'
+				ext: '.min.css'
+			}
+		},
+
+		// Minify all .js files
+		uglify: {
+			options:{
+				sourcemap: 'none',
+			},
+			target: {
+				files:[{
+					expand: true,
+					cwd: '<%= dirs.js %>/admin',
+					src: [
+							'*.js',
+							'!*.min.js',
+					],
+					dest: '<%= dirs.js %>/admin',
+					ext: '.min.js'
+
+				}]
 			}
 		},
 
@@ -81,7 +67,7 @@ module.exports = function( grunt ){
 				files: [
 					'<%= dirs.css %>/*.scss'
 				],
-				tasks: ['sass', 'rtlcss', 'postcss', 'cssmin']
+				tasks: ['sass', 'cssmin']
 			}
 		},
 
@@ -91,13 +77,13 @@ module.exports = function( grunt ){
 				type: 'wp-plugin',
 				domainPath: 'languages',
 				potHeaders: {
-					'report-msgid-bugs-to': '',
+					'report-msgid-bugs-to': 'https://github.com/sanzeeb3/wp-force-logout/issues',
 					'language-team': 'LANGUAGE <EMAIL@ADDRESS>'
 				}
 			},
 			dist: {
 				options: {
-					potFilename: '<%= pkg.name %>.pot',
+					potFilename: 'wp-force-logout.pot',
 					exclude: [
 						'vendor/.*'
 					]
@@ -109,7 +95,7 @@ module.exports = function( grunt ){
 		addtextdomain: {
 			options: {
 				textdomain: '<%= pkg.name %>',
-				updateDomains: ['everest-forms']
+				updateDomains: ['wp-force-logout']
 			},
 			target: {
 				files: {
@@ -154,41 +140,6 @@ module.exports = function( grunt ){
 			}
 		},
 
-		// PHP Code Sniffer.
-		phpcs: {
-			options: {
-				bin: 'vendor/bin/phpcs'
-			},
-			dist: {
-				src:  [
-					'**/*.php',               // Include all files
-					'!includes/libraries/**', // Exclude libraries/
-					'!node_modules/**',       // Exclude node_modules/
-					'!vendor/**'              // Exclude vendor/
-				]
-			}
-		},
-
-		// Autoprefixer.
-		postcss: {
-			options: {
-				processors: [
-					require( 'autoprefixer' )({
-						browsers: [
-							'> 0.1%',
-							'ie 8',
-							'ie 9'
-						]
-					})
-				]
-			},
-			dist: {
-				src: [
-					'<%= dirs.css %>/*.css'
-				]
-			}
-		},
-
 		// Compress files and folders.
 		compress: {
 			options: {
@@ -218,27 +169,22 @@ module.exports = function( grunt ){
 
 	// Load NPM tasks to be used here
 	grunt.loadNpmTasks( 'grunt-sass' );
-	grunt.loadNpmTasks( 'grunt-phpcs' );
-	grunt.loadNpmTasks( 'grunt-rtlcss' );
-	grunt.loadNpmTasks( 'grunt-postcss' );
-	grunt.loadNpmTasks( 'grunt-stylelint' );
 	grunt.loadNpmTasks( 'grunt-wp-i18n' );
 	grunt.loadNpmTasks( 'grunt-checktextdomain' );
-	grunt.loadNpmTasks( 'grunt-contrib-jshint' );
 	grunt.loadNpmTasks( 'grunt-contrib-cssmin' );
+	grunt.loadNpmTasks( 'grunt-contrib-uglify' );
 	grunt.loadNpmTasks( 'grunt-contrib-watch' );
 	grunt.loadNpmTasks( 'grunt-contrib-compress' );
 
 	// Register tasks
 	grunt.registerTask( 'default', [
 		'css',
-		'i18n'
+		'i18n',
+		'uglify',
 	]);
 
 	grunt.registerTask( 'css', [
 		'sass',
-		'rtlcss',
-		'postcss',
 		'cssmin'
 	]);
 

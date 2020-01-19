@@ -51,6 +51,9 @@ Yes you can! Join in on [GitHub repository](https://github.com/sanzeeb3/wp-force
 
 == Changelog ==
 
+= 1.3.3 - xx/xx/2020 =
+* Enhancement - Load assets conditionally.
+
 = 1.2.2 - 07/05/2019 =
 * Feature - Sortby login activity.
 

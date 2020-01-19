@@ -48,24 +48,31 @@ class WP_Force_Logout_Process {
 	 */
 	public function enqueue_scripts() {
 
-		wp_enqueue_style( 'wp-force-logout', plugins_url( 'assets/css/wp-force-logout.css', WP_FORCE_LOGOUT_PLUGIN_FILE ), array(), WPFL_VERSION, $media = 'all' );
-		wp_enqueue_script( 'wp-force-logout-js', plugins_url( 'assets/js/admin/wp-force-logout.js', WP_FORCE_LOGOUT_PLUGIN_FILE ), array(), WPFL_VERSION, false );
-		wp_enqueue_script( 'sweetalert', plugins_url( 'assets/js/admin/sweetalert.min.js', WP_FORCE_LOGOUT_PLUGIN_FILE ), array(), WPFL_VERSION, false );
-		wp_localize_script(
-			'wp-force-logout-js',
-			'wpfl_plugins_params',
-			array(
-				'ajax_url'           => admin_url( 'admin-ajax.php' ),
-				'deactivation_nonce' => wp_create_nonce( 'deactivation-notice' ),
-				'review_nonce'       => wp_create_nonce( 'review-notice' ),
-				'deactivating'       => __( 'Deactivating...', 'wp-force-logout' ),
-				'error'              => __( 'Error!', 'wp-force-logout' ),
-				'success'            => __( 'Success!', 'wp-force-logout' ),
-				'deactivated'        => __( 'Plugin Deactivated!', 'wp-force-logout' ),
-				'sad_to_see'         => __( 'Sad to see you leave!', 'wp-force-logout' ),
-				'wrong'              => __( 'Oops! Something went wrong', 'wp-force-logout' ),
-			)
-		);
+		global $pagenow;
+
+		if ( 'plugins.php' === $pagenow || 'users.php' === $pagenow ) {
+			$suffix = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '' : '.min';
+
+			wp_enqueue_style( 'wp-force-logout', plugins_url( 'assets/css/wp-force-logout.min.css', WP_FORCE_LOGOUT_PLUGIN_FILE ), array(), WPFL_VERSION, $media = 'all' );
+
+			wp_enqueue_script( 'wp-force-logout-js', plugins_url( 'assets/js/admin/wp-force-logout'. $suffix .'.js', WP_FORCE_LOGOUT_PLUGIN_FILE ), array(), WPFL_VERSION, false );
+			wp_enqueue_script( 'sweetalert', plugins_url( 'assets/js/admin/sweetalert.min.js', WP_FORCE_LOGOUT_PLUGIN_FILE ), array(), WPFL_VERSION, false );
+			wp_localize_script(
+				'wp-force-logout-js',
+				'wpfl_plugins_params',
+				array(
+					'ajax_url'           => admin_url( 'admin-ajax.php' ),
+					'deactivation_nonce' => wp_create_nonce( 'deactivation-notice' ),
+					'review_nonce'       => wp_create_nonce( 'review-notice' ),
+					'deactivating'       => __( 'Deactivating...', 'wp-force-logout' ),
+					'error'              => __( 'Error!', 'wp-force-logout' ),
+					'success'            => __( 'Success!', 'wp-force-logout' ),
+					'deactivated'        => __( 'Plugin Deactivated!', 'wp-force-logout' ),
+					'sad_to_see'         => __( 'Sad to see you leave!', 'wp-force-logout' ),
+					'wrong'              => __( 'Oops! Something went wrong', 'wp-force-logout' ),
+				)
+			);
+		}
 	}
 
 	/**
