@@ -32,7 +32,7 @@ class WP_Force_Logout_Process {
 		add_filter( 'users_list_table_query_args', array( $this, 'sortby_login_activity' ) );
 		add_action( 'init', array( $this, 'update_online_users_status' ) );
 		add_action( 'init', array( $this, 'update_last_login' ) );
-		add_action( 'load-users.php', array( $this, 'add_last_login' ) );
+		// add_action( 'load-users.php', array( $this, 'add_last_login' ) );
 		add_action( 'load-users.php', array( $this, 'trigger_query_actions' ) );
 		add_action( 'load-users.php', array( $this, 'trigger_bulk_actions' ) );
 		add_filter( 'bulk_actions-users', array( $this, 'add_bulk_action' ) );
@@ -55,7 +55,7 @@ class WP_Force_Logout_Process {
 
 			wp_enqueue_style( 'wp-force-logout', plugins_url( 'assets/css/wp-force-logout.min.css', WP_FORCE_LOGOUT_PLUGIN_FILE ), array(), WPFL_VERSION, $media = 'all' );
 
-			wp_enqueue_script( 'wp-force-logout-js', plugins_url( 'assets/js/admin/wp-force-logout'. $suffix .'.js', WP_FORCE_LOGOUT_PLUGIN_FILE ), array(), WPFL_VERSION, false );
+			wp_enqueue_script( 'wp-force-logout-js', plugins_url( 'assets/js/admin/wp-force-logout' . $suffix . '.js', WP_FORCE_LOGOUT_PLUGIN_FILE ), array(), WPFL_VERSION, false );
 			wp_enqueue_script( 'sweetalert', plugins_url( 'assets/js/admin/sweetalert.min.js', WP_FORCE_LOGOUT_PLUGIN_FILE ), array(), WPFL_VERSION, false );
 			wp_localize_script(
 				'wp-force-logout-js',
@@ -177,6 +177,7 @@ class WP_Force_Logout_Process {
 	 * Sort users by login activity.
 	 *
 	 * @param array $args.
+	 *
 	 * @since 1.2.2
 	 *
 	 * @return array
@@ -263,6 +264,7 @@ class WP_Force_Logout_Process {
 	 * Add last_login meta key for all users with a random number to later compare.
 	 *
 	 * @todo :: this might gets slower for sites with large number of users.
+	 *
 	 * @since  1.2.2
 	 *
 	 * @return  void.
@@ -288,7 +290,7 @@ class WP_Force_Logout_Process {
 		$last_login     = get_user_meta( $user_id, 'last_login', true );
 		$the_login_date = '';
 
-		if ( ! empty( $last_login ) && 0.00058373 != $last_login ) {     // Also check against the random number.
+		if ( ! empty( $last_login ) ) {
 			$the_login_date = human_time_diff( $last_login );
 		}
 
