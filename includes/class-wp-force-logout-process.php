@@ -32,7 +32,7 @@ class WP_Force_Logout_Process {
 		add_filter( 'users_list_table_query_args', array( $this, 'sortby_login_activity' ) );
 		add_action( 'init', array( $this, 'update_online_users_status' ) );
 		add_action( 'init', array( $this, 'update_last_login' ) );
-		// add_action( 'load-users.php', array( $this, 'add_last_login' ) );
+		// add_action( 'load-users.php', array( $this, 'add_last_login' ) );	// Commented since 1.3.0.
 		add_action( 'load-users.php', array( $this, 'trigger_query_actions' ) );
 		add_action( 'load-users.php', array( $this, 'trigger_bulk_actions' ) );
 		add_filter( 'bulk_actions-users', array( $this, 'add_bulk_action' ) );
@@ -274,7 +274,7 @@ class WP_Force_Logout_Process {
 		foreach ( $users as $user ) {
 			$last_login = get_user_meta( $user->ID, 'last_login', true );
 			if ( empty( $last_login ) ) {
-				update_user_meta( $user->ID, 'last_login', 0.00058373 );    // Store random number to identify.
+				update_user_meta( $user->ID, 'last_login', 0.00058373 );    // Store random number to identify. Because meta_ley last_login is required for the sortby login activitiy feature to display all previous users too. Currently, the feature is disabled as it seems to effect performance.
 			}
 		}
 	}
