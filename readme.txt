@@ -51,7 +51,7 @@ Yes you can! Join in on [GitHub repository](https://github.com/sanzeeb3/wp-force
 
 == Changelog ==
 
-= 1.3.3 - xx/xx/2020 =
+= 1.3.0 - 02/04/2020 =
 * Enhancement - Load assets conditionally.
 * Fix - Memory timeout for large number of users.
 
