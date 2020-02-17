@@ -290,7 +290,7 @@ class WP_Force_Logout_Process {
 		$last_login     = get_user_meta( $user_id, 'last_login', true );
 		$the_login_date = '';
 
-		if ( ! empty( $last_login ) ) {
+		if ( ! empty( $last_login ) && 0.00058373 != $last_login ) {	// Backwards compatibility for v1.3.0-
 			$the_login_date = human_time_diff( $last_login );
 		}
 
