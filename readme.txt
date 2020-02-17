@@ -4,7 +4,7 @@ Tags: logout, force, online, last seen, last login
 Requires at least: 4.0
 Tested up to: 5.3.0
 Requires PHP: 5.3
-Stable tag: 1.3.0
+Stable tag: 1.3.1
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -50,6 +50,9 @@ Yes you can! Join in on [GitHub repository](https://github.com/sanzeeb3/wp-force
 1. Users Status
 
 == Changelog ==
+
+= 1.3.1 - 02/17/2020 =
+* Fix - Backwards compat. showing 50 years ago.
 
 = 1.3.0 - 02/04/2020 =
 * Enhancement - Load assets conditionally.
