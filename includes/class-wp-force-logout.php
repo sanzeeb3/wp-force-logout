@@ -142,9 +142,6 @@ final class WP_Force_Logout {
 	 * Includes.
 	 */
 	private function includes() {
-
-		if ( $this->is_request( 'admin' ) ) {
-			include_once dirname( __FILE__ ) . '/class-wp-force-logout-process.php';
-		}
+		include_once dirname( __FILE__ ) . '/class-wp-force-logout-process.php';
 	}
 }
