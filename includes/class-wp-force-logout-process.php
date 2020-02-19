@@ -32,6 +32,7 @@ class WP_Force_Logout_Process {
 		add_filter( 'users_list_table_query_args', array( $this, 'sortby_login_activity' ) );
 		add_action( 'init', array( $this, 'update_online_users_status' ) );
 		add_action( 'init', array( $this, 'update_last_login' ) );
+
 		// add_action( 'load-users.php', array( $this, 'add_last_login' ) );	// Commented since 1.3.0.
 		add_action( 'load-users.php', array( $this, 'trigger_query_actions' ) );
 		add_action( 'load-users.php', array( $this, 'trigger_bulk_actions' ) );
