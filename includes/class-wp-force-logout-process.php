@@ -48,7 +48,7 @@ class WP_Force_Logout_Process {
 		global $pagenow;
 
 		if ( 'users.php' === $pagenow ) {
-			wp_enqueue_style( 'wp-force-logout', plugins_url( 'assets/css/wp-force-logout.min.css', WP_FORCE_LOGOUT_PLUGIN_FILE ), array(), WPFL_VERSION, $media = 'all' );
+			wp_enqueue_style( 'wp-force-logout', plugins_url( 'assets/css/wp-force-logout.css', WP_FORCE_LOGOUT_PLUGIN_FILE ), array(), WPFL_VERSION, $media = 'all' );
 		}
 	}
 
