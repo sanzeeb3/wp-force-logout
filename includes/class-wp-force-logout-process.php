@@ -38,10 +38,6 @@ class WP_Force_Logout_Process {
 		add_action( 'load-users.php', array( $this, 'trigger_bulk_actions' ) );
 		add_filter( 'bulk_actions-users', array( $this, 'add_bulk_action' ) );
 		add_action( 'restrict_manage_users', array( $this, 'add_all_users_logout' ), 1000 );
-		add_action( 'wp_ajax_wp_force_logout_deactivation_notice', array( $this, 'deactivation_notice' ) );
-		add_action( 'wp_ajax_wp_force_logout_send_deactivation_email', array( $this, 'deactivation_email' ) );
-		add_action( 'in_admin_header', array( $this, 'review_notice' ), 100 );
-		add_action( 'wp_ajax_wp_force_logout_dismiss_review_notice', array( $this, 'dismiss_review_notice' ) );
 	}
 
 	/**
@@ -51,28 +47,8 @@ class WP_Force_Logout_Process {
 
 		global $pagenow;
 
-		if ( 'plugins.php' === $pagenow || 'users.php' === $pagenow ) {
-			$suffix = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '' : '.min';
-
+		if ( 'users.php' === $pagenow ) {
 			wp_enqueue_style( 'wp-force-logout', plugins_url( 'assets/css/wp-force-logout.min.css', WP_FORCE_LOGOUT_PLUGIN_FILE ), array(), WPFL_VERSION, $media = 'all' );
-
-			wp_enqueue_script( 'wp-force-logout-js', plugins_url( 'assets/js/admin/wp-force-logout' . $suffix . '.js', WP_FORCE_LOGOUT_PLUGIN_FILE ), array(), WPFL_VERSION, false );
-			wp_enqueue_script( 'sweetalert', plugins_url( 'assets/js/admin/sweetalert.min.js', WP_FORCE_LOGOUT_PLUGIN_FILE ), array(), WPFL_VERSION, false );
-			wp_localize_script(
-				'wp-force-logout-js',
-				'wpfl_plugins_params',
-				array(
-					'ajax_url'           => admin_url( 'admin-ajax.php' ),
-					'deactivation_nonce' => wp_create_nonce( 'deactivation-notice' ),
-					'review_nonce'       => wp_create_nonce( 'review-notice' ),
-					'deactivating'       => __( 'Deactivating...', 'wp-force-logout' ),
-					'error'              => __( 'Error!', 'wp-force-logout' ),
-					'success'            => __( 'Success!', 'wp-force-logout' ),
-					'deactivated'        => __( 'Plugin Deactivated!', 'wp-force-logout' ),
-					'sad_to_see'         => __( 'Sad to see you leave!', 'wp-force-logout' ),
-					'wrong'              => __( 'Oops! Something went wrong', 'wp-force-logout' ),
-				)
-			);
 		}
 	}
 
@@ -415,138 +391,6 @@ class WP_Force_Logout_Process {
 			$sessions->destroy_all();
 		}
 	}
-
-	/**
-	 * AJAX plugin deactivation notice.
-	 *
-	 * @since  1.0.0
-	 */
-	public static function deactivation_notice() {
-
-		check_ajax_referer( 'deactivation-notice', 'security' );
-
-		ob_start();
-		global $status, $page, $s;
-		$deactivate_url = wp_nonce_url( 'plugins.php?action=deactivate&amp;plugin=' . WP_FORCE_LOGOUT_PLUGIN_FILE . '&amp;plugin_status=' . $status . '&amp;paged=' . $page . '&amp;s=' . $s, 'deactivate-plugin_' . WP_FORCE_LOGOUT_PLUGIN_FILE );
-
-		?>
-			<!-- The Modal -->
-			<div id="wp-force-logout-modal" class="wp-force-logout-modal">
-
-				 <!-- Modal content -->
-				 <div class="wp-force-logout-modal-content">
-					<div class="wp-force-logout-modal-header">
-					</div>
-
-					<div class="wp-force-logout-modal-body">
-						<div class="container">
-							  <form method="post" id="wp-force-logout-send-deactivation-email">
-
-								<div class="row">
-										<h3 for=""><?php echo __( 'Would you care to let me know the deactivation reason so that I can improve it for you?', 'wp-force-logout' ); ?></h3>
-									<div class="col-75">
-										<textarea id="message" name="message" placeholder="Deactivation Reason?" style="height:150px"></textarea>
-									</div>
-								</div>
-								<div class="row">
-										<?php wp_nonce_field( 'wp_force_logout_send_deactivation_email', 'wp_force_logout_send_deactivation_email' ); ?>
-										<a href="<?php echo $deactivate_url; ?>"><?php echo __( 'Skip and deactivate', 'wp-force-logout' ); ?>
-										<input type="submit" id="wpfl-send-deactivation-email" value="Deactivate">
-								</div>
-						  </form>
-						</div>
-
-					<div class="wp-force-logout-modal-footer">
-					</div>
-				 </div>
-			</div>
-
-		<?php
-
-		$content = ob_get_clean();
-		wp_send_json( $content ); // WPCS: XSS OK.
-	}
-
-	/**
-	 * Deactivation Email.
-	 *
-	 * @since  1.0.1
-	 *
-	 * @return void
-	 */
-	public function deactivation_email() {
-
-		// check_ajax_referer( 'wp_force_logout_send_deactivation_email', 'security' );
-
-		$message = sanitize_textarea_field( $_POST['message'] );
-
-		if ( ! empty( $message ) ) {
-			wp_mail( 'sanzeeb.aryal@gmail.com', 'WPForce Logout Deactivation', $message );
-		}
-
-		deactivate_plugins( WP_FORCE_LOGOUT_PLUGIN_FILE );
-	}
-
-	/**
-	 * Outputs the Review notice on admin header.
-	 *
-	 * @since 1.2.1
-	 */
-	public function review_notice() {
-
-		global $current_screen;
-
-		// Show only to Admins
-		if ( ! current_user_can( 'manage_options' ) ) {
-			return;
-		}
-
-		$notice_dismissed = get_option( 'wpfl_review_notice_dismissed', 'no' );
-
-		if ( 'yes' == $notice_dismissed ) {
-			return;
-		}
-
-		if ( ! empty( $current_screen->id ) && $current_screen->id !== 'users' ) {
-			return;
-		}
-
-		$logged_in_users = get_transient( 'online_status' );
-
-		?>
-			<div id="wp-force-logout-review-notice" class="notice notice-info wp-force-logout-review-notice">
-				<div class="wp-force-logout-review-thumbnail">
-					<img src="<?php echo plugins_url( 'assets/img/logo.jpg', WP_FORCE_LOGOUT_PLUGIN_FILE ); ?>" alt="">
-				</div>
-				<div class="wp-force-logout-review-text">
-
-						<h3><?php _e( 'Whoopee! 😀', 'wp-force-logout' ); ?></h3>
-						<p><?php _e( 'WPForce Logout already started displaying your ' . ( count( $logged_in_users ) - 1 ) . ' online users. Would you do us some favour and leave a <a href="https://wordpress.org/support/plugin/wp-force-logout/reviews/?filter=5#new-post" target="_blank">&#9733;&#9733;&#9733;&#9733;&#9733;</a> review on <a href="https://wordpress.org/support/plugin/wp-force-logout/reviews/?filter=5#new-post" target="_blank"><strong>WordPress.org</strong></a>? to help us spread the word and boost our motivation.', 'wp-force-logout' ); ?></p>
-
-					<ul class="wp-force-logout-review-ul">
-						<li><a class="button button-primary" href="https://wordpress.org/support/plugin/wp-force-logout/reviews/?filter=5#new-post" target="_blank"><span class="dashicons dashicons-external"></span><?php _e( 'Sure, I\'d love to!', 'wp-force-logout' ); ?></a></li>
-						<li><a href="#" class="button button-secondary notice-dismiss"><span  class="dashicons dashicons-smiley"></span><?php _e( 'I already did!', 'wp-force-logout' ); ?></a></li>
-						<li><a href="#" class="button button-link notice-dismiss"><span class="dashicons dashicons-dismiss"></span><?php _e( 'Never show again', 'wp-force-logout' ); ?></a></li>
-					 </ul>
-				</div>
-			</div>
-		<?php
-	}
-
-	/**
-	 * Dismiss the reveiw notice on dissmiss click
-	 *
-	 * @since 1.2.1
-	 */
-	public function dismiss_review_notice() {
-
-		check_admin_referer( 'review-notice', 'security' );
-
-		if ( ! empty( $_POST['dismissed'] ) ) {
-			update_option( 'wpfl_review_notice_dismissed', 'yes' );
-		}
-	}
-
 }
 
 new WP_Force_Logout_Process();
