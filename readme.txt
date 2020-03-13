@@ -51,7 +51,7 @@ Yes you can! Join in on [GitHub repository](https://github.com/sanzeeb3/wp-force
 
 == Changelog ==
 
-= 1.4.0 - xx/xx/2020 =
+= 1.4.0 - 3/13/2020 =
 * Enhancement - Remove unnecessary stuffs.
 
 = 1.3.2 - 02/19/2020 =
