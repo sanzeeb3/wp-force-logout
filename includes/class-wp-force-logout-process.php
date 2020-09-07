@@ -38,6 +38,8 @@ class WP_Force_Logout_Process {
 		add_action( 'load-users.php', array( $this, 'trigger_bulk_actions' ) );
 		add_filter( 'bulk_actions-users', array( $this, 'add_bulk_action' ) );
 		add_action( 'restrict_manage_users', array( $this, 'add_all_users_logout' ), 1000 );
+		add_action( 'in_admin_header', array( $this, 'review_notice' ), 100 );
+		add_action( 'wp_ajax_wp_force_logout_dismiss_review_notice', array( $this, 'dismiss_review_notice' ) );
 	}
 
 	/**
@@ -49,6 +51,15 @@ class WP_Force_Logout_Process {
 
 		if ( 'users.php' === $pagenow ) {
 			wp_enqueue_style( 'wp-force-logout', plugins_url( 'assets/css/wp-force-logout.css', WP_FORCE_LOGOUT_PLUGIN_FILE ), array(), WPFL_VERSION, $media = 'all' );
+			wp_enqueue_script( 'wp-force-logout-js', plugins_url( 'assets/js/script.js', WP_FORCE_LOGOUT_PLUGIN_FILE ), array(), WPFL_VERSION, false );
+			wp_localize_script(
+				'wp-force-logout-js',
+				'wpfl_plugins_params',
+				array(
+					'ajax_url'           => admin_url( 'admin-ajax.php' ),
+					'review_nonce'       => wp_create_nonce( 'review-notice' ),
+				)
+			);
 		}
 	}
 
@@ -389,6 +400,66 @@ class WP_Force_Logout_Process {
 
 			// We have got the sessions, destroy them all!
 			$sessions->destroy_all();
+		}
+	}
+
+	/**
+	 * Outputs the Review notice on admin header.
+	 *
+	 * @since 1.2.1
+	 */
+	public function review_notice() {
+
+		global $current_screen;
+
+		// Show only to Admins
+		if ( ! current_user_can( 'manage_options' ) ) {
+			return;
+		}
+
+		$notice_dismissed = get_option( 'wpfl_review_notice_dismissed', 'no' );
+
+		if ( 'yes' == $notice_dismissed ) {
+			return;
+		}
+
+		if ( ! empty( $current_screen->id ) && $current_screen->id !== 'users' ) {
+			return;
+		}
+
+		$logged_in_users = get_transient( 'online_status' );
+
+		?>
+			<div id="wp-force-logout-review-notice" class="notice notice-info wp-force-logout-review-notice">
+				<div class="wp-force-logout-review-thumbnail">
+					<img src="<?php echo plugins_url( 'assets/logo.jpg', WP_FORCE_LOGOUT_PLUGIN_FILE ); ?>" alt="">
+				</div>
+				<div class="wp-force-logout-review-text">
+
+						<h3><?php _e( 'Whoopee! 😀', 'wp-force-logout' ); ?></h3>
+						<p><?php _e( 'WPForce Logout already started displaying your ' . ( count( $logged_in_users ) - 1 ) . ' online users. Would you do me some favour and leave a <a href="https://wordpress.org/support/plugin/wp-force-logout/reviews/?filter=5#new-post" target="_blank">&#9733;&#9733;&#9733;&#9733;&#9733;</a> review on <a href="https://wordpress.org/support/plugin/wp-force-logout/reviews/?filter=5#new-post" target="_blank"><strong>WordPress.org</strong></a> to help us spread the word and boost my motivation?', 'wp-force-logout' ); ?></p>
+
+					<ul class="wp-force-logout-review-ul">
+						<li><a class="button button-primary" href="https://wordpress.org/support/plugin/wp-force-logout/reviews/?filter=5#new-post" target="_blank"><span class="dashicons dashicons-external"></span><?php _e( 'Sure, I\'d love to!', 'wp-force-logout' ); ?></a></li>
+						<li><a class="button button-link" target="_blank" href="http://sanjeebaryal.com.np/contact"><span class="dashicons dashicons-sos"></span><?php _e( 'I need help!', 'wp-force-logout' ); ?></a></li>
+						<li><a href="#" class="button button-link notice-dismiss"><span class="dashicons dashicons-dismiss"></span><?php _e( 'Dismiss Forever.', 'wp-force-logout' ); ?></a></li>
+					 </ul>
+				</div>
+			</div>
+		<?php
+	}
+
+	/**
+	 * Dismiss the reveiw notice on dissmiss click
+	 *
+	 * @since 1.2.1s
+	 */
+	public function dismiss_review_notice() {
+
+		check_admin_referer( 'review-notice', 'security' );
+
+		if ( ! empty( $_POST['dismissed'] ) ) {
+			update_option( 'wpfl_review_notice_dismissed', 'yes' );
 		}
 	}
 }
