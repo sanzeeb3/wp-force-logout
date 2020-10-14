@@ -72,7 +72,7 @@ class WP_Force_Logout_Process {
 	 */
 	public function add_column_title( $columns ) {
 
-		if ( ! current_user_can( 'edit_user' ) ) {
+		if ( ! current_user_can( 'edit_users' ) ) {
 			return $columns;
 		}
 
@@ -113,7 +113,7 @@ class WP_Force_Logout_Process {
 	 */
 	public function add_column_value( $value, $column_name, $user_id ) {
 
-		if ( ! current_user_can( 'edit_user' ) ) {
+		if ( ! current_user_can( 'edit_users' ) ) {
 			return false;
 		}
 
@@ -300,7 +300,7 @@ class WP_Force_Logout_Process {
 		}
 
 		// Return if current user cannot edit users.
-		if ( ! current_user_can( 'edit_user' ) ) {
+		if ( ! current_user_can( 'edit_users' ) ) {
 			throw new Exception( 'You donot have enough permission to perform this action' );
 		}
 
@@ -338,7 +338,7 @@ class WP_Force_Logout_Process {
 	public function trigger_bulk_actions() {
 
 		// Return if current user cannot edit users.
-		if ( ! current_user_can( 'edit_user' ) ) {
+		if ( ! current_user_can( 'edit_users' ) ) {
 			throw new Exception( 'You donot have enough permission to perform this action' );
 		}
 
