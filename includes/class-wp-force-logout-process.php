@@ -301,7 +301,7 @@ class WP_Force_Logout_Process {
 
 		// Return if current user cannot edit users.
 		if ( ! current_user_can( 'edit_users' ) ) {
-			throw new Exception( 'You donot have enough permission to perform this action' );
+			throw new Exception( __( 'You don\'t have enough permission to perform this action', 'wp-force-logout' ) );
 		}
 
 		$action = isset( $_REQUEST['action'] ) ? sanitize_key( $_REQUEST['action'] ) : false;
@@ -339,7 +339,7 @@ class WP_Force_Logout_Process {
 
 		// Return if current user cannot edit users.
 		if ( ! current_user_can( 'edit_users' ) ) {
-			throw new Exception( 'You donot have enough permission to perform this action' );
+			throw new Exception( __( 'You don\'t have enough permission to perform this action', 'wp-force-logout' ) );
 		}
 
 		if ( empty( $_REQUEST['users'] ) || empty( $_REQUEST['action'] ) && 'wpfl-bulk-logout' === $_REQUEST['action'] ) {
@@ -437,7 +437,8 @@ class WP_Force_Logout_Process {
 				<div class="wp-force-logout-review-text">
 
 						<h3><?php _e( 'Whoopee! 😀', 'wp-force-logout' ); ?></h3>
-						<p><?php _e( 'WPForce Logout already started displaying your ' . ( count( $logged_in_users ) - 1 ) . ' online users. Would you do me some favour and leave a <a href="https://wordpress.org/support/plugin/wp-force-logout/reviews/?filter=5#new-post" target="_blank">&#9733;&#9733;&#9733;&#9733;&#9733;</a> review on <a href="https://wordpress.org/support/plugin/wp-force-logout/reviews/?filter=5#new-post" target="_blank"><strong>WordPress.org</strong></a> to help us spread the word and boost my motivation?', 'wp-force-logout' ); ?></p>
+						<?php // translators: 1. users count, 2. five stars + review link, 3. WordPress.org + review link  ?>
+						<p><?php echo sprintf( __( 'WPForce Logout already started displaying your %1$d online users. Would you do me some favour and leave a %2$s review on %3$s to help us spread the word and boost my motivation?', 'wp-force-logout' ), ( count( $logged_in_users ) - 1 ), '<a href="https://wordpress.org/support/plugin/wp-force-logout/reviews/?filter=5#new-post" target="_blank">&#9733;&#9733;&#9733;&#9733;&#9733;</a>', '<a href="https://wordpress.org/support/plugin/wp-force-logout/reviews/?filter=5#new-post" target="_blank"><strong>WordPress.org</strong></a>' ); ?></p>
 
 					<ul class="wp-force-logout-review-ul">
 						<li><a class="button button-primary" href="https://wordpress.org/support/plugin/wp-force-logout/reviews/?filter=5#new-post" target="_blank"><span class="dashicons dashicons-external"></span><?php _e( 'Sure, I\'d love to!', 'wp-force-logout' ); ?></a></li>
