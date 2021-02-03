@@ -1,14 +1,14 @@
-# Copyright (C) 2020 Sanjeev Aryal
+# Copyright (C) 2021 Sanjeev Aryal
 # This file is distributed under the same license as the WPForce Logout package.
 msgid ""
 msgstr ""
-"Project-Id-Version: WPForce Logout 1.4.1\n"
+"Project-Id-Version: WPForce Logout 1.4.2\n"
 "Report-Msgid-Bugs-To: https://github.com/sanzeeb3/wp-force-logout/issues\n"
-"POT-Creation-Date: 2020-10-14 14:58:34+00:00\n"
+"POT-Creation-Date: 2021-02-03 14:43:31+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"PO-Revision-Date: 2020-MO-DA HO:MI+ZONE\n"
+"PO-Revision-Date: 2021-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <EMAIL@ADDRESS>\n"
 "X-Generator: grunt-wp-i18n 1.0.3\n"
@@ -33,27 +33,41 @@ msgstr ""
 msgid "Never"
 msgstr ""
 
-#: includes/class-wp-force-logout-process.php:370
+#: includes/class-wp-force-logout-process.php:301
+#: includes/class-wp-force-logout-process.php:339
+msgid "You don't have enough permission to perform this action"
+msgstr ""
+
+#: includes/class-wp-force-logout-process.php:367
 msgid "Logout"
 msgstr ""
 
-#: includes/class-wp-force-logout-process.php:383
+#: includes/class-wp-force-logout-process.php:380
 msgid "Logout All Users"
 msgstr ""
 
-#: includes/class-wp-force-logout-process.php:439
+#: includes/class-wp-force-logout-process.php:436
 msgid "Whoopee! 😀"
 msgstr ""
 
-#: includes/class-wp-force-logout-process.php:443
+#: includes/class-wp-force-logout-process.php:438
+#. translators: 1. users count, 2. five stars + review link, 3. WordPress.org +
+#. review link
+msgid ""
+"WPForce Logout already started displaying your %1$d online users. Would you "
+"do me some favour and leave a %2$s review on %3$s to help us spread the "
+"word and boost my motivation?"
+msgstr ""
+
+#: includes/class-wp-force-logout-process.php:441
 msgid "Sure, I'd love to!"
 msgstr ""
 
-#: includes/class-wp-force-logout-process.php:444
+#: includes/class-wp-force-logout-process.php:442
 msgid "I need help!"
 msgstr ""
 
-#: includes/class-wp-force-logout-process.php:445
+#: includes/class-wp-force-logout-process.php:443
 msgid "Dismiss Forever."
 msgstr ""
 
