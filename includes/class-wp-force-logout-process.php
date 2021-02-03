@@ -182,12 +182,9 @@ class WP_Force_Logout_Process {
 					'meta_key' => 'last_login',
 					'orderby'  => 'meta_value',
 					'order'    => $order,
-					'fields'   => 'all',
 				)
 			);
 		}
-
-		$users = get_users( $args );
 
 		return $args;
 	}
