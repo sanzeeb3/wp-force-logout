@@ -56,8 +56,8 @@ class WP_Force_Logout_Process {
 				'wp-force-logout-js',
 				'wpfl_plugins_params',
 				array(
-					'ajax_url'           => admin_url( 'admin-ajax.php' ),
-					'review_nonce'       => wp_create_nonce( 'review-notice' ),
+					'ajax_url'     => admin_url( 'admin-ajax.php' ),
+					'review_nonce' => wp_create_nonce( 'review-notice' ),
 				)
 			);
 		}
@@ -275,7 +275,7 @@ class WP_Force_Logout_Process {
 		$last_login     = get_user_meta( $user_id, 'last_login', true );
 		$the_login_date = '';
 
-		if ( ! empty( $last_login ) && 0.00058373 != $last_login ) {	// Backwards compatibility for v1.3.0-
+		if ( ! empty( $last_login ) && 0.00058373 != $last_login ) {    // Backwards compatibility for v1.3.0-
 			$the_login_date = human_time_diff( $last_login );
 		}
 
@@ -434,7 +434,7 @@ class WP_Force_Logout_Process {
 				<div class="wp-force-logout-review-text">
 
 						<h3><?php _e( 'Whoopee! 😀', 'wp-force-logout' ); ?></h3>
-						<?php // translators: 1. users count, 2. five stars + review link, 3. WordPress.org + review link  ?>
+						<?php // translators: 1. users count, 2. five stars + review link, 3. WordPress.org + review link ?>
 						<p><?php echo sprintf( __( 'WPForce Logout already started displaying your %1$d online users. Would you do me some favour and leave a %2$s review on %3$s to help us spread the word and boost my motivation?', 'wp-force-logout' ), ( count( $logged_in_users ) - 1 ), '<a href="https://wordpress.org/support/plugin/wp-force-logout/reviews/?filter=5#new-post" target="_blank">&#9733;&#9733;&#9733;&#9733;&#9733;</a>', '<a href="https://wordpress.org/support/plugin/wp-force-logout/reviews/?filter=5#new-post" target="_blank"><strong>WordPress.org</strong></a>' ); ?></p>
 
 					<ul class="wp-force-logout-review-ul">
