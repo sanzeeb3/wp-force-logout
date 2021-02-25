@@ -287,6 +287,11 @@ class WP_Force_Logout_Process {
 	 */
 	public function trigger_query_actions() {
 
+		// Return if current user cannot edit users.
+		if ( ! current_user_can( 'edit_users' ) ) {
+			throw new Exception( __( 'You don\'t have enough permission to perform this action', 'wp-force-logout' ) );
+		}
+
 		if ( isset( $_REQUEST['action'] ) && $_REQUEST['action'] === 'force_logout_all' ) {
 			check_admin_referer( 'wp-force-logout-nonce' );
 			$this->force_all_users_logout();
@@ -294,11 +299,6 @@ class WP_Force_Logout_Process {
 			// Redirect to users/same page after logout.
 			wp_safe_redirect( admin_url( 'users.php ' ) );
 			exit();
-		}
-
-		// Return if current user cannot edit users.
-		if ( ! current_user_can( 'edit_users' ) ) {
-			throw new Exception( __( 'You don\'t have enough permission to perform this action', 'wp-force-logout' ) );
 		}
 
 		$action = isset( $_REQUEST['action'] ) ? sanitize_key( $_REQUEST['action'] ) : false;
