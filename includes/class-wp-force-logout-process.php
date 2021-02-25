@@ -76,7 +76,7 @@ class WP_Force_Logout_Process {
 			return $columns;
 		}
 
-		$new_columns['wpfl'] = __( 'Login Activity', 'wp-force-logout' );
+		$new_columns['wpfl'] = esc_html__( 'Login Activity', 'wp-force-logout' );
 
 		return $this->custom_insert_after_helper( $columns, $new_columns, 'cb' );
 	}
@@ -132,14 +132,14 @@ class WP_Force_Logout_Process {
 				$logout_link = remove_query_arg( array( 'new_role' ), $logout_link );
 				$logout_link = wp_nonce_url( $logout_link, 'wpfl-logout' );
 
-				$value  = '<span class="online-circle">' . __( 'Online', 'wp-force-logout' ) . '</span>';
+				$value  = '<span class="online-circle">' . esc_html__( 'Online', 'wp-force-logout' ) . '</span>';
 				$value .= ' ';
 				$value .= '<a style="color:red" href="' . esc_url( $logout_link ) . '">' . _x( 'Logout', 'The action on users list page', 'wp-force-logout' ) . '</a>';
 			} else {
 				$last_login = $this->get_last_login( $user_id );
-				$value      = '<span class="offline-circle">' . __( 'Offline ', 'wp-force-logout' );
-				$value     .= '</br>' . __( 'Last Login: ', 'wp-force-logout' );
-				$value     .= ! empty( $last_login ) ? $last_login . ' ago' : __( 'Never', 'wp-force-logout' ) . '</span>';
+				$value      = '<span class="offline-circle">' . esc_html__( 'Offline ', 'wp-force-logout' );
+				$value     .= '</br>' . esc_html__( 'Last Login: ', 'wp-force-logout' );
+				$value     .= ! empty( $last_login ) ? $last_login . ' ago' : esc_html__( 'Never', 'wp-force-logout' ) . '</span>';
 			}
 		}
 
@@ -364,7 +364,7 @@ class WP_Force_Logout_Process {
 	 * @return array    All Actions along with logout action.
 	 */
 	public function add_bulk_action( $actions ) {
-		$actions['wpfl-bulk-logout'] = __( 'Logout', 'wp-force-logout' );
+		$actions['wpfl-bulk-logout'] = esc_html__( 'Logout', 'wp-force-logout' );
 
 		return $actions;
 	}
@@ -377,7 +377,7 @@ class WP_Force_Logout_Process {
 	public function add_all_users_logout( $which ) {
 		echo '<div class="alignright">';
 		$url = wp_nonce_url( 'users.php?action=force_logout_all', 'wp-force-logout-nonce' );
-		echo '<a style="margin-left:5px; margin-top:0px" class="button wp-force-logout" href="' . $url . '">' . __( 'Logout All Users', 'wp-force-logout' ) . '</a>';
+		echo '<a style="margin-left:5px; margin-top:0px" class="button wp-force-logout" href="' . $url . '">' . esc_html__( 'Logout All Users', 'wp-force-logout' ) . '</a>';
 		echo '</div>';
 	}
 
@@ -435,7 +435,7 @@ class WP_Force_Logout_Process {
 
 						<h3><?php _e( 'Whoopee! 😀', 'wp-force-logout' ); ?></h3>
 						<?php // translators: 1. users count, 2. five stars + review link, 3. WordPress.org + review link ?>
-						<p><?php echo sprintf( __( 'WPForce Logout already started displaying your %1$d online users. Would you do me some favour and leave a %2$s review on %3$s to help us spread the word and boost my motivation?', 'wp-force-logout' ), ( count( $logged_in_users ) - 1 ), '<a href="https://wordpress.org/support/plugin/wp-force-logout/reviews/?filter=5#new-post" target="_blank">&#9733;&#9733;&#9733;&#9733;&#9733;</a>', '<a href="https://wordpress.org/support/plugin/wp-force-logout/reviews/?filter=5#new-post" target="_blank"><strong>WordPress.org</strong></a>' ); ?></p>
+						<p><?php echo sprintf( esc_html__( 'WPForce Logout already started displaying your %1$d online users. Would you do me some favour and leave a %2$s review on %3$s to help us spread the word and boost my motivation?', 'wp-force-logout' ), ( count( $logged_in_users ) - 1 ), '<a href="https://wordpress.org/support/plugin/wp-force-logout/reviews/?filter=5#new-post" target="_blank">&#9733;&#9733;&#9733;&#9733;&#9733;</a>', '<a href="https://wordpress.org/support/plugin/wp-force-logout/reviews/?filter=5#new-post" target="_blank"><strong>WordPress.org</strong></a>' ); ?></p>
 
 					<ul class="wp-force-logout-review-ul">
 						<li><a class="button button-primary" href="https://wordpress.org/support/plugin/wp-force-logout/reviews/?filter=5#new-post" target="_blank"><span class="dashicons dashicons-external"></span><?php _e( 'Sure, I\'d love to!', 'wp-force-logout' ); ?></a></li>
