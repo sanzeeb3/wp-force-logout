@@ -339,11 +339,15 @@ class WP_Force_Logout_Process {
 			throw new Exception( __( 'You don\'t have enough permission to perform this action', 'wp-force-logout' ) );
 		}
 
-		if ( empty( $_REQUEST['users'] ) || empty( $_REQUEST['action'] ) && 'wpfl-bulk-logout' === $_REQUEST['action'] ) {
+		if ( empty( $_REQUEST['users'] ) || empty( $_REQUEST['action'] ) ) {
 			return;
 		}
 
-		$user_ids = array_map( 'absint', $_REQUEST['users'] );
+		if ( 'wpfl-bulk-logout' !== $_REQUEST['action'] ) {
+			return;
+		}
+
+		$user_ids = array_map( 'absint', (array) $_REQUEST['users'] );
 
 		foreach ( $user_ids as $user_id ) {
 
