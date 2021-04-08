@@ -2,7 +2,7 @@
 /**
  * Uninstall WPForce Logout.
  *
- * @since 1.4.5
+ * @since 1.4.4
  */
 
 // Exit if accessed directly.

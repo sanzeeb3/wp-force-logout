@@ -1,7 +1,7 @@
 {
   "name": "wp-force-logout",
   "description": "Forcefully logout WordPress user(s).",
-  "version": "1.4.3",
+  "version": "1.4.4",
   "homepage": "http://sanjeebaryal.com.np",
   "repository": {
     "type": "git",

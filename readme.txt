@@ -4,7 +4,7 @@ Tags: logout, force, online, last seen, last login
 Requires at least: 4.0
 Tested up to: 5.7
 Requires PHP: 5.6
-Stable tag: 1.4.3
+Stable tag: 1.4.4
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -50,6 +50,9 @@ Yes you can! Join in on [GitHub repository](https://github.com/sanzeeb3/wp-force
 1. Users Status
 
 == Changelog ==
+
+= 1.4.4 - 04/08/2021 =
+* Fix - Fatal error on single site admins in a multisite installation.
 
 = 1.4.3 - 03/05/2021 =
 * Fix - Issue with WP 5.7

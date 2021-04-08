@@ -393,7 +393,7 @@ class WP_Force_Logout_Process {
 	/**
 	 * Check if user has capability to force logout (edit) users.
 	 *
-	 * @since  1.4.5
+	 * @since  1.4.4
 	 *
 	 * @todo :: Allow site admins of single site in a multisite to force logout users.
 	 *
