@@ -28,6 +28,8 @@ class WP_Force_Logout_Process {
 
 		global $pagenow;
 
+		add_action( 'wp_ajax_wp_force_logout_dismiss_review_notice', array( $this, 'dismiss_review_notice' ) );
+
 		// Return if it's not the users page and if user do not have capability to force logout.
 		if ( 'users.php' !== $pagenow || ! $this->user_has_cap() ) {
 			return;
@@ -47,7 +49,6 @@ class WP_Force_Logout_Process {
 		add_filter( 'bulk_actions-users', array( $this, 'add_bulk_action' ) );
 		add_action( 'restrict_manage_users', array( $this, 'add_all_users_logout' ), 1000 );
 		add_action( 'in_admin_header', array( $this, 'review_notice' ), 100 );
-		add_action( 'wp_ajax_wp_force_logout_dismiss_review_notice', array( $this, 'dismiss_review_notice' ) );
 	}
 
 	/**
@@ -414,6 +415,10 @@ class WP_Force_Logout_Process {
 		global $current_screen;
 
 		// Show only to Admins
+		if ( ! $this->user_has_cap() ) {
+			return;
+		}
+
 		$notice_dismissed = get_option( 'wpfl_review_notice_dismissed', 'no' );
 
 		if ( 'yes' == $notice_dismissed ) {
