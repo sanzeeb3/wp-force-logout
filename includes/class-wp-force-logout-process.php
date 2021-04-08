@@ -25,6 +25,14 @@ class WP_Force_Logout_Process {
 	 * Constructor.
 	 */
 	public function __construct() {
+
+		global $pagenow;
+
+		// Return if it's not the users page and if user do not have capability to force logout.
+		if ( 'users.php' !== $pagenow || ! $this->user_has_cap() ) {
+			return;
+		}
+
 		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
 		add_filter( 'manage_users_columns', array( $this, 'add_column_title' ) );
 		add_filter( 'manage_users_custom_column', array( $this, 'add_column_value' ), 10, 3 );
@@ -47,20 +55,16 @@ class WP_Force_Logout_Process {
 	 */
 	public function enqueue_scripts() {
 
-		global $pagenow;
-
-		if ( 'users.php' === $pagenow ) {
-			wp_enqueue_style( 'wp-force-logout', plugins_url( 'assets/css/wp-force-logout.css', WP_FORCE_LOGOUT_PLUGIN_FILE ), array(), WPFL_VERSION, $media = 'all' );
-			wp_enqueue_script( 'wp-force-logout-js', plugins_url( 'assets/js/script.js', WP_FORCE_LOGOUT_PLUGIN_FILE ), array(), WPFL_VERSION, false );
-			wp_localize_script(
-				'wp-force-logout-js',
-				'wpfl_plugins_params',
-				array(
-					'ajax_url'     => admin_url( 'admin-ajax.php' ),
-					'review_nonce' => wp_create_nonce( 'review-notice' ),
-				)
-			);
-		}
+		wp_enqueue_style( 'wp-force-logout', plugins_url( 'assets/css/wp-force-logout.css', WP_FORCE_LOGOUT_PLUGIN_FILE ), array(), WPFL_VERSION, $media = 'all' );
+		wp_enqueue_script( 'wp-force-logout-js', plugins_url( 'assets/js/script.js', WP_FORCE_LOGOUT_PLUGIN_FILE ), array(), WPFL_VERSION, false );
+		wp_localize_script(
+			'wp-force-logout-js',
+			'wpfl_plugins_params',
+			array(
+				'ajax_url'     => admin_url( 'admin-ajax.php' ),
+				'review_nonce' => wp_create_nonce( 'review-notice' ),
+			)
+		);
 	}
 
 	/**
@@ -71,10 +75,6 @@ class WP_Force_Logout_Process {
 	 * @return array
 	 */
 	public function add_column_title( $columns ) {
-
-		if ( ! current_user_can( 'edit_users' ) ) {
-			return $columns;
-		}
 
 		$new_columns['wpfl'] = esc_html__( 'Login Activity', 'wp-force-logout' );
 
@@ -112,10 +112,6 @@ class WP_Force_Logout_Process {
 	 * @return string
 	 */
 	public function add_column_value( $value, $column_name, $user_id ) {
-
-		if ( ! current_user_can( 'edit_users' ) ) {
-			return false;
-		}
 
 		if ( $column_name == 'wpfl' ) {
 			$user = wp_get_current_user();
@@ -287,11 +283,6 @@ class WP_Force_Logout_Process {
 	 */
 	public function trigger_query_actions() {
 
-		// Return if current user cannot edit users.
-		if ( ! current_user_can( 'edit_users' ) ) {
-			throw new Exception( __( 'You don\'t have enough permission to perform this action', 'wp-force-logout' ) );
-		}
-
 		if ( isset( $_REQUEST['action'] ) && $_REQUEST['action'] === 'force_logout_all' ) {
 			check_admin_referer( 'wp-force-logout-nonce' );
 			$this->force_all_users_logout();
@@ -333,11 +324,6 @@ class WP_Force_Logout_Process {
 	 * Trigger the action query logout for bulk users.
 	 */
 	public function trigger_bulk_actions() {
-
-		// Return if current user cannot edit users.
-		if ( ! current_user_can( 'edit_users' ) ) {
-			throw new Exception( __( 'You don\'t have enough permission to perform this action', 'wp-force-logout' ) );
-		}
 
 		if ( empty( $_REQUEST['users'] ) || empty( $_REQUEST['action'] ) ) {
 			return;
@@ -405,6 +391,20 @@ class WP_Force_Logout_Process {
 	}
 
 	/**
+	 * Check if user has capability to force logout (edit) users.
+	 *
+	 * @since  1.4.5
+	 *
+	 * @todo :: Allow site admins of single site in a multisite to force logout users.
+	 *
+	 * @return bool
+	 */
+	public function user_has_cap() {
+
+		return current_user_can( 'edit_users' );
+	}
+
+	/**
 	 * Outputs the Review notice on admin header.
 	 *
 	 * @since 1.2.1
@@ -414,10 +414,6 @@ class WP_Force_Logout_Process {
 		global $current_screen;
 
 		// Show only to Admins
-		if ( ! current_user_can( 'manage_options' ) ) {
-			return;
-		}
-
 		$notice_dismissed = get_option( 'wpfl_review_notice_dismissed', 'no' );
 
 		if ( 'yes' == $notice_dismissed ) {
@@ -454,7 +450,7 @@ class WP_Force_Logout_Process {
 	/**
 	 * Dismiss the reveiw notice on dissmiss click
 	 *
-	 * @since 1.2.1s
+	 * @since 1.2.1
 	 */
 	public function dismiss_review_notice() {
 
