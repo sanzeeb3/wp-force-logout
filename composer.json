@@ -14,5 +14,8 @@
     "phpcbf": [
       "phpcbf -p"
     ]
+  },
+  "require-dev": {
+    "10up/phpcs-composer": "dev-master"
   }
 }

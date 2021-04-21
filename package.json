@@ -9,18 +9,20 @@
   },
   "license": "GPL-2.0+",
   "main": "Gruntfile.js",
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
   "lint-staged": {
+    "*.css": [
+      "stylelint"
+    ],
+    "*.js": [
+      "eslint"
+    ],
     "*.php": [
-      "php -d display_errors=1 -l",
-      "composer run-script phpcs-pre-commit"
-    ],
-    "*.scss": [
-      "stylelint --syntax=scss --fix",
-      "git add"
-    ],
-    "!(*.min).js": [
-      "eslint --fix",
-      "git add"
+      "./vendor/bin/phpcs --extensions=php --warning-severity=8 -s"
     ]
   },
   "devDependencies": {
@@ -33,7 +35,8 @@
     "grunt-sass": "~3.1.0",
     "grunt-wp-i18n": "1.0.3",
     "husky": "^3.0.9",
-    "node-sass": "^4.13.1"
+    "node-sass": "^4.13.1",
+    "eslint": "^6.8.0"
   },
   "engines": {
     "node": ">=8.9.3",
