@@ -13,6 +13,9 @@
     ],
     "phpcbf": [
       "phpcbf -p"
+    ],
+    "lint": [
+      "phpcs ."
     ]
   },
   "require-dev": {
