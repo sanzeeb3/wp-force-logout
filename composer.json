@@ -4,9 +4,7 @@
   "homepage": "https://github.com/sanzeeb3/wp-force-logout",
   "type": "wordpress-plugin",
   "license": "GPL-3.0-or-later",
-  "require": {
-    "composer/installers": "1.7.0"
-  },
+  "require": {},
   "scripts": {
     "phpcs": [
       "phpcs -s -p"
@@ -19,6 +17,6 @@
     ]
   },
   "require-dev": {
-    "10up/phpcs-composer": "dev-master"
+    "wp-coding-standards/wpcs": "^2.3"
   }
 }
