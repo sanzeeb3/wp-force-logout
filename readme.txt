@@ -19,7 +19,7 @@ If you need to work on your WordPress website without any users being logged in,
 See who's online, last login activity right from the users tab. No need of any settings. Install and activate the plugin, go to users tab and view user's activity.
 
 
-[Contact The Author](http://www.sanjeebaryal.com.np)
+Find more details on the setup [documentation](https://sanjeebaryal.com.np/force-user-to-logout-with-wpforce-logout-plugin/).
 
 [Contribute On GitHub Repository](https://github.com/sanzeeb3/wp-force-logout)
 
