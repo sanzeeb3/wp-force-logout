@@ -17,6 +17,7 @@
     ]
   },
   "require-dev": {
-    "wp-coding-standards/wpcs": "^2.3"
+    "wp-coding-standards/wpcs": "^2.3",
+    "yoast/phpunit-polyfills" : "1.0.3"
   }
 }
