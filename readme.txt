@@ -34,6 +34,12 @@ Find more details on the setup [documentation](https://sanjeebaryal.com.np/force
 * Well Documented
 * Translation ready
 
+### Are you a Command Line freak?
+
+There are WP-CLI commands available:
+
+* `wp wpfl logout` - force logout all users.
+
 
 == Frequently Asked Questions ==
 
