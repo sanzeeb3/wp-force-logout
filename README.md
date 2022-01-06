@@ -8,10 +8,16 @@ This repository is not suitable for support. Please don't use our issue tracker 
 
 Support requests in issues on this repository will be closed on sight.
 
-## Development Guidelines
+### Are you a Command Line freak?
 
-1. Follow the [WordPress Coding Standards](https://make.wordpress.org/core/handbook/best-practices/coding-standards/php/).
+There are WP-CLI commands available:
 
-2. Use LF line endings in code editor. Use [EditorConfig](https://editorconfig.org/) if your editor supports it so that indentation, line endings and other settings are auto configured.
+* `wp wpfl logout all` - force logout all users.
+* `wp wpfl logout 14  54 info@example.com example123` - logout bulk users.
+* `wp wpfl logout sanzeeb.ar@example.com` - logout specific user.
 
-3. When committing, reference your issue number (#1234) and include a note about the fix.
+The passed argument can be User ID, Username, or User Email.
+
+## Contributing Guidelines
+
+Contribute wherever you can! For the best practices, follow the [WordPress Coding Standards](https://make.wordpress.org/core/handbook/best-practices/coding-standards/php/).

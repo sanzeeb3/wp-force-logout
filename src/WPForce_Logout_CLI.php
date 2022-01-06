@@ -57,7 +57,6 @@ class WPForce_Logout_CLI {
 		if( isset( $assoc_args['force'] ) ) {
 			WP_CLI::line( 'Assoc args is not required! Task already donee!' );
 		}
-
 	}
 }
 
