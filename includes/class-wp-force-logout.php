@@ -124,6 +124,9 @@ final class WP_Force_Logout {
 	 */
 	private function includes() {
 		include_once dirname( __FILE__ ) . '/class-wp-force-logout-process.php';
-		include_once WPFL_ABSPATH . '/src/WPForce_Logout_CLI.php';
+
+		if ( class_exists( 'WP_CLI' ) ) {
+			include_once WPFL_ABSPATH . '/src/WPForce_Logout_CLI.php';
+		}
 	}
 }
