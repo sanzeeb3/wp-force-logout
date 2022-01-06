@@ -38,7 +38,11 @@ Find more details on the setup [documentation](https://sanjeebaryal.com.np/force
 
 There are WP-CLI commands available:
 
-* `wp wpfl logout` - force logout all users.
+* `wp wpfl logout all` - force logout all users.
+* `wp wpfl logout 14  54 info@example.com example123` - logout bulk users.
+* `wp wpfl logout sanzeeb.ar@example.com` - logout specific user.
+
+The passed argument can be User ID, Username, or User Email.
 
 
 == Frequently Asked Questions ==
