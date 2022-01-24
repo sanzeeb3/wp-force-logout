@@ -2,7 +2,7 @@
 /**
  * Plugin Name: WPForce Logout
  * Description: Forcefully logout WordPress user(s).
- * Version: 1.4.5
+ * Version: 1.5.0
  * Author: Sanjeev Aryal
  * Author URI: http://www.sanjeebaryal.com.np
  * Text Domain: wp-force-logout
@@ -15,7 +15,8 @@
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
-	exit; // Exit if accessed directly.
+	exit;
+	// Exit if accessed directly.
 }
 
 // Define WP_FORCE_LOGOUT_PLUGIN_FILE.
