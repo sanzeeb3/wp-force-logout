@@ -61,7 +61,7 @@ Yes you can! Join in on [GitHub repository](https://github.com/sanzeeb3/wp-force
 
 == Changelog ==
 
-= 1.5.0 - 01/xx/2022 =
+= 1.5.0 - 01/24/2022 =
 * Compatiblity with WP 5.9
 * Add - WP CLI commands
 
