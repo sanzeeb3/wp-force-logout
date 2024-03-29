@@ -41,17 +41,7 @@ class WP_Force_Logout_Menu {
 			'WPForce Logout', // menu title
 			'manage_options', // capability
 			'wp-force-logout-pricing', // menu slug
-			[ $this, 'render_page' ] // callback function
 		);
-	}
-
-	/**
-	 * Render Page.
-	 *
-	 * @since 2.0.0
-	 */
-	public function render_page() {
-		echo 'GO PRO';
 	}
 }
 
