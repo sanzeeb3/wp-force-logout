@@ -18,4 +18,22 @@ jQuery( function( $ ) {
 			// Success. Do nothing. Silence is golden.
     	});
 	});
+
+	let idle_node = $('#wp-force-logout-idle-logout');
+	let node_value = idle_node.is(':checked');
+
+	idleLogoutChange( node_value );
+
+	idle_node.on( 'change', function() {
+
+		let node_value = $('#wp-force-logout-idle-logout').is(':checked');
+		idleLogoutChange( node_value );
+	});
+
+	function idleLogoutChange( value ) {
+
+		let node = $( '.wp-force-logout-idle-logout-period ');
+
+		true === value ? node.show() : node.hide();
+	}
 });
