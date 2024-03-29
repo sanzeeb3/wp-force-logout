@@ -424,7 +424,7 @@ class WP_Force_Logout_Process {
 			return;
 		}
 
-		$notice_dismissed = get_option( 'wpfl_review_notice_dismissed', 'no' );
+		$notice_dismissed = get_option( 'wpfl_upgrade_notice_dismissed', 'no' );
 
 		if ( 'yes' == $notice_dismissed ) {
 			return;
@@ -445,13 +445,11 @@ class WP_Force_Logout_Process {
 
 						<h3><?php _e( 'Whoopee! 😀', 'wp-force-logout' ); ?></h3>
 						<?php
-						// translators: 1. users count, 2. five stars + review link, 3. WordPress.org + review link
 						?>
-						<p><?php echo sprintf( esc_html__( 'WPForce Logout already started displaying your %1$d online users. Would you do me some favour and leave a %2$s review on %3$s to help us spread the word and boost my motivation?', 'wp-force-logout' ), ( count( $logged_in_users ) - 1 ), '<a href="https://wordpress.org/support/plugin/wp-force-logout/reviews/?filter=5#new-post" target="_blank">&#9733;&#9733;&#9733;&#9733;&#9733;</a>', '<a href="https://wordpress.org/support/plugin/wp-force-logout/reviews/?filter=5#new-post" target="_blank"><strong>WordPress.org</strong></a>' ); ?></p>
+						<p><?php echo esc_html__( 'WPForce Logout PRO ⭐ is now available with more powerful features. Would you like to upgrade and boost my motivation?', 'wp-force-logout' );?> </p>
 
 					<ul class="wp-force-logout-review-ul">
-						<li><a class="button button-primary" href="https://wordpress.org/support/plugin/wp-force-logout/reviews/?filter=5#new-post" target="_blank"><span class="dashicons dashicons-external"></span><?php _e( 'Sure, I\'d love to!', 'wp-force-logout' ); ?></a></li>
-						<li><a class="button button-link" target="_blank" href="http://sanjeebaryal.com.np/contact"><span class="dashicons dashicons-sos"></span><?php _e( 'I need help!', 'wp-force-logout' ); ?></a></li>
+						<li><a class="button button-primary" href="<?php echo admin_url( 'users.php?page=wp-force-logout-pricing' );?>"><span class=""></span><?php _e( 'Upgrade', 'wp-force-logout' ); ?></a></li>
 						<li><a href="#" class="button button-link notice-dismiss"><span class="dashicons dashicons-dismiss"></span><?php _e( 'Dismiss Forever.', 'wp-force-logout' ); ?></a></li>
 					 </ul>
 				</div>
@@ -469,7 +467,7 @@ class WP_Force_Logout_Process {
 		check_admin_referer( 'review-notice', 'security' );
 
 		if ( ! empty( $_POST['dismissed'] ) ) {
-			update_option( 'wpfl_review_notice_dismissed', 'yes' );
+			update_option( 'wpfl_upgrade_notice_dismissed', 'yes' );
 		}
 	}
 }
