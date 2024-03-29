@@ -35,8 +35,7 @@ class WP_Force_Logout_Menu {
 	 * @since 2.0.0
 	 */
 	public function add_wp_force_logout_submenu() {
-		add_submenu_page(
-			'users.php', // parent slug
+		add_users_page(
 			'WPForce Logout', // page title
 			'WPForce Logout', // menu title
 			'manage_options', // capability
