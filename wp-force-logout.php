@@ -33,13 +33,14 @@ if ( ! function_exists( 'wpfl_fs' ) ) {
                 'slug'                => 'wp-force-logout',
                 'type'                => 'plugin',
                 'public_key'          => 'pk_0f5e34fac8223c01f054f8692b748',
-                'is_premium'          => false,
+                'is_premium'          => true,
                 'has_addons'          => false,
-                'has_paid_plans'      => false,
+                'has_paid_plans'      => true,
                 'menu'                => array(
                     'slug'           => 'wp-force-logout',
                     'contact'        => false,
                     'support'        => false,
+                    'pricing'        => false,
                     'parent'         => array(
                         'slug' => 'users.php',
                     ),
