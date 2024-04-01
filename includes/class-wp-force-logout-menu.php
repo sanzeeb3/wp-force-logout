@@ -26,7 +26,13 @@ class WP_Force_Logout_Menu {
 	 * Constructor.
 	 */
 	public function __construct() {
-		add_action( 'admin_menu', [ $this, 'add_wp_force_logout_submenu' ] );
+
+		/**
+		 * Maybe add the menu in the free version that redirects to the Pro version pricing page.
+		 * Let's not do this now.
+		 */
+
+		// add_action( 'admin_menu', [ $this, 'add_wp_force_logout_submenu' ] );
 	}
 
 	/**
@@ -39,8 +45,19 @@ class WP_Force_Logout_Menu {
 			'WPForce Logout', // page title
 			'WPForce Logout', // menu title
 			'manage_options', // capability
-			'wp-force-logout-pricing', // menu slug
+			'wp-force-logout', // menu slug
+			[ $this, 'render' ]
 		);
+	}
+
+	/**
+	 * WPForce Logout page render.
+	 *
+	 * @since 2.0.0
+	 */
+	public function render() {
+		wp_safe_redirect( admin_url( 'users.php?page=wp-force-logout-pricing' ) );
+		exit();
 	}
 }
 

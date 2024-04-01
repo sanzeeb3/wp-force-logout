@@ -450,7 +450,7 @@ class WP_Force_Logout_Process {
 
 					<ul class="wp-force-logout-review-ul">
 						<li><a class="button button-primary" href="<?php echo admin_url( 'users.php?page=wp-force-logout-pricing' );?>"><span class=""></span><?php _e( 'Upgrade', 'wp-force-logout' ); ?></a></li>
-						<li><a href="#" class="button button-link notice-dismiss"><span class="dashicons dashicons-dismiss"></span><?php _e( 'Dismiss Forever.', 'wp-force-logout' ); ?></a></li>
+						<li><a href="#" class="button button-link notice-dismiss"><span class=""></span>No</a></li>
 					 </ul>
 				</div>
 			</div>
