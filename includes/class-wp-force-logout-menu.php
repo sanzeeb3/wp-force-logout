@@ -78,7 +78,23 @@ class WP_Force_Logout_Menu {
 					'default' => 'off',
 					'label'   => __( 'Auto logout on browser close', 'wp-force-logout' ),
 					'desc'    => __( 'Check to enable logging out user when they close the browser.', 'wp-force-logout' ),
-				]
+				],
+				'session_expiration'        => [
+					'id'      => 'wp-force-logout-session-expiration',
+					'name'    => 'wpfl_session_expiration',
+					'type'    => 'number',
+					'default' => '',
+					'label'   => __( 'Session Expiration (in minutes)', 'wp-force-logout' ),
+					'desc'    => __( 'Set a maximum session duration after which users are automatically logged out.', 'wp-force-logout' ),
+				],
+				'logout_redirect'        => [
+					'id'      => 'wp-force-logout-logout-redirect',
+					'name'    => 'wpfl_logout_redirect',
+					'type'    => 'url',
+					'default' => '',
+					'label'   => __( 'Logout Redirect', 'wp-force-logout' ),
+					'desc'    => __( 'Leave empty for default. Default is usually login page URL unless other plugins overwrite.', 'wp-force-logout' ),
+				],
 			]
 		);
 	}
@@ -128,6 +144,7 @@ class WP_Force_Logout_Menu {
 													id="<?php echo esc_attr( $settings['id'] ); ?>"
 													name="<?php echo esc_attr( $settings['name'] ); ?>"
 												/>
+												<?php echo '<p><i>'. esc_html( $settings['desc'] ) . '<i></p>'; ?>
 											<?php
 									}//end switch
 									?>
