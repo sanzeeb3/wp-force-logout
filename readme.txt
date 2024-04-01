@@ -30,6 +30,7 @@ You can easily view online/offline users, last login activity from the users tab
 ### Extended Features:
 - Idle User Logout
 - Auto logout on browser close
+- Session expiration
 - Logout redirect
 
 ### WP-CLI Commands:
