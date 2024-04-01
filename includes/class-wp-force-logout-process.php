@@ -423,18 +423,19 @@ class WP_Force_Logout_Process {
 		if ( ! $this->user_has_cap() ) {
 			return;
 		}
-
-		$notice_dismissed = get_option( 'wpfl_upgrade_notice_dismissed', 'no' );
-
-		if ( 'yes' == $notice_dismissed ) {
-			return;
-		}
-
+		
 		if ( ! empty( $current_screen->id ) && $current_screen->id !== 'users' ) {
 			return;
 		}
 
-		$logged_in_users = get_transient( 'online_status' );
+		if ( apply_filters( 'wpfl_upgrade_notice_dismiss_forever', false ) ) {
+			return;
+		}
+
+		$notice_dismissed = get_option( 'wpfl_upgrade_notice_dismissed', 'no' );
+		if ( $notice_dismissed !== 'no' && $notice_dismissed > strtotime( '-3 months' ) ) {
+			return;
+		}
 
 		?>
 			<div id="wp-force-logout-review-notice" class="notice notice-info wp-force-logout-review-notice">
@@ -467,7 +468,7 @@ class WP_Force_Logout_Process {
 		check_admin_referer( 'review-notice', 'security' );
 
 		if ( ! empty( $_POST['dismissed'] ) ) {
-			update_option( 'wpfl_upgrade_notice_dismissed', 'yes' );
+			update_option( 'wpfl_upgrade_notice_dismissed', time() );
 		}
 	}
 }
