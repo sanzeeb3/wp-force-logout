@@ -125,6 +125,8 @@ final class WP_Force_Logout {
 		include_once dirname( __FILE__ ) . '/class-wp-force-logout-process.php';
 		include_once dirname( __FILE__ ) . '/class-wp-force-logout-menu.php';
 
+		include_once WPFL_ABSPATH . '/src/WPForce_Logout_Pro.php';
+
 		if ( class_exists( 'WP_CLI' ) ) {
 			include_once WPFL_ABSPATH . '/src/WPForce_Logout_CLI.php';
 		}

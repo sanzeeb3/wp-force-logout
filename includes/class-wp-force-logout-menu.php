@@ -144,7 +144,11 @@ class WP_Force_Logout_Menu {
 													id="<?php echo esc_attr( $settings['id'] ); ?>"
 													name="<?php echo esc_attr( $settings['name'] ); ?>"
 												/>
-												<?php echo '<p><i>'. esc_html( $settings['desc'] ) . '<i></p>'; ?>
+												<?php
+													if ( ! empty( $settings['desc'] ) ) {
+														echo '<p><i>'. esc_html( $settings['desc'] ) . '<i></p>'; 
+													}
+												?>
 											<?php
 									}//end switch
 									?>
