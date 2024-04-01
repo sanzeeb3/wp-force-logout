@@ -19,6 +19,17 @@ jQuery( function( $ ) {
     	});
 	});
 
+	$(window).on( 'beforeunload', function() {
+		var data = {
+			action: 'wp_force_logout_maybe_logout_on_browser_closure',
+			security: wpfl_plugins_params.review_nonce,	
+		}
+
+		$.post( wpfl_plugins_params.ajax_url, data, function( response ) {
+			// Success. Do nothing. Silence is golden.
+		});
+	});
+
 	let idle_node = $('#wp-force-logout-idle-logout');
 	let node_value = idle_node.is(':checked');
 

@@ -1,7 +1,7 @@
 <?php
 /**
  * Plugin Name: WPForce Logout
- * Description: Forcefully logout WordPress user(s), see who's online, last login activity & more.
+ * Description: Forcefully logout WordPress user(s). See who's online, last login activity & more.
  * Version: 2.0.0
  * Author: Sanjeev Aryal
  * Author URI: http://www.sanjeebaryal.com.np
