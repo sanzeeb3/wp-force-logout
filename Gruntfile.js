@@ -159,7 +159,8 @@ module.exports = function( grunt ){
 					'!composer.json',
 					'!composer.lock',
 					'!node_modules/**',
-					'!package-lock.json'
+					'!package-lock.json',
+					'!tests/**',
 				],
 				dest: '<%= pkg.name %>',
 				expand: true
