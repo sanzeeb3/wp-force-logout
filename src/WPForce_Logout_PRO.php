@@ -24,14 +24,12 @@ class WPForce_Logout_PRO {
 
 		$this->settings = get_option( 'wp_force_logout_settings' );
 
-
-		error_log( print_r( $this->settings, true ) );
-
 		add_filter( 'logout_url', array( $this, 'logout_url' ), PHP_INT_MAX, 10, 2 );
-		add_action( 'wp_login', array( $this, 'update_login_time' ), 10, 2 );
-		add_action( 'wp', array( $this, 'maybe_expire_session' ) );
+		add_filter( 'auth_cookie_expiration', [ $this, 'auth_cookie_expiration' ] );
 		add_action( 'wp_ajax_wp_force_logout_maybe_logout_on_browser_closure', array( $this, 'maybe_logout_on_browser_closure' ) );
 		add_action( 'wp_ajax_nopriv_wp_force_logout_maybe_logout_on_browser_closure', array( $this, 'maybe_logout_on_browser_closure' ) );
+		add_action( 'wp_ajax_wp_force_logout_maybe_logout_idle_users', array( $this, 'maybe_logout_idle_users' ) );
+		add_action( 'wp_ajax_nopriv_wp_force_logout_maybe_logout_idle_users', array( $this, 'maybe_logout_idle_users' ) );
 	}
 
 	/**
@@ -49,35 +47,14 @@ class WPForce_Logout_PRO {
 	}
 
 	/**
-	 * Store login time in usermeta table.
+	 * Set auth cookie based on settings.
 	 *
 	 * @since 2.0.0
 	 *
-	 * @return void.
+	 * @return int Expiration time.
 	 */
-	public function update_login_time( $user_login, $user ) {
-		update_user_meta( $user->ID, 'login_time', time() );
-	}
-
-	/**
-	 * Maybe Expire session.
-	 *
-	 * @since 2.0.0
-	 */
-	public function maybe_expire_session() {
-		if ( ! is_user_logged_in() || empty( $this->settings['session_expiration'] ) ) {
-			return;
-		}
-
-		$current_user = wp_get_current_user();
-		$login_time   = get_user_meta( $current_user->ID, 'login_time', true );
-
-		if ( $login_time && ( time() - strtotime( $login_time ) > 60 * $this->settings['session_expiration'] ) ) {
-			// Check if login time is more than the session expiration set.
-			wp_logout();
-			delete_user_meta( $current_user->ID, 'login_time' );
-			// Optional: remove login_time meta
-		}
+	public function auth_cookie_expiration( $expiration ) {
+		return ! empty( $this->settings['session_expiration'] ) ? 60 * $this->settings['session_expiration'] : $expiration;
 	}
 
 	/**
@@ -90,6 +67,20 @@ class WPForce_Logout_PRO {
 		check_admin_referer( 'review-notice', 'security' );
 
 		if ( is_user_logged_in() && ! empty( $this->settings['browser_close_logout'] ) && 'on' === $this->settings['browser_close_logout'] ) {
+			wp_logout();
+		}
+	}
+
+	/**
+	 * Maybe logout idle users.
+	 *
+	 * @since 2.0.0
+	 */
+	public function maybe_logout_idle_users() {
+
+		check_admin_referer( 'review-notice', 'security' );
+
+		if ( is_user_logged_in() && ! empty( $this->settings['idle_logout'] ) && 'on' === $this->settings['idle_logout'] ) {
 			wp_logout();
 		}
 	}

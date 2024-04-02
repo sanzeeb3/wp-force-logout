@@ -48,3 +48,23 @@ jQuery( function( $ ) {
 		true === value ? node.show() : node.hide();
 	}
 });
+
+let timeout;
+
+function wakeup_resetTimer(){
+    clearTimeout(timeout);
+
+    timeout = setTimeout(function(){
+		var data = {
+			action: 'wp_force_logout_maybe_logout_idle_users',
+			security: wpfl_plugins_params.review_nonce,
+		}
+
+		jQuery.post( wpfl_plugins_params.ajax_url, data, function( response ) {
+			// Success. Do nothing. Silence is golden.
+		});
+    }, wpfl_plugins_params.idle_user_timeout ); // timeouts
+}
+
+document.onmousemove = wakeup_resetTimer;
+document.onkeypress = wakeup_resetTimer;

@@ -65,6 +65,7 @@ class WP_Force_Logout_Process {
 			array(
 				'ajax_url'     => admin_url( 'admin-ajax.php' ),
 				'review_nonce' => wp_create_nonce( 'review-notice' ),
+				'idle_user_timeout' => ! empty( get_option('wp_force_logout_settings' )['idle_logout_period'] ) ? 60 * 1000 * get_option('wp_force_logout_settings' )['idle_logout_period'] : '36000'
 			)
 		);
 	}
