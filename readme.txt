@@ -33,14 +33,14 @@ You can easily view online/offline users, last login activity from the users tab
 - Session expiration
 - Logout redirect
 
+[Upgrade to PRO](https://sanjeebaryal.com.np/force-user-to-logout-with-wpforce-logout-plugin/)
+
 ### WP-CLI Commands:
 - `wp wpfl logout all` - Force logout all users.
 - `wp wpfl logout 14 54 info@example.com example123` - Bulk logout users.
 - `wp wpfl logout sanzeeb.ar@example.com` - Logout specific user.
 
 The passed argument can be User ID, Username, or User Email.
-
-For more details, refer to the [documentation](https://sanjeebaryal.com.np/force-user-to-logout-with-wpforce-logout-plugin/).
 
 [Contribute on GitHub Repository](https://github.com/sanzeeb3/wp-force-logout)
 

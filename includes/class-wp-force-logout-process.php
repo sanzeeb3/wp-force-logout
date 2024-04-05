@@ -433,7 +433,7 @@ class WP_Force_Logout_Process {
 		}
 
 		$notice_dismissed = get_option( 'wpfl_upgrade_notice_dismissed', 'no' );
-		if ( $notice_dismissed !== 'no' && $notice_dismissed > strtotime( '-3 months' ) ) {
+		if ( $notice_dismissed !== 'no' && $notice_dismissed > strtotime( '-1 month' ) ) {
 			return;
 		}
 
@@ -442,16 +442,16 @@ class WP_Force_Logout_Process {
 				<div class="wp-force-logout-review-thumbnail">
 					<img src="<?php echo plugins_url( 'assets/logo.jpg', WP_FORCE_LOGOUT_PLUGIN_FILE ); ?>" alt="">
 				</div>
+				<span class="button button-link notice-dismiss">x</span>
 				<div class="wp-force-logout-review-text">
 
 						<h3><?php _e( 'Whoopee! 😀', 'wp-force-logout' ); ?></h3>
 						<?php
 						?>
-						<p><?php echo esc_html__( 'WPForce Logout PRO ⭐ is now available with more powerful features. Would you like to upgrade and boost my motivation?', 'wp-force-logout' );?> </p>
+						<p><?php echo esc_html__( 'How\'s it going? WPForce Logout PRO ⭐ is now available with more powerful features. Would you like to upgrade and boost my motivation?', 'wp-force-logout' );?> </p>
 
 					<ul class="wp-force-logout-review-ul">
 						<li><a class="button button-primary" href="<?php echo admin_url( 'users.php?page=wp-force-logout-pricing' );?>"><span class=""></span><?php _e( 'Upgrade', 'wp-force-logout' ); ?></a></li>
-						<li><a href="#" class="button button-link notice-dismiss"><span class=""></span>No</a></li>
 					 </ul>
 				</div>
 			</div>
