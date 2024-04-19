@@ -45,8 +45,7 @@ class WP_Force_Logout_Menu {
 			'WPForce Logout', // page title
 			'<span style="font-size:10px;" class="fs-submenu-item fs-sub wp-force-logout pricing upgrade-mode">WP Force Logout Pro&nbsp;&nbsp;➤</span>',
 			'manage_options', // capability
-			'wp-force-logout-pro', // menu slug
-			[ $this, 'render' ]
+			'wp-force-logout-pricing', // menu slug
 		);
 	}
 
