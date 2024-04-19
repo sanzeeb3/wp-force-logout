@@ -433,7 +433,7 @@ class WP_Force_Logout_Process {
 		}
 
 		$notice_dismissed = get_option( 'wpfl_upgrade_notice_dismissed', 'no' );
-		if ( $notice_dismissed !== 'no' && $notice_dismissed > strtotime( '-1 month' ) ) {
+		if ( $notice_dismissed !== 'no' && $notice_dismissed > strtotime( '-7 days' ) ) {
 			return;
 		}
 

@@ -32,7 +32,7 @@ class WP_Force_Logout_Menu {
 		 * Let's not do this now.
 		 */
 
-		add_action( 'admin_menu', [ $this, 'add_wp_force_logout_submenu' ] );
+		// add_action( 'admin_menu', [ $this, 'add_wp_force_logout_submenu' ] );
 	}
 
 	/**
