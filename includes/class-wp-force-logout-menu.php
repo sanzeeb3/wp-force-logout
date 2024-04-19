@@ -32,7 +32,7 @@ class WP_Force_Logout_Menu {
 		 * Let's not do this now.
 		 */
 
-		// add_action( 'admin_menu', [ $this, 'add_wp_force_logout_submenu' ] );
+		add_action( 'admin_menu', [ $this, 'add_wp_force_logout_submenu' ] );
 	}
 
 	/**
@@ -45,7 +45,7 @@ class WP_Force_Logout_Menu {
 			'WPForce Logout', // page title
 			'<span style="font-size:10px;" class="fs-submenu-item fs-sub wp-force-logout pricing upgrade-mode">WP Force Logout Pro&nbsp;&nbsp;➤</span>',
 			'manage_options', // capability
-			'wp-force-logout', // menu slug
+			'wp-force-logout-pro', // menu slug
 			[ $this, 'render' ]
 		);
 	}
