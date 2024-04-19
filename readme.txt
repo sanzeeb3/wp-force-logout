@@ -4,7 +4,7 @@ Tags: logout, force, online status, last seen, last login
 Requires at least: 4.0
 Tested up to: 6.5
 Requires PHP: 5.6
-Stable tag: 2.0.0
+Stable tag: 2.0.1
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -35,15 +35,6 @@ You can easily view online/offline users, last login activity from the users tab
 
 [Upgrade to PRO](https://sanjeebaryal.com.np/force-user-to-logout-with-wpforce-logout-plugin/)
 
-### WP-CLI Commands:
-- `wp wpfl logout all` - Force logout all users.
-- `wp wpfl logout 14 54 info@example.com example123` - Bulk logout users.
-- `wp wpfl logout sanzeeb.ar@example.com` - Logout specific user.
-
-The passed argument can be User ID, Username, or User Email.
-
-[Contribute on GitHub Repository](https://github.com/sanzeeb3/wp-force-logout)
-
 == Frequently Asked Questions ==
 
 = If I forcefully log out users, can they log in again? =
@@ -57,6 +48,9 @@ Yes, you can! Join in on the [GitHub repository](https://github.com/sanzeeb3/wp-
 1. Users Status
 
 == Changelog ==
+
+= 2.0.1 - 04/19/2024 =
+* Fix - Submenu
 
 = 2.0.0 - 04/xx/2024 =
 * Info - Tested upto 6.5
