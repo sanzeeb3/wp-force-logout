@@ -26,7 +26,7 @@ final class WP_Force_Logout {
 	 *
 	 * @var string
 	 */
-	public $version = '2.0.0';
+	public $version = '2.0.2';
 
 	/**
 	 * Instance of this class.
@@ -125,7 +125,7 @@ final class WP_Force_Logout {
 		include_once dirname( __FILE__ ) . '/class-wp-force-logout-process.php';
 		include_once dirname( __FILE__ ) . '/class-wp-force-logout-menu.php';
 
-		include_once WPFL_ABSPATH . 'src/WPForce_Logout_Pro.php';
+		include_once WPFL_ABSPATH . 'src/WPForce_Logout_PRO.php';
 
 		if ( class_exists( 'WP_CLI' ) ) {
 			include_once WPFL_ABSPATH . 'src/WPForce_Logout_CLI.php';
