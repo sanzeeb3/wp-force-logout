@@ -4,7 +4,7 @@ Tags: logout, force, online status, last seen, last login
 Requires at least: 4.0
 Tested up to: 6.5
 Requires PHP: 5.6
-Stable tag: 2.0.2
+Stable tag: 2.0.3
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -57,6 +57,9 @@ Yes, you can! Join in on the [GitHub repository](https://github.com/sanzeeb3/wp-
 1. Users Status
 
 == Changelog ==
+
+= 2.0.3 - 05/10/2024 =
+* Tweak - improvment in auto logout on browser close functionality
 
 = 2.0.2 - 04/26/2024 =
 * Fix - Case sensitive issue on filename
