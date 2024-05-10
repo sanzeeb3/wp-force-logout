@@ -26,10 +26,12 @@ class WPForce_Logout_PRO {
 
 		add_filter( 'logout_url', array( $this, 'logout_url' ), PHP_INT_MAX, 10, 2 );
 		add_filter( 'auth_cookie_expiration', [ $this, 'auth_cookie_expiration' ] );
-		add_action( 'wp_ajax_wp_force_logout_maybe_logout_on_browser_closure', array( $this, 'maybe_logout_on_browser_closure' ) );
-		add_action( 'wp_ajax_nopriv_wp_force_logout_maybe_logout_on_browser_closure', array( $this, 'maybe_logout_on_browser_closure' ) );
 		add_action( 'wp_ajax_wp_force_logout_maybe_logout_idle_users', array( $this, 'maybe_logout_idle_users' ) );
 		add_action( 'wp_ajax_nopriv_wp_force_logout_maybe_logout_idle_users', array( $this, 'maybe_logout_idle_users' ) );
+
+		if ( ! empty( $this->settings['browser_close_logout'] ) ) {
+			add_action( 'shutdown', [ $this, 'check_session_storage_on_page_load' ] );
+		}
 	}
 
 	/**
@@ -83,6 +85,25 @@ class WPForce_Logout_PRO {
 		if ( is_user_logged_in() && ! empty( $this->settings['idle_logout'] ) && 'on' === $this->settings['idle_logout'] ) {
 			wp_logout();
 		}
+	}
+
+	/**
+	 * Checks the session storage on page load.
+	 *
+	 * @since 2.0.3
+	 */
+	public function check_session_storage_on_page_load() {
+
+		$is_logged_in = is_user_logged_in() ? 'true' : 'false';
+		?>
+			<script>
+				if (! sessionStorage.getItem('isLoggedIn')) {
+					window.location.href = '<?php echo wp_login_url(); ?>';
+				}
+
+				sessionStorage.setItem('isLoggedIn', '<?php echo $is_logged_in; ?>');
+			</script>
+		<?php
 	}
 }
 
