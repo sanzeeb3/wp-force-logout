@@ -26,13 +26,8 @@ class WP_Force_Logout_Menu {
 	 * Constructor.
 	 */
 	public function __construct() {
-
-		/**
-		 * Maybe add the menu in the free version that redirects to the Pro version pricing page.
-		 * Let's not do this now.
-		 */
-
-		// add_action( 'admin_menu', [ $this, 'add_wp_force_logout_submenu' ] );
+		add_action( 'admin_menu', [ $this, 'add_wp_force_logout_submenu' ] );
+		add_action( 'plugin_action_links_' . plugin_basename( WP_FORCE_LOGOUT_PLUGIN_FILE ), [ $this, 'add_upgrade_link' ] );
 	}
 
 	/**
@@ -42,22 +37,22 @@ class WP_Force_Logout_Menu {
 	 */
 	public function add_wp_force_logout_submenu() {
 		add_users_page(
-			'WPForce Logout', // page title
-			'<span style="font-size:10px;" class="fs-submenu-item fs-sub wp-force-logout pricing upgrade-mode">WP Force Logout Pro&nbsp;&nbsp;➤</span>',
-			'manage_options', // capability
-			'wp-force-logout', // menu slug
-			[ $this, 'render' ]
+			'WPForce Logout',
+			'<span style="font-size:10px; color:#6bc406">WP Force Logout Pro&nbsp;&nbsp;➤</span>',
+			'manage_options',
+			'users.php?page=wp-force-logout-pricing'
 		);
 	}
 
 	/**
-	 * WPForce Logout page render.
+	 * Add Upgrade Link in plugin action links.
 	 *
-	 * @since 2.0.0
+	 * @since 2.1.0
 	 */
-	public function render() {
-		wp_safe_redirect( admin_url( 'users.php?page=wp-force-logout-pricing' ) );
-		exit();
+	public function add_upgrade_link( $links ) {
+
+		$links[] = '<a href="users.php?page=wp-force-logout-pricing">' . '<span style="color:#6bc406">Upgrade&nbsp;&nbsp;➤</span>'.'</a>';
+		return $links;
 	}
 }
 

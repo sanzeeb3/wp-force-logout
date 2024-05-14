@@ -39,7 +39,7 @@ if ( ! function_exists( 'wpfl_fs' ) ) {
                 'menu'                => array(
                     'first-path'     => 'users.php',
                     'contact'        => false,
-                    'support'        => false,
+                    'support'        => false
                 ),
             ) );
         }
