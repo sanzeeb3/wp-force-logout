@@ -38,7 +38,7 @@ class WP_Force_Logout_Menu {
 	public function add_wp_force_logout_submenu() {
 		add_users_page(
 			'WPForce Logout',
-			'<span style="font-size:10px; color:#6bc406">WP Force Logout Pro&nbsp;&nbsp;➤</span>',
+			'<span style="font-size:12px; color:#6bc406">WP Force Logout Pro&nbsp;&nbsp;➤</span>',
 			'manage_options',
 			'users.php?page=wp-force-logout-pricing'
 		);
