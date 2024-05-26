@@ -4,7 +4,7 @@ Tags: logout, force, online status, last seen, last login
 Requires at least: 4.0
 Tested up to: 6.5
 Requires PHP: 5.6
-Stable tag: 2.0.1
+Stable tag: 2.0.2
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -35,6 +35,14 @@ You can easily view online/offline users, last login activity from the users tab
 
 [Upgrade to PRO](https://sanjeebaryal.com.np/force-user-to-logout-with-wpforce-logout-plugin/)
 
+### What's Next?
+If you like WPForce Logout, then consider checking out my other projects:
+- [WP Frontend Delete Account](https://sanjeebaryal.com.np/how-to-allow-users-to-delete-their-account-from-frontend/) - Allows your customers to delete their account by themselves.
+- [WooCommerce Auto Delete Old Orders](https://sanjeebaryal.com.np/woocommerce-auto-delete-old-orders-a-plugin-from-scratch/) - Automatically delete old WooCommerce orders.
+- [WooCommerce Auto Delete Users With No Orders](https://sanjeebaryal.com.np/woocommerce-auto-delete-users-with-no-orders/) - Automatically delete users with no purchase history.
+- [WooCommerce Customer Journey](https://sanjeebaryal.com.np/woocommerce-customer-journey/) - Displays every step of the customer until the order of the product in the orders page.
+
+
 == Frequently Asked Questions ==
 
 = If I forcefully log out users, can they log in again? =
@@ -48,6 +56,9 @@ Yes, you can! Join in on the [GitHub repository](https://github.com/sanzeeb3/wp-
 1. Users Status
 
 == Changelog ==
+
+= 2.0.2 - 05/26/2024 =
+* Fix - Versioning issue (https://wordpress.org/support/topic/latest-update-has-wrong-versionin/)
 
 = 2.0.1 - 04/19/2024 =
 * Fix - Submenu
