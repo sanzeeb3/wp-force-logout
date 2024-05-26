@@ -161,6 +161,8 @@ module.exports = function( grunt ){
 					'!node_modules/**',
 					'!package-lock.json',
 					'!tests/**',
+					'!bin/**',
+					'!phpunit.xml.dist'
 				],
 				dest: '<%= pkg.name %>',
 				expand: true
