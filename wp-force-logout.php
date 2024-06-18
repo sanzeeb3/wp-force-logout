@@ -1,15 +1,15 @@
 <?php
 /**
  * Plugin Name: WPForce Logout
- * Description: Forcefully logout WordPress user(s). See who's online, last login activity & more.
- * Version: 2.0.3
- * Author: Sanjeev Aryal
- * Author URI: http://www.sanjeebaryal.com.np
+ * Description: Forcefully logout WordPress user(s), see who's online, last login activity & more.
+ * Version: 2.1.0
+ * Author: Mini Plugins
+ * Author URI: https://miniplugins.com/
  * Text Domain: wp-force-logout
  * Domain Path: /languages/
  *
  * @package    WP Force Logout
- * @author     Sanjeev Aryal
+ * @author     Mini Plugins
  * @since      1.0.0
  * @license    GPL-3.0+
  */
