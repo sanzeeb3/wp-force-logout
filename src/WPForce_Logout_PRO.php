@@ -30,7 +30,7 @@ class WPForce_Logout_PRO {
 		add_action( 'wp_ajax_nopriv_wp_force_logout_maybe_logout_idle_users', array( $this, 'maybe_logout_idle_users' ) );
 
 		if ( ! empty( $this->settings['browser_close_logout'] ) ) {
-			add_action( 'shutdown', [ $this, 'check_session_storage_on_page_load' ] );
+			// Auto logout on browser close isn't working for some reasons.
 		}
 	}
 
@@ -85,25 +85,6 @@ class WPForce_Logout_PRO {
 		if ( is_user_logged_in() && ! empty( $this->settings['idle_logout'] ) && 'on' === $this->settings['idle_logout'] ) {
 			wp_logout();
 		}
-	}
-
-	/**
-	 * Checks the session storage on page load.
-	 *
-	 * @since 2.0.3
-	 */
-	public function check_session_storage_on_page_load() {
-
-		$is_logged_in = is_user_logged_in() ? 'true' : 'false';
-		?>
-			<script>
-				if (! sessionStorage.getItem('isLoggedIn')) {
-					window.location.href = '<?php echo wp_login_url(); ?>';
-				}
-
-				sessionStorage.setItem('isLoggedIn', '<?php echo $is_logged_in; ?>');
-			</script>
-		<?php
 	}
 }
 

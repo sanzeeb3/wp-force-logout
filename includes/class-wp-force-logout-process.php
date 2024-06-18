@@ -455,7 +455,7 @@ class WP_Force_Logout_Process {
 
 					<ul class="wp-force-logout-review-ul">
 						<li><a class="button button-primary" href="https://wordpress.org/support/plugin/wp-force-logout/reviews/?filter=5#new-post" target="_blank"><span class="dashicons dashicons-external"></span><?php _e( 'Sure, I\'d love to!', 'wp-force-logout' ); ?></a></li>
-						<li><a class="button button-link" target="_blank" href="http://sanjeebaryal.com.np/contact"><span class="dashicons dashicons-sos"></span><?php _e( 'I need help!', 'wp-force-logout' ); ?></a></li>
+						<li><a class="button button-link" target="_blank" href="https://miniplugins.com/contact/"><span class="dashicons dashicons-sos"></span><?php _e( 'I need help!', 'wp-force-logout' ); ?></a></li>
 						<li><a href="#" class="button button-link notice-dismiss"><span class="dashicons dashicons-dismiss"></span><?php _e( 'Dismiss Forever.', 'wp-force-logout' ); ?></a></li>
 					 </ul>
 				</div>
