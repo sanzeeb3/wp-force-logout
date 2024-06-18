@@ -39,15 +39,11 @@ if ( ! function_exists( 'wpfl_fs' ) ) {
                 'menu'                => array(
                     'first-path'     => 'users.php',
                     'contact'        => false,
-<<<<<<< HEAD
                     'support'        => false,
                     'pricing'        => false,
                     'parent'         => array(
                         'slug' => 'users.php',
                     ),
-=======
-                    'support'        => false
->>>>>>> develop
                 ),
             ) );
         }
