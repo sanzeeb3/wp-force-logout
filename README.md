@@ -1,7 +1,7 @@
 Welcome to the WPForce Logout repository on GitHub
 
 ## Documentation
-* [WPForce Logout Documentation](http://sanjeebaryal.com.np/force-user-to-logout-with-wpforce-logout-plugin/)
+* [WPForce Logout Documentation](https://miniplugins.com/how-to-use-wp-force-logout-plugin/)
 
 ## Support
 This repository is not suitable for support. Please don't use our issue tracker for support requests. Support can take place through the [WordPress.org forum](https://wordpress.org/support/plugin/wp-force-logout/).

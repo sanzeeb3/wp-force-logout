@@ -4,7 +4,7 @@ Tags: logout, force, online status, last seen, last login
 Requires at least: 4.0
 Tested up to: 6.5
 Requires PHP: 5.6
-Stable tag: 2.0.2
+Stable tag: 2.1.0
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -33,14 +33,14 @@ You can easily view online/offline users, last login activity from the users tab
 - Session expiration
 - Logout redirect
 
-[Upgrade to PRO](https://sanjeebaryal.com.np/force-user-to-logout-with-wpforce-logout-plugin/)
+[Upgrade to PRO](https://miniplugins.com/wp-force-logout/)
 
 ### What's Next?
 If you like WPForce Logout, then consider checking out my other projects:
-- [WP Frontend Delete Account](https://sanjeebaryal.com.np/how-to-allow-users-to-delete-their-account-from-frontend/) - Allows your customers to delete their account by themselves.
-- [WooCommerce Auto Delete Old Orders](https://sanjeebaryal.com.np/woocommerce-auto-delete-old-orders-a-plugin-from-scratch/) - Automatically delete old WooCommerce orders.
-- [WooCommerce Auto Delete Users With No Orders](https://sanjeebaryal.com.np/woocommerce-auto-delete-users-with-no-orders/) - Automatically delete users with no purchase history.
-- [WooCommerce Customer Journey](https://sanjeebaryal.com.np/woocommerce-customer-journey/) - Displays every step of the customer until the order of the product in the orders page.
+- [WP Frontend Delete Account](https://miniplugins.com/wp-frontend-delete-account/) - Allows your customers to delete their account by themselves.
+- [WooCommerce Auto Delete Old Orders](https://miniplugins.com/woocommerce-auto-delete-old-orders/) - Automatically delete old WooCommerce orders.
+- [WooCommerce Auto Delete Users With No Orders](https://miniplugins.com/wc-auto-delete-users-with-no-orders/) - Automatically delete users with no purchase history.
+- [WooCommerce Customer Journey](https://miniplugins.com/customer-journey-for-woocommerce/) - Displays every step of the customer until the order of the product in the orders page.
 
 
 == Frequently Asked Questions ==

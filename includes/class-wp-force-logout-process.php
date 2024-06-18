@@ -212,7 +212,7 @@ class WP_Force_Logout_Process {
 	public function update_online_users_status() {
 
 		// Get the user online status list.
-		$logged_in_users = get_transient( 'online_status' );
+		$logged_in_users = get_transient( 'online_status', [] );
 
 		// Get current user ID
 		$user = wp_get_current_user();
