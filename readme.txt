@@ -1,5 +1,5 @@
 === WPForce Logout - WordPress User Login Logout Management Plugin ===
-Contributors: sanzeeb3
+Contributors: miniplugins3, sanzeeb3
 Tags: logout, force, online status, last seen, last login 
 Requires at least: 4.0
 Tested up to: 6.5
@@ -56,6 +56,9 @@ Yes, you can! Join in on the [GitHub repository](https://github.com/sanzeeb3/wp-
 1. Users Status
 
 == Changelog ==
+
+= 2.1.0 - 06/18/2024 =
+* Fix - deprecated message automatic conversion of false to array
 
 = 2.0.2 - 05/26/2024 =
 * Fix - Versioning issue (https://wordpress.org/support/topic/latest-update-has-wrong-versionin/)
