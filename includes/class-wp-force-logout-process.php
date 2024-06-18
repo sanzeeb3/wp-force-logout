@@ -426,6 +426,7 @@ class WP_Force_Logout_Process {
 		}
 
 		$notice_dismissed = get_option( 'wpfl_upgrade_notice_dismissed', 'no' );
+		$logged_in_users = get_transient( 'online_status', [] );
 
 		if ( 'no' !== $notice_dismissed ) {
 			return;
