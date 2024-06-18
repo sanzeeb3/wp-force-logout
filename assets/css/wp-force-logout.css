@@ -29,6 +29,11 @@ th#wpfl {
 	display: none
 }
 
+span.notice-dismiss {
+	position: relative;
+	float: right;
+}
+
 #wp-force-logout-review-notice .wp-force-logout-review-thumbnail {
 	float: left;
 	text-align: center;

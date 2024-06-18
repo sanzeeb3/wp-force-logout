@@ -37,13 +37,17 @@ if ( ! function_exists( 'wpfl_fs' ) ) {
                 'has_addons'          => false,
                 'has_paid_plans'      => true,
                 'menu'                => array(
-                    'slug'           => 'wp-force-logout',
+                    'first-path'     => 'users.php',
                     'contact'        => false,
+<<<<<<< HEAD
                     'support'        => false,
                     'pricing'        => false,
                     'parent'         => array(
                         'slug' => 'users.php',
                     ),
+=======
+                    'support'        => false
+>>>>>>> develop
                 ),
             ) );
         }
