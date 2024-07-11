@@ -57,6 +57,9 @@ Yes, you can! Join in on the [GitHub repository](https://github.com/sanzeeb3/wp-
 
 == Changelog ==
 
+= 2.1.1 - 07/11/2024 =
+* Tweak - Improve auto logout on browser close functionality
+
 = 2.1.0 - 06/18/2024 =
 * Fix - deprecated message automatic conversion of false to array
 
