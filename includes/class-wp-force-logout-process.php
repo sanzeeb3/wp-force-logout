@@ -32,13 +32,14 @@ class WP_Force_Logout_Process {
 		add_action( 'init', array( $this, 'update_online_users_status' ) );
 		add_action( 'init', array( $this, 'update_last_login' ) );
 		add_action( 'wp_ajax_wp_force_logout_dismiss_review_notice', array( $this, 'dismiss_review_notice' ) );
+		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
+		add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
 
 		// Return if it's not the users page and if user do not have capability to force logout.
 		if ( 'users.php' !== $pagenow || ! $this->user_has_cap() ) {
 			return;
 		}
 
-		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
 		add_filter( 'manage_users_columns', array( $this, 'add_column_title' ) );
 		add_filter( 'manage_users_custom_column', array( $this, 'add_column_value' ), 10, 3 );
 		add_filter( 'manage_users_sortable_columns', array( $this, 'sortable_login_activity' ) );
@@ -57,7 +58,12 @@ class WP_Force_Logout_Process {
 	 */
 	public function enqueue_scripts() {
 
-		wp_enqueue_style( 'wp-force-logout', plugins_url( 'assets/css/wp-force-logout.css', WP_FORCE_LOGOUT_PLUGIN_FILE ), array(), WPFL_VERSION, $media = 'all' );
+		global $pagenow;
+
+		if ( 'users.php' === $pagenow ) {
+			wp_enqueue_style( 'wp-force-logout', plugins_url( 'assets/css/wp-force-logout.css', WP_FORCE_LOGOUT_PLUGIN_FILE ), array(), WPFL_VERSION, $media = 'all' );
+		}
+
 		wp_enqueue_script( 'wp-force-logout-js', plugins_url( 'assets/js/script.js', WP_FORCE_LOGOUT_PLUGIN_FILE ), array(), WPFL_VERSION, false );
 		wp_localize_script(
 			'wp-force-logout-js',

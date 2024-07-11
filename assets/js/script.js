@@ -58,3 +58,55 @@ function wakeup_resetTimer(){
 
 document.onmousemove = wakeup_resetTimer;
 document.onkeypress = wakeup_resetTimer;
+
+/**
+ * The Auto Logout on Browser close functionality inside this block.
+ *
+ * @since 2.1.1
+ */
+document.addEventListener('DOMContentLoaded', (event) => {
+	let inactivityTimer;
+	let mouseLeftWindow = false;
+
+	function startInactivityTimer() {
+		clearTimeout(inactivityTimer);
+		inactivityTimer = setTimeout(() => {
+			if (mouseLeftWindow) {
+				var data = {
+					action: 'wp_force_logout_maybe_logout_on_browser_closure',
+					security: wpfl_plugins_params.review_nonce,
+				}
+		
+				jQuery.post( wpfl_plugins_params.ajax_url, data, function( response ) {
+					// Success. Do nothing. Silence is golden.
+				});
+			}
+		}, 120000); // 2 minutes.
+	}
+
+	function resetInactivityTimer() {
+		clearTimeout(inactivityTimer);
+	}
+
+	document.addEventListener('mouseleave', function(event) {
+		if (event.clientY <= 0) {
+			mouseLeftWindow = true;
+			startInactivityTimer();
+		}
+	});
+
+	document.addEventListener('mousemove', function() {
+		mouseLeftWindow = false;
+		resetInactivityTimer();
+	});
+
+	document.addEventListener('keydown', function() {
+		mouseLeftWindow = false;
+		resetInactivityTimer();
+	});
+
+	document.addEventListener('scroll', function() {
+		mouseLeftWindow = false;
+		resetInactivityTimer();
+	});
+});

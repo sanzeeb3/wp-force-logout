@@ -28,10 +28,8 @@ class WPForce_Logout_PRO {
 		add_filter( 'auth_cookie_expiration', [ $this, 'auth_cookie_expiration' ] );
 		add_action( 'wp_ajax_wp_force_logout_maybe_logout_idle_users', array( $this, 'maybe_logout_idle_users' ) );
 		add_action( 'wp_ajax_nopriv_wp_force_logout_maybe_logout_idle_users', array( $this, 'maybe_logout_idle_users' ) );
-
-		if ( ! empty( $this->settings['browser_close_logout'] ) ) {
-			// Auto logout on browser close isn't working for some reasons.
-		}
+		add_action( 'wp_ajax_wp_force_logout_maybe_logout_on_browser_closure', array( $this, 'maybe_logout_on_browser_closure' ) );
+		add_action( 'wp_ajax_nopriv_wp_force_logout_maybe_logout_on_browser_closure', array( $this, 'maybe_logout_on_browser_closure' ) );
 	}
 
 	/**
@@ -66,9 +64,12 @@ class WPForce_Logout_PRO {
 	 */
 	public function maybe_logout_on_browser_closure() {
 
+		error_log( print_r( 'here', true ) );
+
 		check_admin_referer( 'review-notice', 'security' );
 
 		if ( is_user_logged_in() && ! empty( $this->settings['browser_close_logout'] ) && 'on' === $this->settings['browser_close_logout'] ) {
+			error_log( print_r( 'here - 2', true ) );
 			wp_logout();
 		}
 	}
