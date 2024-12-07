@@ -24,14 +24,10 @@ You can easily view online/offline users, last login activity from the users tab
 - Bulk Logout Users
 - View Online Users
 - Last Login Activity Tracking
-- Well Documented
-- Translation Ready
-
-### Extended Features:
-- Idle User Logout
-- Auto logout on browser close
-- Session expiration
-- Logout redirect
+- Idle User Logout [PRO]
+- Auto logout on browser close [PRO]
+- Session expiration [PRO]
+- Logout redirect [PRO]
 
 [Upgrade to PRO](https://miniplugins.com/wp-force-logout/)
 
