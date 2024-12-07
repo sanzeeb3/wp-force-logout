@@ -1,10 +1,10 @@
 === WPForce Logout - WordPress User Login Logout Management Plugin ===
-Contributors: miniplugins3, sanzeeb3
+Contributors: miniplugins3, freemius, sanzeeb3
 Tags: logout, force, online status, last seen, last login 
 Requires at least: 4.0
-Tested up to: 6.5
+Tested up to: 6.7
 Requires PHP: 5.6
-Stable tag: 2.1.0
+Stable tag: 2.2.0
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -56,6 +56,13 @@ Yes, you can! Join in on the [GitHub repository](https://github.com/sanzeeb3/wp-
 1. Users Status
 
 == Changelog ==
+
+= 2.2.0 - 12/07/2024 =
+* Tweak - Freemius integration code snippet update
+* Info - Tested upto WP 6.7
+
+= 2.1.1 - 07/11/2024 =
+* Tweak - Improve auto logout on browser close functionality
 
 = 2.1.0 - 06/18/2024 =
 * Fix - deprecated message automatic conversion of false to array
