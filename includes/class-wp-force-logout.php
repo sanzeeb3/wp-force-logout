@@ -26,7 +26,7 @@ final class WP_Force_Logout {
 	 *
 	 * @var string
 	 */
-	public $version = '2.1.1';
+	public $version = '2.2.0';
 
 	/**
 	 * Instance of this class.

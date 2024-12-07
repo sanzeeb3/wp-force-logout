@@ -1,8 +1,8 @@
 <?php
 /**
- * Plugin Name: WPForce Logout
+ * Plugin Name: WPForce Logout Pro
  * Description: Forcefully logout WordPress user(s), see who's online, last login activity & more.
- * Version: 2.1.1
+ * Version: 2.2.0
  * Author: Mini Plugins
  * Author URI: https://miniplugins.com/
  * Text Domain: wp-force-logout
@@ -19,53 +19,58 @@ if ( ! defined( 'ABSPATH' ) ) {
 	// Exit if accessed directly.
 }
 
-if ( ! function_exists( 'wpfl_fs' ) ) {
-    // Create a helper function for easy SDK access.
-    function wpfl_fs() {
-        global $wpfl_fs;
+if ( function_exists( 'wpfl_fs' ) ) {
+    wpfl_fs()->set_basename( true, __FILE__ );
+} else {
 
-        if ( ! isset( $wpfl_fs ) ) {
-            // Include Freemius SDK.
-            require_once dirname(__FILE__) . '/freemius/start.php';
+    if ( ! function_exists( 'wpfl_fs' ) ) {
+        // Create a helper function for easy SDK access.
+        function wpfl_fs() {
+            global $wpfl_fs;
 
-            $wpfl_fs = fs_dynamic_init( array(
-                'id'                  => '15307',
-                'slug'                => 'wp-force-logout',
-                'type'                => 'plugin',
-                'public_key'          => 'pk_0f5e34fac8223c01f054f8692b748',
-                'is_premium'          => true,
-                'has_addons'          => false,
-                'has_paid_plans'      => true,
-                'menu'                => array(
-                    'first-path'     => 'users.php',
-                    'contact'        => false,
-                    'support'        => false,
-                    'pricing'        => false,
-                    'parent'         => array(
-                        'slug' => 'users.php',
+            if ( ! isset( $wpfl_fs ) ) {
+                // Include Freemius SDK.
+                require_once dirname(__FILE__) . '/freemius/start.php';
+
+                $wpfl_fs = fs_dynamic_init( array(
+                    'id'                  => '15307',
+                    'slug'                => 'wp-force-logout',
+                    'type'                => 'plugin',
+                    'public_key'          => 'pk_0f5e34fac8223c01f054f8692b748',
+                    'is_premium'          => true,
+                    'has_addons'          => false,
+                    'has_paid_plans'      => true,
+                    'menu'                => array(
+                        'first-path'     => 'users.php',
+                        'contact'        => false,
+                        'support'        => false,
+                        'pricing'        => false,
+                        'parent'         => array(
+                            'slug' => 'users.php',
+                        ),
                     ),
-                ),
-            ) );
+                ) );
+            }
+
+            return $wpfl_fs;
         }
 
-        return $wpfl_fs;
+        // Init Freemius.
+        wpfl_fs();
+        // Signal that SDK was initiated.
+        do_action( 'wpfl_fs_loaded' );
     }
 
-    // Init Freemius.
-    wpfl_fs();
-    // Signal that SDK was initiated.
-    do_action( 'wpfl_fs_loaded' );
-}
+    // Define WP_FORCE_LOGOUT_PLUGIN_FILE.
+    if ( ! defined( 'WP_FORCE_LOGOUT_PLUGIN_FILE' ) ) {
+        define( 'WP_FORCE_LOGOUT_PLUGIN_FILE', __FILE__ );
+    }
 
-// Define WP_FORCE_LOGOUT_PLUGIN_FILE.
-if ( ! defined( 'WP_FORCE_LOGOUT_PLUGIN_FILE' ) ) {
-	define( 'WP_FORCE_LOGOUT_PLUGIN_FILE', __FILE__ );
-}
+    // Include the main WP_Force_Logout class.
+    if ( ! class_exists( 'WP_Force_Logout' ) ) {
+        include_once dirname( __FILE__ ) . '/includes/class-wp-force-logout.php';
+    }
 
-// Include the main WP_Force_Logout class.
-if ( ! class_exists( 'WP_Force_Logout' ) ) {
-	include_once dirname( __FILE__ ) . '/includes/class-wp-force-logout.php';
+    // Initialize the plugin.
+    add_action( 'plugins_loaded', array( 'WP_Force_Logout', 'get_instance' ) );
 }
-
-// Initialize the plugin.
-add_action( 'plugins_loaded', array( 'WP_Force_Logout', 'get_instance' ) );
