@@ -64,12 +64,9 @@ class WPForce_Logout_PRO {
 	 */
 	public function maybe_logout_on_browser_closure() {
 
-		error_log( print_r( 'here', true ) );
-
 		check_admin_referer( 'review-notice', 'security' );
 
 		if ( is_user_logged_in() && ! empty( $this->settings['browser_close_logout'] ) && 'on' === $this->settings['browser_close_logout'] ) {
-			error_log( print_r( 'here - 2', true ) );
 			wp_logout();
 		}
 	}
