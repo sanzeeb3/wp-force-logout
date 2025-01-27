@@ -2,7 +2,7 @@
 /**
  * Plugin Name: WPForce Logout
  * Description: Forcefully logout WordPress user(s), see who's online, last login activity & more.
- * Version: 2.2.1
+ * Version: 2.2.2
  * Author: Mini Plugins
  * Author URI: https://miniplugins.com/
  * Text Domain: wp-force-logout
