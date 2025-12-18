@@ -11,6 +11,7 @@ project.properties
 *.sublime-workspace
 .sublimelinterrc
 .phpcs.cache
+phpunit.xml.dist
 
 # Grunt
 /node_modules/
@@ -31,3 +32,4 @@ Thumbs.db
 *.zip
 
 /tests/
+/bin/
