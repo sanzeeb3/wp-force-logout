@@ -2,9 +2,9 @@
 Contributors: miniplugins3, freemius, sanzeeb3
 Tags: logout, force, online status, last seen, last login 
 Requires at least: 4.0
-Tested up to: 6.8
+Tested up to: 6.9
 Requires PHP: 7.0
-Stable tag: 2.2.3
+Stable tag: 2.3.0
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -52,6 +52,10 @@ Yes, you can! Join in on the [GitHub repository](https://github.com/sanzeeb3/wp-
 1. Users Status
 
 == Changelog ==
+
+= 2.3.0 - 12/18/2025 =
+* Fix - Deprecated message automatic converstion of false to array
+* Info - Tested upto 6.9
 
 = 2.2.3 - 10/28/2025 =
 * Fix - JS error in case jquery is missing
