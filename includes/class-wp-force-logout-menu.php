@@ -27,7 +27,6 @@ class WP_Force_Logout_Menu {
 	 */
 	public function __construct() {
 		add_action( 'admin_menu', [ $this, 'add_wp_force_logout_submenu' ] );
-		add_action( 'plugin_action_links_' . plugin_basename( WP_FORCE_LOGOUT_PLUGIN_FILE ), [ $this, 'add_upgrade_link' ] );
 	}
 
 	/**
@@ -209,17 +208,6 @@ class WP_Force_Logout_Menu {
 				<?php
 			}
 		);
-	}
-
-	/**
-	 * Add Upgrade Link in plugin action links.
-	 *
-	 * @since 2.1.0
-	 */
-	public function add_upgrade_link( $links ) {
-
-		$links[] = '<a href="users.php?page=wp-force-logout-pricing">' . '<span style="color:#6bc406">Upgrade&nbsp;&nbsp;➤</span>'.'</a>';
-		return $links;
 	}
 }
 
