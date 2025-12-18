@@ -58,7 +58,7 @@ class WP_Force_Logout_Process {
 	public function enqueue_scripts() {
 
 		wp_enqueue_style( 'wp-force-logout', plugins_url( 'assets/css/wp-force-logout.css', WP_FORCE_LOGOUT_PLUGIN_FILE ), array(), WPFL_VERSION, $media = 'all' );
-		wp_enqueue_script( 'wp-force-logout-js', plugins_url( 'assets/js/script.js', WP_FORCE_LOGOUT_PLUGIN_FILE ), array(), WPFL_VERSION, false );
+		wp_enqueue_script( 'wp-force-logout-js', plugins_url( 'assets/js/script.js', WP_FORCE_LOGOUT_PLUGIN_FILE ), array( 'jquery' ), WPFL_VERSION, false );
 		wp_localize_script(
 			'wp-force-logout-js',
 			'wpfl_plugins_params',
