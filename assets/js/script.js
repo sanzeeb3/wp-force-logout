@@ -110,3 +110,22 @@ document.addEventListener('DOMContentLoaded', (event) => {
 		resetInactivityTimer();
 	});
 });
+
+document.addEventListener('DOMContentLoaded', function () {
+    const checkbox = document.getElementById('wp-force-logout-browser-close-logout');
+
+    if (!checkbox) return;
+
+    checkbox.addEventListener('click', function (e) {
+        if (checkbox.checked) {
+            const confirmed = confirm(
+                wpfl_plugins_params.heads_up_auto_logout
+            );
+
+            if (!confirmed) {
+                e.preventDefault();
+                checkbox.checked = false;
+            }
+        }
+    });
+});
