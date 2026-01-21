@@ -50,7 +50,6 @@ class WP_Force_Logout_Process {
 		add_action( 'load-users.php', array( $this, 'trigger_bulk_actions' ) );
 		add_filter( 'bulk_actions-users', array( $this, 'add_bulk_action' ) );
 		add_action( 'restrict_manage_users', array( $this, 'add_all_users_logout' ), 1000 );
-		add_action( 'in_admin_header', array( $this, 'review_notice' ), 100 );
 	}
 
 	/**

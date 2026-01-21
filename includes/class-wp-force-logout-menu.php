@@ -110,6 +110,7 @@ class WP_Force_Logout_Menu {
 
 		?>	
 		<?php do_action( 'wp_force_logout_settings_init' ); ?>
+		<h1>WPForce Logout PRO</h1>
 		<div class="wp-force-logout-clicks-settings-container">
 			<div class="wp-force-logout-clicks-settings-settings" style="max-width: 80%">
 				<form method="post">
