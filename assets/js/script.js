@@ -1,43 +1,54 @@
-/* global wpfl_plugins_params
- */
-jQuery( function( $ ) {
+/* global wpfl_plugins_params */
 
-	// Review notice.
-	jQuery('body').on('click', '#wp-force-logout-review-notice .notice-dismiss', function(e) {
-	    e.preventDefault();
+document.addEventListener('DOMContentLoaded', function() {
 
-        jQuery("#wp-force-logout-review-notice").hide();
+    // Review notice
+    document.body.addEventListener('click', function(e) {
+        if (e.target.closest('#wp-force-logout-review-notice .notice-dismiss')) {
+            e.preventDefault();
 
-		var data = {
-			action: 'wp_force_logout_dismiss_review_notice',
-			security: wpfl_plugins_params.review_nonce,
-			dismissed: true,
-		};
+            const notice = document.getElementById('wp-force-logout-review-notice');
+            if (notice) {
+                notice.style.display = 'none';
+            }
 
-		$.post( wpfl_plugins_params.ajax_url, data, function( response ) {
-			// Success. Do nothing. Silence is golden.
-    	});
-	});
+            const data = new FormData();
+            data.append('action', 'wp_force_logout_dismiss_review_notice');
+            data.append('security', wpfl_plugins_params.review_nonce);
+            data.append('dismissed', true);
 
-	// Settings.
-	let idle_node = $('#wp-force-logout-idle-logout');
-	let node_value = idle_node.is(':checked');
+            fetch(wpfl_plugins_params.ajax_url, {
+                method: 'POST',
+                body: data
+            })
+            .then(response => response.text())
+            .then(() => {
+                // Success. Silence is golden.
+            });
+        }
+    });
 
-	idleLogoutChange( node_value );
+    // Settings
+    const idleNode = document.getElementById('wp-force-logout-idle-logout');
+    let nodeValue = idleNode ? idleNode.checked : false;
 
-	idle_node.on( 'change', function() {
+    idleLogoutChange(nodeValue);
 
-		let node_value = $('#wp-force-logout-idle-logout').is(':checked');
-		idleLogoutChange( node_value );
-	});
+    if (idleNode) {
+        idleNode.addEventListener('change', function() {
+            idleLogoutChange(idleNode.checked);
+        });
+    }
 
-	function idleLogoutChange( value ) {
+    function idleLogoutChange(value) {
+        const nodes = document.querySelectorAll('.wp-force-logout-idle-logout-period');
+        nodes.forEach(node => {
+            node.style.display = value ? '' : 'none';
+        });
+    }
 
-		let node = $( '.wp-force-logout-idle-logout-period ');
-
-		true === value ? node.show() : node.hide();
-	}
 });
+
 
 let timeout;
 
