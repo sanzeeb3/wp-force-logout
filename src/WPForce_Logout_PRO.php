@@ -30,6 +30,10 @@ class WPForce_Logout_PRO {
 		add_action( 'wp_ajax_nopriv_wp_force_logout_maybe_logout_idle_users', array( $this, 'maybe_logout_idle_users' ) );
 		add_action( 'wp_ajax_wp_force_logout_maybe_logout_on_browser_closure', array( $this, 'maybe_logout_on_browser_closure' ) );
 		add_action( 'wp_ajax_nopriv_wp_force_logout_maybe_logout_on_browser_closure', array( $this, 'maybe_logout_on_browser_closure' ) );
+
+		add_action( 'wp_login', array( $this, 'enforce_single_session' ), 10, 2 );
+		add_action( 'password_reset', array( $this, 'logout_on_password_change' ), 10, 2 );
+		add_action( 'after_password_reset', array( $this, 'logout_on_password_change' ), 10, 2 );
 	}
 
 	/**
@@ -83,6 +87,57 @@ class WPForce_Logout_PRO {
 		if ( is_user_logged_in() && ! empty( $this->settings['idle_logout'] ) && 'on' === $this->settings['idle_logout'] ) {
 			wp_logout();
 		}
+	}
+
+	/**
+	 * Enforce single active session per user.
+	 *
+	 * @since 2.1.0
+	 */
+	public function enforce_single_session( $user_login, $user ) {
+
+		if (
+			empty( $this->settings['single_session'] )
+			|| 'on' !== $this->settings['single_session']
+		) {
+			return;
+		}
+
+		if ( ! $user instanceof WP_User ) {
+			return;
+		}
+
+		$manager = WP_Session_Tokens::get_instance( $user->ID );
+		$current = wp_get_session_token();
+
+		foreach ( $manager->get_all() as $token => $session ) {
+			if ( hash_equals( $token, $current ) ) {
+				continue;
+			}
+			$manager->destroy( $token );
+		}
+	}
+
+	/**
+	 * Logout all sessions on password change.
+	 *
+	 * @since 2.1.0
+	 */
+	public function logout_on_password_change( $user, $new_pass = null ) {
+
+		if (
+			empty( $this->settings['password_change'] )
+			|| 'on' !== $this->settings['password_change']
+		) {
+			return;
+		}
+
+		if ( ! $user instanceof WP_User ) {
+			return;
+		}
+
+		$sessions = WP_Session_Tokens::get_instance( $user->ID );
+		$sessions->destroy_all();
 	}
 }
 

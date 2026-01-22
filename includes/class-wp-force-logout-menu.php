@@ -85,7 +85,23 @@ class WP_Force_Logout_Menu {
 					'type'    => 'number',
 					'default' => '',
 					'label'   => __( 'Session Expiration (in minutes)', 'wp-force-logout' ),
-					'desc'    => __( 'Set a maximum session duration after which users are automatically logged out.', 'wp-force-logout' ),
+					'desc'    => __( 'Set a maximum session duration after which users are automatically logged out. Default 48 hours. 14 days if Remember Me is checked.', 'wp-force-logout' ),
+				],
+				'single_session'        => [
+					'id'      => 'wp-force-logout-single-session',
+					'name'    => 'wpfl_single_session',
+					'type'    => 'checkbox',
+					'default' => 'off',
+					'label'   => __( 'Single Session', 'wp-force-logout' ),
+					'desc'    => __( 'Allow only one active login per user. New login from another device invalidates old session.', 'wp-force-logout' ),
+				],
+				'password_change'        => [
+					'id'      => 'wp-force-logout-password-change',
+					'name'    => 'wpfl_password_change',
+					'type'    => 'checkbox',
+					'default' => 'off',
+					'label'   => __( 'Password Change', 'wp-force-logout' ),
+					'desc'    => __( 'Immediately logout all sessions when password changes.', 'wp-force-logout' ),
 				],
 				'logout_redirect'        => [
 					'id'      => 'wp-force-logout-logout-redirect',
@@ -110,7 +126,7 @@ class WP_Force_Logout_Menu {
 
 		?>	
 		<?php do_action( 'wp_force_logout_settings_init' ); ?>
-		<h1>WPForce Logout PRO</h1>
+		<h1>WPForce Logout PRO</h1><hr/>
 		<div class="wp-force-logout-clicks-settings-container">
 			<div class="wp-force-logout-clicks-settings-settings" style="max-width: 80%">
 				<form method="post">
