@@ -85,7 +85,7 @@ class WP_Force_Logout_Menu {
 					'type'    => 'number',
 					'default' => '',
 					'label'   => __( 'Session Expiration (in minutes)', 'wp-force-logout' ),
-					'desc'    => __( 'Set a maximum session duration after which users are automatically logged out. Default 48 hours. 14 days if Remember Me is checked.', 'wp-force-logout' ),
+					'desc'    => __( 'Set a maximum session duration after which users are automatically logged out. WP Default is 48 hours. 14 days if Remember Me is checked.', 'wp-force-logout' ),
 				],
 				'single_session'        => [
 					'id'      => 'wp-force-logout-single-session',

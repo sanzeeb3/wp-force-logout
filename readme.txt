@@ -4,7 +4,7 @@ Tags: logout, force, online status, last seen, last login
 Requires at least: 4.0
 Tested up to: 6.9
 Requires PHP: 7.0
-Stable tag: 2.3.0
+Stable tag: 3.0.0
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -56,6 +56,10 @@ Yes, you can! Join in on the [GitHub repository](https://github.com/sanzeeb3/wp-
 1. Users Status
 
 == Changelog ==
+
+= 3.0.0 - 1/22/2026 =
+* Feature - Single Active Session
+* Feature - Logout on password change
 
 = 2.3.0 - 12/18/2025 =
 * Fix - Deprecated message automatic converstion of false to array
