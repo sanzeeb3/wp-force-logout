@@ -2,7 +2,7 @@
 Contributors: miniplugins3, freemius, sanzeeb3
 Tags: logout, force, online status, last seen, last login 
 Requires at least: 4.0
-Tested up to: 6.9
+Tested up to: 7.0
 Requires PHP: 7.0
 Stable tag: 3.0.0
 License: GPLv3
