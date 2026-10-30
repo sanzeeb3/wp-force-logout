@@ -1,0 +1,6 @@
+# Kept out of `git archive`, i.e. the zip uploaded to Freemius.
+/.github         export-ignore
+/.gitattributes  export-ignore
+/.gitignore      export-ignore
+/.editorconfig   export-ignore
+/README.md       export-ignore
