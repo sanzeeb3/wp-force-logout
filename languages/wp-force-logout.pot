@@ -1,92 +1,259 @@
-# Copyright (C) 2021 Sanjeev Aryal
-# This file is distributed under the same license as the WPForce Logout package.
+# Copyright (C) 2026 Mini Plugins
+# This file is distributed under the GPL-3.0+.
 msgid ""
 msgstr ""
-"Project-Id-Version: WPForce Logout 1.4.4\n"
-"Report-Msgid-Bugs-To: https://github.com/sanzeeb3/wp-force-logout/issues\n"
-"POT-Creation-Date: 2021-04-08 03:52:34+00:00\n"
-"MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=utf-8\n"
-"Content-Transfer-Encoding: 8bit\n"
-"PO-Revision-Date: 2021-MO-DA HO:MI+ZONE\n"
+"Project-Id-Version: WPForce Logout 3.0.0\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/wp-force-logout\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: LANGUAGE <EMAIL@ADDRESS>\n"
-"X-Generator: grunt-wp-i18n 1.0.3\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"POT-Creation-Date: 2026-10-30T10:39:45+00:00\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"X-Generator: WP-CLI 2.12.0\n"
+"X-Domain: wp-force-logout\n"
 
-#: includes/class-wp-force-logout-process.php:79
-msgid "Login Activity"
-msgstr ""
-
-#: includes/class-wp-force-logout-process.php:131
-msgid "Online"
-msgstr ""
-
-#: includes/class-wp-force-logout-process.php:136
-msgid "Offline "
-msgstr ""
-
-#: includes/class-wp-force-logout-process.php:137
-msgid "Last Login: "
-msgstr ""
-
-#: includes/class-wp-force-logout-process.php:138
-msgid "Never"
-msgstr ""
-
-#: includes/class-wp-force-logout-process.php:357
-msgid "Logout"
-msgstr ""
-
-#: includes/class-wp-force-logout-process.php:370
-msgid "Logout All Users"
-msgstr ""
-
-#: includes/class-wp-force-logout-process.php:436
-msgid "Whoopee! 😀"
-msgstr ""
-
-#: includes/class-wp-force-logout-process.php:438
-#. translators: 1. users count, 2. five stars + review link, 3. WordPress.org +
-#. review link
-msgid ""
-"WPForce Logout already started displaying your %1$d online users. Would you "
-"do me some favour and leave a %2$s review on %3$s to help us spread the "
-"word and boost my motivation?"
-msgstr ""
-
-#: includes/class-wp-force-logout-process.php:441
-msgid "Sure, I'd love to!"
-msgstr ""
-
-#: includes/class-wp-force-logout-process.php:442
-msgid "I need help!"
-msgstr ""
-
-#: includes/class-wp-force-logout-process.php:443
-msgid "Dismiss Forever."
-msgstr ""
-
-#: includes/class-wp-force-logout.php:58 includes/class-wp-force-logout.php:67
-msgid "Cheatin&#8217; huh?"
-msgstr ""
-
-#. Plugin Name of the plugin/theme
+#. Plugin Name of the plugin
+#: wp-force-logout.php
 msgid "WPForce Logout"
 msgstr ""
 
-#. Description of the plugin/theme
-msgid "Forcefully logout WordPress user(s)."
+#. Description of the plugin
+#: wp-force-logout.php
+msgid "Forcefully logout WordPress user(s), see who's online, last login activity & more."
 msgstr ""
 
-#. Author of the plugin/theme
-msgid "Sanjeev Aryal"
+#. Author of the plugin
+#: wp-force-logout.php
+msgid "Mini Plugins"
 msgstr ""
 
-#. Author URI of the plugin/theme
-msgid "http://www.sanjeebaryal.com.np"
+#. Author URI of the plugin
+#: wp-force-logout.php
+msgid "https://miniplugins.com/"
 msgstr ""
 
-#: includes/class-wp-force-logout-process.php:133
+#: includes/class-wp-force-logout-menu.php:82
+#: includes/class-wp-force-logout-process.php:466
+msgid "Upgrade"
+msgstr ""
+
+#: includes/class-wp-force-logout-process.php:84
+msgid "Login Activity"
+msgstr ""
+
+#: includes/class-wp-force-logout-process.php:136
+msgid "Online"
+msgstr ""
+
+#: includes/class-wp-force-logout-process.php:138
+#: src/Pro/WPForce_Logout_Dashboard.php:100
 msgctxt "The action on users list page"
 msgid "Logout"
+msgstr ""
+
+#: includes/class-wp-force-logout-process.php:141
+msgid "Offline "
+msgstr ""
+
+#: includes/class-wp-force-logout-process.php:142
+msgid "Last Login: "
+msgstr ""
+
+#: includes/class-wp-force-logout-process.php:143
+msgid "Never"
+msgstr ""
+
+#: includes/class-wp-force-logout-process.php:391
+msgid "Logout"
+msgstr ""
+
+#: includes/class-wp-force-logout-process.php:404
+msgid "Logout All Users"
+msgstr ""
+
+#: includes/class-wp-force-logout-process.php:462
+msgid "Whoopee! 😀"
+msgstr ""
+
+#: includes/class-wp-force-logout-process.php:463
+msgid "How's it going? WPForce Logout PRO ⭐ is now available with more powerful features. Would you like to upgrade and boost my motivation?"
+msgstr ""
+
+#: includes/class-wp-force-logout.php:58
+#: includes/class-wp-force-logout.php:67
+msgid "Cheatin&#8217; huh?"
+msgstr ""
+
+#: src/Pro/WPForce_Logout_Dashboard.php:44
+msgid "Who's Online"
+msgstr ""
+
+#: src/Pro/WPForce_Logout_Dashboard.php:63
+msgid "No one is online right now."
+msgstr ""
+
+#. translators: %d: number of online users
+#: src/Pro/WPForce_Logout_Dashboard.php:79
+#, php-format
+msgid "%d user online"
+msgid_plural "%d users online"
+msgstr[0] ""
+msgstr[1] ""
+
+#: src/Pro/WPForce_Logout_Dashboard.php:95
+msgid "you"
+msgstr ""
+
+#: src/Pro/WPForce_Logout_Dashboard.php:106
+msgid "View login activity of all users"
+msgstr ""
+
+#: src/Pro/WPForce_Logout_Sessions.php:102
+msgid "Active Sessions"
+msgstr ""
+
+#: src/Pro/WPForce_Logout_Sessions.php:106
+msgid "Another plugin manages the login sessions on this site, so they can't be listed here."
+msgstr ""
+
+#: src/Pro/WPForce_Logout_Sessions.php:113
+msgid "No active sessions."
+msgstr ""
+
+#: src/Pro/WPForce_Logout_Sessions.php:123
+msgid "Device"
+msgstr ""
+
+#: src/Pro/WPForce_Logout_Sessions.php:124
+msgid "IP Address"
+msgstr ""
+
+#: src/Pro/WPForce_Logout_Sessions.php:125
+msgid "Logged In"
+msgstr ""
+
+#: src/Pro/WPForce_Logout_Sessions.php:126
+msgid "Expires"
+msgstr ""
+
+#: src/Pro/WPForce_Logout_Sessions.php:137
+msgid "This device"
+msgstr ""
+
+#. translators: %s: human-readable time difference, e.g. 5 mins
+#: src/Pro/WPForce_Logout_Sessions.php:145
+#, php-format
+msgid "%s ago"
+msgstr ""
+
+#: src/Pro/WPForce_Logout_Sessions.php:155
+msgid "Log Out"
+msgstr ""
+
+#: src/Pro/WPForce_Logout_Sessions.php:198
+msgid "Sorry, you are not allowed to do that."
+msgstr ""
+
+#: src/Pro/WPForce_Logout_Sessions.php:227
+msgid "The session has been logged out."
+msgstr ""
+
+#: src/Pro/WPForce_Logout_Sessions.php:240
+msgid "Unknown device"
+msgstr ""
+
+#: src/Pro/WPForce_Logout_Sessions.php:262
+msgid "Unknown browser"
+msgstr ""
+
+#. translators: 1: browser name, 2: operating system
+#: src/Pro/WPForce_Logout_Sessions.php:273
+#, php-format
+msgid "%1$s on %2$s"
+msgstr ""
+
+#: src/Pro/WPForce_Logout_Settings.php:74
+msgid "Idle user logout"
+msgstr ""
+
+#: src/Pro/WPForce_Logout_Settings.php:75
+msgid "Check to enable logging out idle users after specific time period."
+msgstr ""
+
+#: src/Pro/WPForce_Logout_Settings.php:82
+msgid "Idle time to logout (in minutes)"
+msgstr ""
+
+#: src/Pro/WPForce_Logout_Settings.php:90
+msgid "Roles to logout when idle"
+msgstr ""
+
+#: src/Pro/WPForce_Logout_Settings.php:91
+msgid "Only users with the checked roles are logged out when idle. Leave all unchecked to apply it to every user."
+msgstr ""
+
+#: src/Pro/WPForce_Logout_Settings.php:99
+msgid "Auto logout on browser close"
+msgstr ""
+
+#. translators: %d: minutes
+#: src/Pro/WPForce_Logout_Settings.php:101
+#, php-format
+msgid "Log users out when they close the browser, \"Remember Me\" included. Browsers that reopen the previous session log them out once no page of the site was open for %d minutes."
+msgstr ""
+
+#: src/Pro/WPForce_Logout_Settings.php:108
+msgid "Session Expiration (in minutes)"
+msgstr ""
+
+#: src/Pro/WPForce_Logout_Settings.php:109
+msgid "Set a maximum session duration after which users are automatically logged out. WP Default is 48 hours. 14 days if Remember Me is checked."
+msgstr ""
+
+#: src/Pro/WPForce_Logout_Settings.php:116
+msgid "Single Session"
+msgstr ""
+
+#: src/Pro/WPForce_Logout_Settings.php:117
+msgid "Allow only one active login per user. New login from another device invalidates old session."
+msgstr ""
+
+#: src/Pro/WPForce_Logout_Settings.php:124
+msgid "Password Change"
+msgstr ""
+
+#: src/Pro/WPForce_Logout_Settings.php:125
+msgid "Immediately logout all sessions when password changes."
+msgstr ""
+
+#: src/Pro/WPForce_Logout_Settings.php:132
+msgid "Scheduled Logout"
+msgstr ""
+
+#: src/Pro/WPForce_Logout_Settings.php:133
+msgid "Logout all users every day at a specific time."
+msgstr ""
+
+#: src/Pro/WPForce_Logout_Settings.php:140
+msgid "Logout all users at"
+msgstr ""
+
+#. translators: %s: site timezone, e.g. Asia/Kathmandu or UTC+5:45
+#: src/Pro/WPForce_Logout_Settings.php:142
+#, php-format
+msgid "Site time (%s). Runs on the first visit to the site after this time, like all WordPress scheduled tasks."
+msgstr ""
+
+#: src/Pro/WPForce_Logout_Settings.php:150
+msgid "Logout Redirect"
+msgstr ""
+
+#: src/Pro/WPForce_Logout_Settings.php:151
+msgid "Leave empty for default. Default is usually login page URL unless other plugins overwrite."
+msgstr ""
+
+#: src/Pro/WPForce_Logout_Settings.php:290
+msgid "Settings Saved."
 msgstr ""

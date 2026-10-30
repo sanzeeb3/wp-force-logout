@@ -1,21 +1,35 @@
-/* global wpfl_plugins_params
- */
-jQuery( function( $ ) {
+/* global wpfl_plugins_params */
 
-	// Review notice.
-	jQuery('body').on('click', '#wp-force-logout-review-notice .notice-dismiss', function(e) {
-	    e.preventDefault();
+(function () {
+    'use strict';
 
-        jQuery("#wp-force-logout-review-notice").hide();
+    document.addEventListener('DOMContentLoaded', function () {
 
-		var data = {
-			action: 'wp_force_logout_dismiss_review_notice',
-			security: wpfl_plugins_params.review_nonce,
-			dismissed: true,
-		};
+        /* ------------------------------------
+         * Upgrade notice dismiss
+         * ------------------------------------ */
+        document.body.addEventListener('click', function (e) {
+            const dismissBtn = e.target.closest('#wp-force-logout-review-notice .notice-dismiss');
+            if (!dismissBtn) return;
 
-		$.post( wpfl_plugins_params.ajax_url, data, function( response ) {
-			// Success. Do nothing. Silence is golden.
-    	});
-	});
-});
+            e.preventDefault();
+
+            const notice = document.getElementById('wp-force-logout-review-notice');
+            if (notice) {
+                notice.style.display = 'none';
+            }
+
+            const data = new FormData();
+            data.append('action', 'wp_force_logout_dismiss_review_notice');
+            data.append('security', wpfl_plugins_params.review_nonce);
+            data.append('dismissed', true);
+
+            fetch(wpfl_plugins_params.ajax_url, {
+                method: 'POST',
+                credentials: 'same-origin',
+                body: data
+            });
+        });
+    });
+
+})();

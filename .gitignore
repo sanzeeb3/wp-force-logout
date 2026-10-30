@@ -1,35 +1,13 @@
 # Editors
-project.xml
-project.properties
-/nbproject/private/
-.buildpath
-.project
-.settings*
 .idea
 .vscode
 *.sublime-project
 *.sublime-workspace
-.sublimelinterrc
-.phpcs.cache
-phpunit.xml.dist
 
-# Grunt
-/node_modules/
-none
-
-# Sass
-.sass-cache/
-
-# OS X metadata
+# OS
 .DS_Store
-
-# Windows junk
 Thumbs.db
 
-# Composer
-/vendor/
-
+# Build
 *.zip
-
-/tests/
-/bin/
+/build/

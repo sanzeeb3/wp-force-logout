@@ -26,7 +26,7 @@ final class WP_Force_Logout {
 	 *
 	 * @var string
 	 */
-	public $version = '2.3.0';
+	public $version = '3.0.0';
 
 	/**
 	 * Instance of this class.
@@ -122,11 +122,19 @@ final class WP_Force_Logout {
 	 * Includes.
 	 */
 	private function includes() {
-		include_once dirname( __FILE__ ) . '/class-wp-force-logout-process.php';
-		include_once dirname( __FILE__ ) . '/class-wp-force-logout-menu.php';
+		include_once __DIR__ . '/class-wp-force-logout-process.php';
+		include_once __DIR__ . '/class-wp-force-logout-menu.php';
+
+		// Freemius strips this block, and src/Pro/, from the free version.
+		if ( wpfl_fs()->can_use_premium_code__premium_only() ) {
+			include_once WPFL_ABSPATH . 'src/Pro/WPForce_Logout_PRO.php';
+			include_once WPFL_ABSPATH . 'src/Pro/WPForce_Logout_Settings.php';
+			include_once WPFL_ABSPATH . 'src/Pro/WPForce_Logout_Sessions.php';
+			include_once WPFL_ABSPATH . 'src/Pro/WPForce_Logout_Dashboard.php';
+		}
 
 		if ( class_exists( 'WP_CLI' ) ) {
-			include_once WPFL_ABSPATH . '/src/WPForce_Logout_CLI.php';
+			include_once WPFL_ABSPATH . 'src/WPForce_Logout_CLI.php';
 		}
 	}
 }
