@@ -60,7 +60,9 @@ jobs:
           path: freemius-php-sdk
 
       - name: Upload to Freemius
-        run: php .github/scripts/freemius-deploy.php upload wp-force-logout.zip "$VERSION" wp-force-logout-free.zip
+        run: |
+          export COMMIT_TIME=$(git log -1 --format=%ct)
+          php .github/scripts/freemius-deploy.php upload wp-force-logout.zip "$VERSION" wp-force-logout-free.zip
         env:
           FREEMIUS_SDK_DIR: freemius-php-sdk
           FREEMIUS_DEV_ID: ${{ secrets.FREEMIUS_DEV_ID }}

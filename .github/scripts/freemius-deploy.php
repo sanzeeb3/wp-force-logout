@@ -50,6 +50,12 @@ list( , , $zip, $version, $free_zip ) = $argv;
 $tag = find_tag( $api, $tags_path, $version );
 
 if ( null !== $tag ) {
+	// A re-run finds its own upload. A version uploaded before this commit is a different build.
+	$commit_time = (int) getenv( 'COMMIT_TIME' );
+	if ( $commit_time && strtotime( $tag->created . ' UTC' ) < $commit_time ) {
+		fail( "Version $version was uploaded to Freemius on $tag->created UTC, before this commit. Delete that version in Freemius (or bump the version), then re-run." );
+	}
+
 	echo "Version $version is already on Freemius (tag $tag->id, release mode $tag->release_mode), skipping the upload.\n";
 } else {
 	// The SDK only sends the multipart body when there is at least one regular parameter.
