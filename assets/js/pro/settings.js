@@ -1,5 +1,3 @@
-/* global wpfl_settings_params */
-
 (function () {
     'use strict';
 
@@ -19,23 +17,6 @@
             toggle();
             checkbox.addEventListener('change', toggle);
         });
-
-        /* ------------------------------------
-         * Browser close confirmation
-         * ------------------------------------ */
-        const closeCheckbox = document.getElementById('wp-force-logout-browser-close-logout');
-
-        if (closeCheckbox) {
-            closeCheckbox.addEventListener('click', function (e) {
-                if (!closeCheckbox.checked) return;
-
-                const confirmed = confirm(wpfl_settings_params.heads_up_auto_logout);
-                if (!confirmed) {
-                    e.preventDefault();
-                    closeCheckbox.checked = false;
-                }
-            });
-        }
     });
 
 })();

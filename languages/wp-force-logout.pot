@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-10-30T10:12:13+00:00\n"
+"POT-Creation-Date: 2026-10-30T10:39:45+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: wp-force-logout\n"
@@ -34,7 +34,7 @@ msgstr ""
 msgid "https://miniplugins.com/"
 msgstr ""
 
-#: includes/class-wp-force-logout-menu.php:59
+#: includes/class-wp-force-logout-menu.php:82
 #: includes/class-wp-force-logout-process.php:466
 msgid "Upgrade"
 msgstr ""
@@ -174,88 +174,86 @@ msgstr ""
 msgid "%1$s on %2$s"
 msgstr ""
 
-#: src/Pro/WPForce_Logout_Settings.php:59
-msgid "Heads up! This feature does not work well with modern browsers and behaves unexpectedly. Do you still want to enable?"
-msgstr ""
-
-#: src/Pro/WPForce_Logout_Settings.php:81
+#: src/Pro/WPForce_Logout_Settings.php:74
 msgid "Idle user logout"
 msgstr ""
 
-#: src/Pro/WPForce_Logout_Settings.php:82
+#: src/Pro/WPForce_Logout_Settings.php:75
 msgid "Check to enable logging out idle users after specific time period."
 msgstr ""
 
-#: src/Pro/WPForce_Logout_Settings.php:89
+#: src/Pro/WPForce_Logout_Settings.php:82
 msgid "Idle time to logout (in minutes)"
 msgstr ""
 
-#: src/Pro/WPForce_Logout_Settings.php:97
+#: src/Pro/WPForce_Logout_Settings.php:90
 msgid "Roles to logout when idle"
 msgstr ""
 
-#: src/Pro/WPForce_Logout_Settings.php:98
+#: src/Pro/WPForce_Logout_Settings.php:91
 msgid "Only users with the checked roles are logged out when idle. Leave all unchecked to apply it to every user."
 msgstr ""
 
-#: src/Pro/WPForce_Logout_Settings.php:106
+#: src/Pro/WPForce_Logout_Settings.php:99
 msgid "Auto logout on browser close"
 msgstr ""
 
-#: src/Pro/WPForce_Logout_Settings.php:107
-msgid "Check to enable logging out user when they close the browser."
+#. translators: %d: minutes
+#: src/Pro/WPForce_Logout_Settings.php:101
+#, php-format
+msgid "Log users out when they close the browser, \"Remember Me\" included. Browsers that reopen the previous session log them out once no page of the site was open for %d minutes."
 msgstr ""
 
-#: src/Pro/WPForce_Logout_Settings.php:114
+#: src/Pro/WPForce_Logout_Settings.php:108
 msgid "Session Expiration (in minutes)"
 msgstr ""
 
-#: src/Pro/WPForce_Logout_Settings.php:115
+#: src/Pro/WPForce_Logout_Settings.php:109
 msgid "Set a maximum session duration after which users are automatically logged out. WP Default is 48 hours. 14 days if Remember Me is checked."
 msgstr ""
 
-#: src/Pro/WPForce_Logout_Settings.php:122
+#: src/Pro/WPForce_Logout_Settings.php:116
 msgid "Single Session"
 msgstr ""
 
-#: src/Pro/WPForce_Logout_Settings.php:123
+#: src/Pro/WPForce_Logout_Settings.php:117
 msgid "Allow only one active login per user. New login from another device invalidates old session."
 msgstr ""
 
-#: src/Pro/WPForce_Logout_Settings.php:130
+#: src/Pro/WPForce_Logout_Settings.php:124
 msgid "Password Change"
 msgstr ""
 
-#: src/Pro/WPForce_Logout_Settings.php:131
+#: src/Pro/WPForce_Logout_Settings.php:125
 msgid "Immediately logout all sessions when password changes."
 msgstr ""
 
-#: src/Pro/WPForce_Logout_Settings.php:138
+#: src/Pro/WPForce_Logout_Settings.php:132
 msgid "Scheduled Logout"
 msgstr ""
 
-#: src/Pro/WPForce_Logout_Settings.php:139
+#: src/Pro/WPForce_Logout_Settings.php:133
 msgid "Logout all users every day at a specific time."
 msgstr ""
 
-#: src/Pro/WPForce_Logout_Settings.php:146
+#: src/Pro/WPForce_Logout_Settings.php:140
 msgid "Logout all users at"
 msgstr ""
 
 #. translators: %s: site timezone, e.g. Asia/Kathmandu or UTC+5:45
-#: src/Pro/WPForce_Logout_Settings.php:148
+#: src/Pro/WPForce_Logout_Settings.php:142
 #, php-format
 msgid "Site time (%s). Runs on the first visit to the site after this time, like all WordPress scheduled tasks."
 msgstr ""
 
-#: src/Pro/WPForce_Logout_Settings.php:156
+#: src/Pro/WPForce_Logout_Settings.php:150
 msgid "Logout Redirect"
 msgstr ""
 
-#: src/Pro/WPForce_Logout_Settings.php:157
+#: src/Pro/WPForce_Logout_Settings.php:151
 msgid "Leave empty for default. Default is usually login page URL unless other plugins overwrite."
 msgstr ""
 
-#: src/Pro/WPForce_Logout_Settings.php:296
+#: src/Pro/WPForce_Logout_Settings.php:290
 msgid "Settings Saved."
 msgstr ""

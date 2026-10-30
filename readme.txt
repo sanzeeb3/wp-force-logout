@@ -2,7 +2,7 @@
 Contributors: miniplugins3, freemius, sanzeeb3
 Tags: logout, force, online status, last seen, last login 
 Requires at least: 5.3
-Tested up to: 7.0
+Tested up to: 7.1
 Requires PHP: 7.0
 Stable tag: 3.0.0
 License: GPLv3
@@ -63,16 +63,19 @@ Yes, you can! Join in on the [GitHub repository](https://github.com/sanzeeb3/wp-
 == Changelog ==
 
 = 3.0.0 - 10/30/2026 =
+[//]: # fs_premium_only_begin
 * Feature - PRO: Active Sessions on the user profile, log out a single device
 * Feature - PRO: Who's Online dashboard widget
 * Feature - PRO: Scheduled logout of all users at a specific time
 * Feature - PRO: Limit idle logout to specific roles
 * Feature - PRO: Single active session
 * Feature - PRO: Logout on password change
+[//]: # fs_premium_only_end
 * Fix - Deprecated strip_tags() message on the pricing page
 * Fix - Bulk logout without a security check
 * Fix - Single session error on login with PHP 8
 * Fix - Idle logout in one tab while working in another
+* Fix - Auto logout on browser close: works when the browser is actually closed, including "Remember Me" logins
 * Tweak - Logout all users in one query
 * Tweak - Free and PRO built from one codebase
 * Info - Requires at least WordPress 5.3

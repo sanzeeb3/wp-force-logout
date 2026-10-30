@@ -52,13 +52,6 @@ class WPForce_Logout_Settings {
 	 */
 	public function enqueue_scripts() {
 		wp_enqueue_script( 'wp-force-logout-settings', plugins_url( 'assets/js/pro/settings.js', WP_FORCE_LOGOUT_PLUGIN_FILE ), array(), WPFL_VERSION, true );
-		wp_localize_script(
-			'wp-force-logout-settings',
-			'wpfl_settings_params',
-			array(
-				'heads_up_auto_logout' => __( 'Heads up! This feature does not work well with modern browsers and behaves unexpectedly. Do you still want to enable?', 'wp-force-logout' ),
-			)
-		);
 	}
 
 	/**
@@ -104,7 +97,8 @@ class WPForce_Logout_Settings {
 					'type'    => 'checkbox',
 					'default' => 'off',
 					'label'   => __( 'Auto logout on browser close', 'wp-force-logout' ),
-					'desc'    => __( 'Check to enable logging out user when they close the browser.', 'wp-force-logout' ),
+					/* translators: %d: minutes */
+					'desc'    => sprintf( __( 'Log users out when they close the browser, "Remember Me" included. Browsers that reopen the previous session log them out once no page of the site was open for %d minutes.', 'wp-force-logout' ), WPForce_Logout_PRO::browser_close_timeout() / MINUTE_IN_SECONDS ),
 				),
 				'session_expiration'    => array(
 					'id'      => 'wp-force-logout-session-expiration',

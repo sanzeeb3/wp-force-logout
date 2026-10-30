@@ -23,6 +23,13 @@ class WPForce_Logout_PRO {
 	const SCHEDULED_LOGOUT_HOOK = 'wp_force_logout_scheduled_logout';
 
 	/**
+	 * How often open pages report that the browser is still open, in seconds.
+	 *
+	 * @since 3.0.0
+	 */
+	const BROWSER_PING_INTERVAL = 60;
+
+	/**
 	 * Get Settings.
 	 *
 	 * @since 2.0.0
@@ -50,7 +57,9 @@ class WPForce_Logout_PRO {
 		add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
 		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
 		add_action( 'wp_ajax_wp_force_logout_maybe_logout_idle_users', array( $this, 'maybe_logout_idle_users' ) );
-		add_action( 'wp_ajax_wp_force_logout_maybe_logout_on_browser_closure', array( $this, 'maybe_logout_on_browser_closure' ) );
+		add_action( 'wp_ajax_wp_force_logout_browser_ping', array( $this, 'browser_ping' ) );
+		add_filter( 'send_auth_cookies', array( $this, 'send_session_cookies' ), 10, 6 );
+		add_action( 'init', array( $this, 'maybe_logout_closed_browser' ), 1 );
 
 		add_action( 'set_logged_in_cookie', array( $this, 'remember_login_token' ), 10, 6 );
 		add_action( 'wp_login', array( $this, 'enforce_single_session' ), 10, 2 );
@@ -152,24 +161,108 @@ class WPForce_Logout_PRO {
 				'idle_logout'          => $idle_logout,
 				'idle_timeout'         => MINUTE_IN_SECONDS * 1000 * max( 1, $idle_minutes ),
 				'browser_close_logout' => $browser_close_logout,
+				'browser_ping'         => self::BROWSER_PING_INTERVAL * 1000,
 			)
 		);
 	}
 
 	/**
-	 * Maybe logout user on browser closure.
+	 * Seconds without any open page of the site after which the browser counts as closed.
 	 *
-	 * @since 2.0.0
+	 * @since 3.0.0
+	 *
+	 * @return int
 	 */
-	public function maybe_logout_on_browser_closure() {
+	public static function browser_close_timeout() {
 
-		check_ajax_referer( 'wp-force-logout-pro', 'security' );
+		/**
+		 * Filters how long, in seconds, no page of the site may be open before the browser counts as closed.
+		 *
+		 * Background tabs may only run their timers once a minute, so keep it well above the ping interval.
+		 *
+		 * @since 3.0.0
+		 *
+		 * @param int $timeout Default 10 minutes.
+		 */
+		$timeout = (int) apply_filters( 'wp_force_logout_browser_close_timeout', 10 * MINUTE_IN_SECONDS );
 
-		if ( $this->is_on( 'browser_close_logout' ) ) {
-			wp_logout();
+		return max( 3 * self::BROWSER_PING_INTERVAL, $timeout );
+	}
+
+	/**
+	 * Logout on browser close, part 1: send session cookies, which browsers delete when they close.
+	 *
+	 * Core already does that unless "Remember Me" is checked. For remembered logins, the cookies are
+	 * sent again for the same session without the expiry date.
+	 *
+	 * @since 3.0.0
+	 *
+	 * @param bool   $send    Whether to send the cookies.
+	 * @param int    $expire  Cookie expiry, 0 for a session cookie. Passed since WP 6.2.
+	 * @param int    $expiration Auth expiration.
+	 * @param int    $user_id User ID.
+	 * @param string $scheme  Auth scheme.
+	 * @param string $token   Session token.
+	 *
+	 * @return bool
+	 */
+	public function send_session_cookies( $send, $expire = 0, $expiration = 0, $user_id = 0, $scheme = '', $token = '' ) {
+
+		if ( ! $send || ! $expire || ! $user_id || '' === $token || ! $this->is_on( 'browser_close_logout' ) ) {
+			return $send;
 		}
 
-		wp_die();
+		wp_set_auth_cookie( $user_id, false, '', $token );
+
+		return false;
+	}
+
+	/**
+	 * Logout on browser close, part 2: browsers that restore the previous session keep session cookies.
+	 *
+	 * Every request of the session marks the browser as open, and open pages ping every minute. A session
+	 * with no request for longer than the timeout is logged out on its next request.
+	 *
+	 * @since 3.0.0
+	 */
+	public function maybe_logout_closed_browser() {
+
+		$token = wp_get_session_token();
+
+		if ( ! $this->is_on( 'browser_close_logout' ) || ! is_user_logged_in() || '' === $token ) {
+			return;
+		}
+
+		$manager = WP_Session_Tokens::get_instance( get_current_user_id() );
+		$session = $manager->get( $token );
+
+		if ( ! $session ) {
+			return;
+		}
+
+		$last_seen = isset( $session['wpfl_last_seen'] ) ? (int) $session['wpfl_last_seen'] : 0;
+
+		if ( $last_seen && time() - $last_seen > self::browser_close_timeout() ) {
+			$manager->destroy( $token );
+			wp_clear_auth_cookie();
+			wp_set_current_user( 0 );
+			return;
+		}
+
+		// Write at most once per ping interval.
+		if ( time() - $last_seen >= self::BROWSER_PING_INTERVAL ) {
+			$session['wpfl_last_seen'] = time();
+			$manager->update( $token, $session );
+		}
+	}
+
+	/**
+	 * Ping from an open page. The request itself marks the browser as open, see maybe_logout_closed_browser().
+	 *
+	 * @since 3.0.0
+	 */
+	public function browser_ping() {
+		wp_die( '1' );
 	}
 
 	/**

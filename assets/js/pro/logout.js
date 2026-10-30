@@ -78,31 +78,20 @@
     }
 
     /* ------------------------------------
-     * Auto logout on browser close (mouse leave)
+     * Auto logout on browser close
+     *
+     * The server logs out sessions that haven't been seen for a while, so open pages report
+     * that the browser is still open. Closing the browser stops the pings.
      * ------------------------------------ */
     if (wpfl_pro_params.browser_close_logout) {
-        let inactivityTimer;
-        let mouseLeftWindow = false;
-
-        document.addEventListener('mouseleave', function (event) {
-            if (event.clientY > 0) return;
-
-            mouseLeftWindow = true;
-            clearTimeout(inactivityTimer);
-
-            inactivityTimer = setTimeout(function () {
-                if (!mouseLeftWindow) return;
-
-                postAjax('wp_force_logout_maybe_logout_on_browser_closure');
-            }, 120000); // 2 minutes
-        });
-
-        ['mousemove', 'keydown', 'scroll'].forEach(function (event) {
-            document.addEventListener(event, function () {
-                mouseLeftWindow = false;
-                clearTimeout(inactivityTimer);
-            }, { passive: true });
-        });
+        setInterval(function () {
+            postAjax('wp_force_logout_browser_ping').then(function (response) {
+                // 400 "0": the session was logged out, e.g. the computer slept past the timeout.
+                if (400 === response.status) {
+                    window.location.reload();
+                }
+            }).catch(function () {}); // Offline, try again next time.
+        }, parseInt(wpfl_pro_params.browser_ping, 10));
     }
 
 })();
