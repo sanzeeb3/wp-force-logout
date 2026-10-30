@@ -1,7 +1,7 @@
 === WPForce Logout - WordPress User Login Logout Management Plugin ===
 Contributors: miniplugins3, freemius, sanzeeb3
 Tags: logout, force, online status, last seen, last login 
-Requires at least: 4.0
+Requires at least: 5.3
 Tested up to: 7.0
 Requires PHP: 7.0
 Stable tag: 3.0.0
@@ -24,11 +24,16 @@ You can easily view online/offline users, last login activity from the users tab
 - Bulk Logout Users
 - View Online Users
 - Last Login Activity Tracking
-- Well Documented
+- WP-CLI commands
 - Translation Ready
 
-### Extended Features:
-- Idle User Logout
+### PRO Features:
+- Idle User Logout, optionally only for specific roles
+- Scheduled Logout - log out all users every day at a specific time
+- Active Sessions - see every device a user is logged in on, and log out a single session
+- Who's Online dashboard widget with one-click logout
+- Single Session - one active login per user
+- Logout on password change
 - Auto logout on browser close
 - Session expiration
 - Logout redirect
@@ -57,9 +62,20 @@ Yes, you can! Join in on the [GitHub repository](https://github.com/sanzeeb3/wp-
 
 == Changelog ==
 
-= 3.0.0 - 1/22/2026 =
-* Feature - Single Active Session
-* Feature - Logout on password change
+= 3.0.0 - 10/30/2026 =
+* Feature - PRO: Active Sessions on the user profile, log out a single device
+* Feature - PRO: Who's Online dashboard widget
+* Feature - PRO: Scheduled logout of all users at a specific time
+* Feature - PRO: Limit idle logout to specific roles
+* Feature - PRO: Single active session
+* Feature - PRO: Logout on password change
+* Fix - Deprecated strip_tags() message on the pricing page
+* Fix - Bulk logout without a security check
+* Fix - Single session error on login with PHP 8
+* Fix - Idle logout in one tab while working in another
+* Tweak - Logout all users in one query
+* Tweak - Free and PRO built from one codebase
+* Info - Requires at least WordPress 5.3
 
 = 2.3.0 - 12/18/2025 =
 * Fix - Deprecated message automatic converstion of false to array

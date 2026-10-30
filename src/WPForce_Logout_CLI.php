@@ -26,12 +26,12 @@ class WPForce_Logout_CLI {
 
 		if ( count( $users ) === 1 && $users[0] === 'all' ) {
 			$logout_class->force_all_users_logout();
-			WP_CLI::line( 'Logged all users outt!' );
+			WP_CLI::success( 'Logged all users out.' );
 			return;
 
 		} else {
 
-			foreach( $users as $user ) {
+			foreach ( $users as $user ) {
 
 				if ( is_email( $user ) ) {
 					$user_obj = get_user_by( 'email', $user );
@@ -45,17 +45,16 @@ class WPForce_Logout_CLI {
 					$sessions = WP_Session_Tokens::get_instance( $user_obj->ID );
 					$sessions->destroy_all();
 
-					WP_CLI::line( 'User ' . $user . ' logged outt!' );
+					WP_CLI::success( 'User ' . $user . ' logged out.' );
 				} else {
-					WP_CLI::line( 'No user found with passed argument '. $user .'. Are you sure the user exists?' );
+					WP_CLI::warning( 'No user found with passed argument ' . $user . '. Are you sure the user exists?' );
 				}
 			}
-
 		}//end if
 
 		// Just an example of assoc args. If --force assoc exists. For example: wp wpfl logout 34 --force
-		if( isset( $assoc_args['force'] ) ) {
-			WP_CLI::line( 'Assoc args is not required! Task already donee!' );
+		if ( isset( $assoc_args['force'] ) ) {
+			WP_CLI::line( 'Assoc args is not required! Task already done.' );
 		}
 	}
 }

@@ -14,7 +14,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
- * WP Force Logout Menu Class.
+ * WP Force Logout Menu Class. Upgrade links for users without a PRO license; PRO adds its settings page itself.
  *
  * @class WP_Force_Logout_Menu
  *
@@ -26,205 +26,38 @@ class WP_Force_Logout_Menu {
 	 * Constructor.
 	 */
 	public function __construct() {
-		add_action( 'admin_menu', [ $this, 'add_wp_force_logout_submenu' ] );
+
+		if ( ! wpfl_fs()->is_not_paying() ) {
+			return;
+		}
+
+		add_action( 'admin_menu', array( $this, 'add_upgrade_submenu' ) );
+		add_filter( 'plugin_action_links_' . plugin_basename( WP_FORCE_LOGOUT_PLUGIN_FILE ), array( $this, 'add_upgrade_link' ) );
 	}
 
 	/**
-	 * Add WP Force Logout submenu.
+	 * Add the upgrade link under the Users menu.
 	 *
 	 * @since 2.0.0
 	 */
-	public function add_wp_force_logout_submenu() {
+	public function add_upgrade_submenu() {
 		add_users_page(
-			'WPForce Logout', // page title
-			'WPForce Logout', // menu title
-			'manage_options', // capability
-			'wp-force-logout', // menu slug
-			[ $this, 'render_page' ] // callback function
+			'WPForce Logout',
+			'<span style="font-size:12px; color:#6bc406">WP Force Logout Pro&nbsp;&nbsp;➤</span>',
+			'manage_options',
+			wpfl_fs()->get_upgrade_url()
 		);
 	}
 
 	/**
-	 * Get the Settings.
+	 * Add Upgrade Link in plugin action links.
 	 *
-	 * @since 2.0.0
-	 *
-	 * @return array.
+	 * @since 2.1.0
 	 */
-	public function get_settings() {
+	public function add_upgrade_link( $links ) {
 
-		return apply_filters(
-			'wp_force_logout_settings',
-			[
-				'idle_logout'        => [
-					'id'      => 'wp-force-logout-idle-logout',
-					'name'    => 'wpfl_idle_logout',
-					'type'    => 'checkbox',
-					'default' => 'off',
-					'label'   => __( 'Idle user logout', 'wp-force-logout' ),
-					'desc'    => __( 'Check to enable logging out idle users after specific time period.', 'wp-force-logout' ),
-				],
-				'idle_logout_period'        => [
-					'id'      => 'wp-force-logout-idle-logout-period',
-					'name'    => 'wpfl_idle_logout_period',
-					'type'    => 'number',
-					'default' => '30',
-					'label'   => __( 'Idle time to logout (in minutes)', 'wp-force-logout' ),
-				],
-				'browser_close_logout'        => [
-					'id'      => 'wp-force-logout-browser-close-logout',
-					'name'    => 'wpfl_browser_close_logout',
-					'type'    => 'checkbox',
-					'default' => 'off',
-					'label'   => __( 'Auto logout on browser close', 'wp-force-logout' ),
-					'desc'    => __( 'Check to enable logging out user when they close the browser.', 'wp-force-logout' ),
-				],
-				'session_expiration'        => [
-					'id'      => 'wp-force-logout-session-expiration',
-					'name'    => 'wpfl_session_expiration',
-					'type'    => 'number',
-					'default' => '',
-					'label'   => __( 'Session Expiration (in minutes)', 'wp-force-logout' ),
-					'desc'    => __( 'Set a maximum session duration after which users are automatically logged out. WP Default is 48 hours. 14 days if Remember Me is checked.', 'wp-force-logout' ),
-				],
-				'single_session'        => [
-					'id'      => 'wp-force-logout-single-session',
-					'name'    => 'wpfl_single_session',
-					'type'    => 'checkbox',
-					'default' => 'off',
-					'label'   => __( 'Single Session', 'wp-force-logout' ),
-					'desc'    => __( 'Allow only one active login per user. New login from another device invalidates old session.', 'wp-force-logout' ),
-				],
-				'password_change'        => [
-					'id'      => 'wp-force-logout-password-change',
-					'name'    => 'wpfl_password_change',
-					'type'    => 'checkbox',
-					'default' => 'off',
-					'label'   => __( 'Password Change', 'wp-force-logout' ),
-					'desc'    => __( 'Immediately logout all sessions when password changes.', 'wp-force-logout' ),
-				],
-				'logout_redirect'        => [
-					'id'      => 'wp-force-logout-logout-redirect',
-					'name'    => 'wpfl_logout_redirect',
-					'type'    => 'url',
-					'default' => '',
-					'label'   => __( 'Logout Redirect', 'wp-force-logout' ),
-					'desc'    => __( 'Leave empty for default. Default is usually login page URL unless other plugins overwrite.', 'wp-force-logout' ),
-				],
-			]
-		);
-	}
-
-	/**
-	 * Render Page.
-	 *
-	 * @since 2.0.0
-	 */
-	public function render_page() {
-
-		$this->save_settings();
-
-		?>	
-		<?php do_action( 'wp_force_logout_settings_init' ); ?>
-		<h1>WPForce Logout PRO</h1><hr/>
-		<div class="wp-force-logout-clicks-settings-container">
-			<div class="wp-force-logout-clicks-settings-settings" style="max-width: 80%">
-				<form method="post">
-					<table class="form-table">
-						<?php foreach ( (array) $this->get_settings() as $key => $settings ) : ?>
-						<tr valign="top" class="<?php echo esc_attr( $settings['id'] ); ?>">
-							<th scope="row"><label for="<?php echo esc_attr( $settings['id'] ); ?>"><?php echo esc_html( $settings['label'] ); ?></label></th>
-								<td>
-									<?php
-									$saved = get_option( 'wp_force_logout_settings' );
-									switch ( $settings['type'] ) {
-										case 'checkbox':
-											$value = isset( $saved[ $key ] ) ? $saved[ $key ] : $settings['default'];
-											echo '<fieldset>';
-											?>
-											<label for="<?php echo esc_attr( $settings['id'] ); ?>" >
-												<input type="checkbox"
-													id="<?php echo esc_attr( $settings['id'] ); ?>"
-													name="<?php echo esc_attr( $settings['name'] ); ?>"
-													<?php checked( $value, 'on', true ); ?>
-												/>
-												<?php esc_html_e( $settings['desc'] ); ?>
-											</label>
-											<?php
-											echo '</fieldset>';
-											break;
-
-										default:
-											?>
-												<input type="<?php echo esc_attr( $settings['type'] ); ?>"
-													value="<?php echo isset( $saved[ $key ] ) ? esc_attr( $saved[ $key ] ) : esc_attr( $settings['default'] ); ?>"
-													id="<?php echo esc_attr( $settings['id'] ); ?>"
-													name="<?php echo esc_attr( $settings['name'] ); ?>"
-												/>
-												<?php
-													if ( ! empty( $settings['desc'] ) ) {
-														echo '<p><i>'. esc_html( $settings['desc'] ) . '<i></p>'; 
-													}
-												?>
-											<?php
-									}//end switch
-									?>
-								</td>
-						</tr>
-						<?php endforeach; ?>
-
-					</table>
-						<?php wp_nonce_field( 'wp_force_logout_settings', 'wp_force_logout_settings_nonce' ); ?>
-						<?php submit_button(); ?>
-				</form>
-			</div>
-
-			<?php do_action( 'wp_force_logout_settings_after' ); ?>
-		</div>
-		<?php
-	}
-
-	/**
-	 * Save settings to the database.
-	 *
-	 * @since 2.0.0
-	 *
-	 * @return void.
-	 */
-	public function save_settings() {
-
-		if ( ! isset( $_POST['submit'] ) || ! current_user_can( 'manage_options' ) ) {
-			return;
-		}
-
-		if (
-			! isset( $_POST['wp_force_logout_settings_nonce'] ) ||
-			! wp_verify_nonce( sanitize_key( $_POST['wp_force_logout_settings_nonce'] ), 'wp_force_logout_settings' ) // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.MissingUnslash, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
-		) {
-			return;
-		}
-
-		$save_to_db = [];
-		foreach ( $this->get_settings() as $key => $settings ) {
-			$save_to_db[ $key ] = ! empty( $_POST[ $settings['name'] ] ) ? sanitize_text_field( wp_unslash( $_POST[ $settings['name'] ] ) ) : '';
-		}
-
-		$option = get_option( 'wp_force_logout_settings', [] );
-
-		$save_to_db = array_merge( $option, $save_to_db );
-
-		update_option( 'wp_force_logout_settings', $save_to_db );
-
-		add_action(
-			'wp_force_logout_settings_init',
-			static function () {
-				?>
-				<div style="margin-left: 0px;" class="notice notice-success is-dismissible">
-					<p><strong><?php esc_html_e( 'Settings Saved.', 'wp-force-logout' ); ?></strong></p>
-				</div>
-				<?php
-			}
-		);
+		$links[] = '<a href="' . esc_url( wpfl_fs()->get_upgrade_url() ) . '"><span style="color:#6bc406">' . esc_html__( 'Upgrade', 'wp-force-logout' ) . '&nbsp;&nbsp;➤</span></a>';
+		return $links;
 	}
 }
 

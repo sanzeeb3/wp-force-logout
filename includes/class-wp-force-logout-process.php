@@ -32,24 +32,27 @@ class WP_Force_Logout_Process {
 		add_action( 'init', array( $this, 'update_online_users_status' ) );
 		add_action( 'init', array( $this, 'update_last_login' ) );
 		add_action( 'wp_ajax_wp_force_logout_dismiss_review_notice', array( $this, 'dismiss_review_notice' ) );
-		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
-		add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
 
 		// Return if it's not the users page and if user do not have capability to force logout.
 		if ( 'users.php' !== $pagenow || ! $this->user_has_cap() ) {
 			return;
 		}
 
+		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
 		add_filter( 'manage_users_columns', array( $this, 'add_column_title' ) );
 		add_filter( 'manage_users_custom_column', array( $this, 'add_column_value' ), 10, 3 );
 		add_filter( 'manage_users_sortable_columns', array( $this, 'sortable_login_activity' ) );
 		add_filter( 'users_list_table_query_args', array( $this, 'sortby_login_activity' ) );
 
-		// add_action( 'load-users.php', array( $this, 'add_last_login' ) );	// Commented since 1.3.0.
+		// add_action( 'load-users.php', array( $this, 'add_last_login' ) );    // Commented since 1.3.0.
 		add_action( 'load-users.php', array( $this, 'trigger_query_actions' ) );
 		add_action( 'load-users.php', array( $this, 'trigger_bulk_actions' ) );
 		add_filter( 'bulk_actions-users', array( $this, 'add_bulk_action' ) );
 		add_action( 'restrict_manage_users', array( $this, 'add_all_users_logout' ), 1000 );
+
+		if ( wpfl_fs()->is_not_paying() ) {
+			add_action( 'in_admin_header', array( $this, 'review_notice' ), 100 );
+		}
 	}
 
 	/**
@@ -57,21 +60,14 @@ class WP_Force_Logout_Process {
 	 */
 	public function enqueue_scripts() {
 
-		global $pagenow;
-
-		if ( 'users.php' === $pagenow ) {
-			wp_enqueue_style( 'wp-force-logout', plugins_url( 'assets/css/wp-force-logout.css', WP_FORCE_LOGOUT_PLUGIN_FILE ), array(), WPFL_VERSION, $media = 'all' );
-		}
-
-		wp_enqueue_script( 'wp-force-logout-js', plugins_url( 'assets/js/script.js', WP_FORCE_LOGOUT_PLUGIN_FILE ), array('jquery'), WPFL_VERSION, false );
+		wp_enqueue_style( 'wp-force-logout', plugins_url( 'assets/css/wp-force-logout.css', WP_FORCE_LOGOUT_PLUGIN_FILE ), array(), WPFL_VERSION, 'all' );
+		wp_enqueue_script( 'wp-force-logout-js', plugins_url( 'assets/js/script.js', WP_FORCE_LOGOUT_PLUGIN_FILE ), array(), WPFL_VERSION, false );
 		wp_localize_script(
 			'wp-force-logout-js',
 			'wpfl_plugins_params',
 			array(
 				'ajax_url'     => admin_url( 'admin-ajax.php' ),
 				'review_nonce' => wp_create_nonce( 'review-notice' ),
-				'idle_user_timeout' => ! empty( get_option('wp_force_logout_settings' )['idle_logout_period'] ) ? 60 * 1000 * get_option('wp_force_logout_settings' )['idle_logout_period'] : '36000',
-				'heads_up_auto_logout' => __( 'Heads up! This feature does not work well with modern browsers and behaves unexpectedly. Do you still want to enable?', 'wp-force-logut')
 			)
 		);
 	}
@@ -206,7 +202,7 @@ class WP_Force_Logout_Process {
 		// Get the online users list
 		$logged_in_users = get_transient( 'online_status' );
 
-		 // Online, if (s)he is in the list and last activity was less than 60 seconds ago
+		// Online, if (s)he is in the list and last activity was less than 60 seconds ago
 		return isset( $logged_in_users[ $user_id ] ) && ( $logged_in_users[ $user_id ] > ( time() - ( 1 * 60 ) ) );
 	}
 
@@ -217,6 +213,10 @@ class WP_Force_Logout_Process {
 	 * @return void.
 	 */
 	public function update_online_users_status() {
+
+		if ( ! is_user_logged_in() ) {
+			return;
+		}
 
 		// Get the user online status list.
 		$logged_in_users = get_transient( 'online_status' ) ?: array();
@@ -249,6 +249,17 @@ class WP_Force_Logout_Process {
 	public function update_last_login() {
 
 		$user_id = get_current_user_id();
+
+		if ( ! $user_id ) {
+			return;
+		}
+
+		// Write at most once a minute instead of on every request.
+		$last_login = (int) get_user_meta( $user_id, 'last_login', true );
+		if ( $last_login > time() - MINUTE_IN_SECONDS ) {
+			return;
+		}
+
 		update_user_meta( $user_id, 'last_login', time() );
 	}
 
@@ -301,12 +312,12 @@ class WP_Force_Logout_Process {
 			$this->force_all_users_logout();
 
 			// Redirect to users/same page after logout.
-			wp_safe_redirect( admin_url( 'users.php ' ) );
+			wp_safe_redirect( admin_url( 'users.php' ) );
 			exit();
 		}
 
 		$action = isset( $_REQUEST['action'] ) ? sanitize_key( $_REQUEST['action'] ) : false;
-		$mode   = isset( $_POST['mode'] ) ? $_POST['mode'] : false;
+		$mode   = isset( $_POST['mode'] ) ? sanitize_key( $_POST['mode'] ) : false;
 
 		// If this is a multisite, bulk request, stop now!
 		if ( 'list' == $mode ) {
@@ -317,34 +328,43 @@ class WP_Force_Logout_Process {
 
 			check_admin_referer( 'wpfl-logout' );
 
-			$redirect = admin_url( 'users.php' );
-			$user_id  = isset( $_GET['user'] ) ? absint( $_GET['user'] ) : 0;
+			$user_id = isset( $_GET['user'] ) ? absint( $_GET['user'] ) : 0;
 
-			if ( $action == 'wpfl-logout' ) {
-				// Get all sessions for user with ID $user_id
-				$sessions = WP_Session_Tokens::get_instance( $user_id );
+			// Get all sessions for user with ID $user_id
+			$sessions = WP_Session_Tokens::get_instance( $user_id );
 
-				// We have got the sessions, destroy them all!
-				$sessions->destroy_all();
-			}
+			// We have got the sessions, destroy them all!
+			$sessions->destroy_all();
 
-			wp_redirect( $redirect );
+			// Back to where the link was clicked, e.g. the Who's Online dashboard widget.
+			$redirect = wp_get_referer();
+			wp_safe_redirect( $redirect ? $redirect : admin_url( 'users.php' ) );
 			exit;
 		}
 	}
 
 	/**
 	 * Trigger the action query logout for bulk users.
+	 *
+	 * Runs on load-users.php because core's handle_bulk_actions-users filter only fires after
+	 * users.php redirected to a URL without the nonce, and core doesn't check it for custom actions.
 	 */
 	public function trigger_bulk_actions() {
 
-		if ( empty( $_REQUEST['users'] ) || empty( $_REQUEST['action'] ) ) {
+		if ( empty( $_REQUEST['users'] ) ) {
 			return;
 		}
 
-		if ( 'wpfl-bulk-logout' !== $_REQUEST['action'] ) {
+		$actions = array(
+			isset( $_REQUEST['action'] ) ? sanitize_key( $_REQUEST['action'] ) : '',
+			isset( $_REQUEST['action2'] ) ? sanitize_key( $_REQUEST['action2'] ) : '',
+		);
+
+		if ( ! in_array( 'wpfl-bulk-logout', $actions, true ) ) {
 			return;
 		}
+
+		check_admin_referer( 'bulk-users' );
 
 		$user_ids = array_map( 'absint', (array) $_REQUEST['users'] );
 
@@ -357,7 +377,8 @@ class WP_Force_Logout_Process {
 			$sessions->destroy_all();
 		}
 
-		return admin_url( 'users.php' );
+		wp_safe_redirect( admin_url( 'users.php' ) );
+		exit;
 	}
 
 	/**
@@ -380,7 +401,7 @@ class WP_Force_Logout_Process {
 	public function add_all_users_logout( $which ) {
 		echo '<div class="alignright">';
 		$url = wp_nonce_url( 'users.php?action=force_logout_all', 'wp-force-logout-nonce' );
-		echo '<a style="margin-left:5px; margin-top:0px" class="button wp-force-logout" href="' . $url . '">' . esc_html__( 'Logout All Users', 'wp-force-logout' ) . '</a>';
+		echo '<a style="margin-left:5px; margin-top:0px" class="button wp-force-logout" href="' . esc_url( $url ) . '">' . esc_html__( 'Logout All Users', 'wp-force-logout' ) . '</a>';
 		echo '</div>';
 	}
 
@@ -391,16 +412,8 @@ class WP_Force_Logout_Process {
 	 */
 	public function force_all_users_logout() {
 
-		$users = get_users();
-
-		foreach ( $users as $user ) {
-
-			// Get all sessions for user with ID $user_id
-			$sessions = WP_Session_Tokens::get_instance( $user->ID );
-
-			// We have got the sessions, destroy them all!
-			$sessions->destroy_all();
-		}
+		// Drops every session in one query instead of loading all users.
+		WP_Session_Tokens::destroy_all_for_all_users();
 	}
 
 	/**
@@ -418,23 +431,14 @@ class WP_Force_Logout_Process {
 	}
 
 	/**
-	 * Outputs the Review notice on admin header.
+	 * Outputs the upgrade notice on the users page.
 	 *
 	 * @since 1.2.1
 	 */
 	public function review_notice() {
 
-		global $current_screen;
-
 		// Show only to Admins
 		if ( ! $this->user_has_cap() ) {
-			return;
-		}
-
-		$notice_dismissed = get_option( 'wpfl_upgrade_notice_dismissed', 'no' );
-		$logged_in_users = get_transient( 'online_status', [] );
-
-		if ( 'no' !== $notice_dismissed ) {
 			return;
 		}
 
@@ -443,27 +447,24 @@ class WP_Force_Logout_Process {
 		}
 
 		$notice_dismissed = get_option( 'wpfl_upgrade_notice_dismissed', 'no' );
-		if ( $notice_dismissed !== 'no' && $notice_dismissed > strtotime( '-365 days' ) ) {
+		if ( $notice_dismissed !== 'no' && $notice_dismissed > strtotime( '-7 days' ) ) {
 			return;
 		}
 
 		?>
 			<div id="wp-force-logout-review-notice" class="notice notice-info wp-force-logout-review-notice">
 				<div class="wp-force-logout-review-thumbnail">
-					<img src="<?php echo plugins_url( 'assets/logo.jpg', WP_FORCE_LOGOUT_PLUGIN_FILE ); ?>" alt="">
+					<img src="<?php echo esc_url( plugins_url( 'assets/logo.jpg', WP_FORCE_LOGOUT_PLUGIN_FILE ) ); ?>" alt="">
 				</div>
 				<span class="button button-link notice-dismiss">x</span>
 				<div class="wp-force-logout-review-text">
 
-						<h3><?php _e( 'Whoopee! 😀', 'wp-force-logout' ); ?></h3>
-						<?php // translators: 1. users count, 2. five stars + review link, 3. WordPress.org + review link ?>
-						<p><?php echo sprintf( esc_html__( 'WPForce Logout already started displaying your %1$d online users. Would you do me some favour and leave a %2$s review on %3$s to help us spread the word and boost my motivation?', 'wp-force-logout' ), ( count( $logged_in_users ) - 1 ), '<a href="https://wordpress.org/support/plugin/wp-force-logout/reviews/?filter=5#new-post" target="_blank">&#9733;&#9733;&#9733;&#9733;&#9733;</a>', '<a href="https://wordpress.org/support/plugin/wp-force-logout/reviews/?filter=5#new-post" target="_blank"><strong>WordPress.org</strong></a>' ); ?></p>
+						<h3><?php esc_html_e( 'Whoopee! 😀', 'wp-force-logout' ); ?></h3>
+						<p><?php esc_html_e( 'How\'s it going? WPForce Logout PRO ⭐ is now available with more powerful features. Would you like to upgrade and boost my motivation?', 'wp-force-logout' ); ?></p>
 
 					<ul class="wp-force-logout-review-ul">
-						<li><a class="button button-primary" href="https://wordpress.org/support/plugin/wp-force-logout/reviews/?filter=5#new-post" target="_blank"><span class="dashicons dashicons-external"></span><?php _e( 'Sure, I\'d love to!', 'wp-force-logout' ); ?></a></li>
-						<li><a class="button button-link" target="_blank" href="https://miniplugins.com/contact/"><span class="dashicons dashicons-sos"></span><?php _e( 'I need help!', 'wp-force-logout' ); ?></a></li>
-						<li><a href="#" class="button button-link notice-dismiss"><span class="dashicons dashicons-dismiss"></span><?php _e( 'Dismiss Forever.', 'wp-force-logout' ); ?></a></li>
-					 </ul>
+						<li><a class="button button-primary" href="<?php echo esc_url( wpfl_fs()->get_upgrade_url() ); ?>"><?php esc_html_e( 'Upgrade', 'wp-force-logout' ); ?></a></li>
+					</ul>
 				</div>
 			</div>
 		<?php
@@ -476,9 +477,9 @@ class WP_Force_Logout_Process {
 	 */
 	public function dismiss_review_notice() {
 
-		check_admin_referer( 'review-notice', 'security' );
+		check_ajax_referer( 'review-notice', 'security' );
 
-		if ( ! empty( $_POST['dismissed'] ) ) {
+		if ( ! empty( $_POST['dismissed'] ) && $this->user_has_cap() ) {
 			update_option( 'wpfl_upgrade_notice_dismissed', time() );
 		}
 	}
