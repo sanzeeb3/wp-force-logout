@@ -35,7 +35,11 @@ if ( function_exists( 'wpfl_fs' ) ) {
 
 			if ( ! isset( $wpfl_fs ) ) {
 				// Include Freemius SDK.
-				require_once __DIR__ . '/freemius/start.php';
+				if ( file_exists( __DIR__ . '/vendor/freemius/start.php' ) ) {
+					require_once __DIR__ . '/vendor/freemius/start.php';
+				} else {
+					require_once __DIR__ . '/freemius/start.php';
+				}
 
 				$wpfl_fs = fs_dynamic_init(
 					array(

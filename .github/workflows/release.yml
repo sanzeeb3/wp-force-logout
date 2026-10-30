@@ -47,7 +47,7 @@ jobs:
           tools: none
 
       - name: Lint PHP
-        run: find . -name '*.php' -not -path './freemius/*' -print0 | xargs -0 -n1 php -l > /dev/null
+        run: find . -name '*.php' -not -path './vendor/*' -print0 | xargs -0 -n1 php -l > /dev/null
 
       - name: Build the zip
         run: git archive --format=zip --prefix=wp-force-logout/ --output=wp-force-logout.zip HEAD
