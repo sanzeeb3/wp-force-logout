@@ -27,12 +27,35 @@ class WP_Force_Logout_Menu {
 	 */
 	public function __construct() {
 
+		add_action( 'current_screen', array( $this, 'fill_freemius_page_title' ) );
+
 		if ( ! wpfl_fs()->is_not_paying() ) {
 			return;
 		}
 
 		add_action( 'admin_menu', array( $this, 'add_upgrade_submenu' ) );
 		add_filter( 'plugin_action_links_' . plugin_basename( WP_FORCE_LOGOUT_PLUGIN_FILE ), array( $this, 'add_upgrade_link' ) );
+	}
+
+	/**
+	 * Give Freemius pages without a menu item a title.
+	 *
+	 * Freemius registers its opt-in, license activation and other pages with an empty parent when
+	 * there is no visible menu item for them, e.g. before the PRO license is activated. WordPress
+	 * can't resolve a title for those, and admin-header.php then passes null to strip_tags() (#44).
+	 *
+	 * @since 3.0.0
+	 */
+	public function fill_freemius_page_title() {
+		global $title, $plugin_page;
+
+		if ( empty( $plugin_page ) || ! preg_match( '/^wp-force-logout(-|$)/', $plugin_page ) ) {
+			return;
+		}
+
+		if ( null === get_admin_page_title() ) {
+			$title = 'WPForce Logout'; // phpcs:ignore WordPress.WP.GlobalVariablesOverride.Prohibited -- Only set when WordPress found none.
+		}
 	}
 
 	/**
