@@ -48,7 +48,7 @@ class WPForce_Logout_Settings {
 	/**
 	 * Enqueue the settings page script.
 	 *
-	 * @since 3.0.0
+	 * @since 4.0.0
 	 */
 	public function enqueue_scripts() {
 		wp_enqueue_script( 'wp-force-logout-settings', plugins_url( 'assets/js/pro/settings.js', WP_FORCE_LOGOUT_PLUGIN_FILE ), array(), WPFL_VERSION, true );
@@ -276,7 +276,7 @@ class WPForce_Logout_Settings {
 		/**
 		 * Fires after the PRO settings are saved.
 		 *
-		 * @since 3.0.0
+		 * @since 4.0.0
 		 *
 		 * @param array $save_to_db Saved settings.
 		 */
@@ -297,7 +297,7 @@ class WPForce_Logout_Settings {
 	/**
 	 * Sanitize a submitted value by its field type.
 	 *
-	 * @since 3.0.0
+	 * @since 4.0.0
 	 *
 	 * @param string       $type Field type.
 	 * @param string|array $raw  Submitted value.

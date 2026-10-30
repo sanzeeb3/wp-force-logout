@@ -2,7 +2,7 @@
 /**
  * Plugin Name: WPForce Logout
  * Description: Forcefully logout WordPress user(s), see who's online, last login activity & more.
- * Version: 3.0.0
+ * Version: 4.0.0
  * Requires at least: 5.3
  * Requires PHP: 7.0
  * Author: Mini Plugins
@@ -77,7 +77,7 @@ if ( function_exists( 'wpfl_fs' ) ) {
 	 *
 	 * Settings and last login data are kept, so switching between the free and PRO version doesn't lose them.
 	 *
-	 * @since 3.0.0
+	 * @since 4.0.0
 	 */
 	function wpfl_fs_uninstall_cleanup() {
 		delete_option( 'wpfl_review_notice_dismissed' );

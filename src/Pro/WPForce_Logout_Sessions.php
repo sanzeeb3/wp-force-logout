@@ -4,7 +4,7 @@
  *
  * @package    WP Force Logout
  * @author     Sanjeev Aryal
- * @since      3.0.0
+ * @since      4.0.0
  * @license    GPL-3.0+
  */
 
@@ -20,7 +20,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  * WP_Session_Tokens API can't destroy individually, so this reads and writes the session_tokens
  * user meta of the default session manager.
  *
- * @since 3.0.0
+ * @since 4.0.0
  */
 class WPForce_Logout_Sessions {
 

@@ -33,7 +33,7 @@ Keep PRO-only code in those places.
 
 1. Bump the version in `wp-force-logout.php` (header), `WP_Force_Logout::$version` and
    `readme.txt` (Stable tag + changelog entry `= X.Y.Z - date =`).
-2. Push a tag named after the version, e.g. `3.0.0`. The **Release** workflow then:
+2. Push a tag named after the version, e.g. `4.0.0`. The **Release** workflow then:
    - uploads the PRO zip to Freemius as *pending* and downloads the free build Freemius generates,
    - in the `production` environment, deploys the free build to wordpress.org SVN and releases
      the version on Freemius. Add required reviewers to the environment to approve this step.

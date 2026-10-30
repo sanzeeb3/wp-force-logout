@@ -4,7 +4,7 @@ Tags: logout, force, online status, last seen, last login
 Requires at least: 5.3
 Tested up to: 7.1
 Requires PHP: 7.0
-Stable tag: 3.0.0
+Stable tag: 4.0.0
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -62,7 +62,7 @@ Yes, you can! Join in on the [GitHub repository](https://github.com/sanzeeb3/wp-
 
 == Changelog ==
 
-= 3.0.0 - 10/30/2026 =
+= 4.0.0 - 10/30/2026 =
 [//]: # fs_premium_only_begin
 * Feature - PRO: Active Sessions on the user profile, log out a single device
 * Feature - PRO: Who's Online dashboard widget

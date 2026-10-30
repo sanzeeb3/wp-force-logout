@@ -18,14 +18,14 @@ class WPForce_Logout_PRO {
 	/**
 	 * Cron hook of the scheduled logout.
 	 *
-	 * @since 3.0.0
+	 * @since 4.0.0
 	 */
 	const SCHEDULED_LOGOUT_HOOK = 'wp_force_logout_scheduled_logout';
 
 	/**
 	 * How often open pages report that the browser is still open, in seconds.
 	 *
-	 * @since 3.0.0
+	 * @since 4.0.0
 	 */
 	const BROWSER_PING_INTERVAL = 60;
 
@@ -39,7 +39,7 @@ class WPForce_Logout_PRO {
 	/**
 	 * Session token of the login in progress, used by the single session feature.
 	 *
-	 * @since 3.0.0
+	 * @since 4.0.0
 	 *
 	 * @var string
 	 */
@@ -74,7 +74,7 @@ class WPForce_Logout_PRO {
 	/**
 	 * Whether a checkbox setting is on.
 	 *
-	 * @since 3.0.0
+	 * @since 4.0.0
 	 *
 	 * @param string $key Setting key.
 	 *
@@ -114,7 +114,7 @@ class WPForce_Logout_PRO {
 	/**
 	 * Whether idle logout applies to the given user, see the "Roles to logout when idle" setting.
 	 *
-	 * @since 3.0.0
+	 * @since 4.0.0
 	 *
 	 * @param WP_User $user User.
 	 *
@@ -134,7 +134,7 @@ class WPForce_Logout_PRO {
 	/**
 	 * Enqueue the idle and browser close logout script for logged in users.
 	 *
-	 * @since 3.0.0
+	 * @since 4.0.0
 	 */
 	public function enqueue_scripts() {
 
@@ -169,7 +169,7 @@ class WPForce_Logout_PRO {
 	/**
 	 * Seconds without any open page of the site after which the browser counts as closed.
 	 *
-	 * @since 3.0.0
+	 * @since 4.0.0
 	 *
 	 * @return int
 	 */
@@ -180,7 +180,7 @@ class WPForce_Logout_PRO {
 		 *
 		 * Background tabs may only run their timers once a minute, so keep it well above the ping interval.
 		 *
-		 * @since 3.0.0
+		 * @since 4.0.0
 		 *
 		 * @param int $timeout Default 10 minutes.
 		 */
@@ -195,7 +195,7 @@ class WPForce_Logout_PRO {
 	 * Core already does that unless "Remember Me" is checked. For remembered logins, the cookies are
 	 * sent again for the same session without the expiry date.
 	 *
-	 * @since 3.0.0
+	 * @since 4.0.0
 	 *
 	 * @param bool   $send    Whether to send the cookies.
 	 * @param int    $expire  Cookie expiry, 0 for a session cookie. Passed since WP 6.2.
@@ -223,7 +223,7 @@ class WPForce_Logout_PRO {
 	 * Every request of the session marks the browser as open, and open pages ping every minute. A session
 	 * with no request for longer than the timeout is logged out on its next request.
 	 *
-	 * @since 3.0.0
+	 * @since 4.0.0
 	 */
 	public function maybe_logout_closed_browser() {
 
@@ -259,7 +259,7 @@ class WPForce_Logout_PRO {
 	/**
 	 * Ping from an open page. The request itself marks the browser as open, see maybe_logout_closed_browser().
 	 *
-	 * @since 3.0.0
+	 * @since 4.0.0
 	 */
 	public function browser_ping() {
 		wp_die( '1' );
@@ -284,7 +284,7 @@ class WPForce_Logout_PRO {
 	/**
 	 * Remember the session token of the login in progress, wp_login doesn't pass it.
 	 *
-	 * @since 3.0.0
+	 * @since 4.0.0
 	 */
 	public function remember_login_token( $logged_in_cookie, $expire, $expiration, $user_id, $scheme, $token ) {
 		$this->login_token = (string) $token;
@@ -323,7 +323,7 @@ class WPForce_Logout_PRO {
 	 *
 	 * Users changing their own password stay logged in on the current device, core re-issues its cookie with the same session token.
 	 *
-	 * @since 3.0.0
+	 * @since 4.0.0
 	 *
 	 * @param int     $user_id       User ID.
 	 * @param WP_User $old_user_data User before the update.
@@ -347,9 +347,9 @@ class WPForce_Logout_PRO {
 	}
 
 	/**
-	 * Schedule the logout if it's enabled but not scheduled, e.g. after an update to 3.0.0.
+	 * Schedule the logout if it's enabled but not scheduled, e.g. after an update to 4.0.0.
 	 *
-	 * @since 3.0.0
+	 * @since 4.0.0
 	 */
 	public function maybe_schedule_logout() {
 
@@ -361,7 +361,7 @@ class WPForce_Logout_PRO {
 	/**
 	 * Reschedule the logout after the settings are saved.
 	 *
-	 * @since 3.0.0
+	 * @since 4.0.0
 	 *
 	 * @param array $settings Saved settings.
 	 */
@@ -379,7 +379,7 @@ class WPForce_Logout_PRO {
 	/**
 	 * Logout all users, then schedule the next run.
 	 *
-	 * @since 3.0.0
+	 * @since 4.0.0
 	 */
 	public function scheduled_logout() {
 
@@ -397,7 +397,7 @@ class WPForce_Logout_PRO {
 	 *
 	 * Single events instead of a daily recurrence, so the time stays put across DST changes.
 	 *
-	 * @since 3.0.0
+	 * @since 4.0.0
 	 */
 	private function schedule_next_logout() {
 

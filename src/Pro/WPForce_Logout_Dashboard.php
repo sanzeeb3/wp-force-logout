@@ -4,7 +4,7 @@
  *
  * @package    WP Force Logout
  * @author     Sanjeev Aryal
- * @since      3.0.0
+ * @since      4.0.0
  * @license    GPL-3.0+
  */
 
@@ -16,7 +16,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * "Who's Online" dashboard widget with a logout link per user.
  *
- * @since 3.0.0
+ * @since 4.0.0
  */
 class WPForce_Logout_Dashboard {
 

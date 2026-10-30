@@ -44,7 +44,7 @@ class WP_Force_Logout_Menu {
 	 * there is no visible menu item for them, e.g. before the PRO license is activated. WordPress
 	 * can't resolve a title for those, and admin-header.php then passes null to strip_tags() (#44).
 	 *
-	 * @since 3.0.0
+	 * @since 4.0.0
 	 */
 	public function fill_freemius_page_title() {
 		global $title, $plugin_page;
